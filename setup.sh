@@ -18,8 +18,8 @@ for f in $(ls -A); do
 	contains $f $EXCLUDE_FILES && continue
 
 	# create symlinks so everything stays in this git repo folder
-	[[ -e $HOME/$f ]] && mv $HOME/$f $HOME/${f}.bak
-	ln -s $HOME/$f $f
+	[[ -e $HOME/$f ]] && [[ ! -e $HOME/${f}.bak ]] && mv $HOME/$f $HOME/${f}.bak
+	ln -s ${PWD}/$f $HOME/$f
 done
 
-
+echo '[[ -e ~/bashrc_extra ]] && . ~/.bashrc_extra' >> ~/.bashrc
