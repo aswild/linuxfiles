@@ -22,4 +22,4 @@ for f in $(ls -A); do
 	ln -s ${PWD}/$f $HOME/$f
 done
 
-echo '[[ -e ~/bashrc_extra ]] && . ~/.bashrc_extra' >> ~/.bashrc
+echo '[[ -e ~/bashrc_extra ]] && . ~/bashrc_extra' >> ~/.bashrc
