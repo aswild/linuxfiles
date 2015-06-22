@@ -5,7 +5,7 @@
 # and is simlinked
 #
 
-EXCLUDE_FILES="setup.sh .gitignore .git"
+EXCLUDE_FILES="setup.sh .gitignore .git bin .config"
 
 contains() {
 	local e
@@ -13,6 +13,7 @@ contains() {
 	  return 1
 }
 
+#create symlinks for config files
 for f in $(ls -A); do
 	# ignore excluded files
 	contains $f $EXCLUDE_FILES && continue
@@ -21,5 +22,13 @@ for f in $(ls -A); do
 	[[ -e $HOME/$f ]] && [[ ! -e $HOME/${f}.bak ]] && mv $HOME/$f $HOME/${f}.bak
 	ln -s ${PWD}/$f $HOME/$f
 done
+
+# copy bin files
+mkdir -p $HOME/bin
+cp -rt $HOME/bin bin/*
+
+# copy .config files
+mkdir -p $HOME/.config
+cp -rt $HOME/.config config/*
 
 echo '[[ -e ~/bashrc_extra ]] && . ~/bashrc_extra' >> ~/.bashrc
