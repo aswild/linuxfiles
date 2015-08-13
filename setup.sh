@@ -32,3 +32,7 @@ mkdir -p $HOME/.config
 cp -rt $HOME/.config .config/*
 
 echo '[[ -e ~/bashrc_extra ]] && . ~/bashrc_extra' >> ~/.bashrc
+
+if [[ $1 == zsh ]]; then
+    source setup_zsh.sh
+fi
