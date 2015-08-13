@@ -34,9 +34,5 @@ cp -rt $HOME/.config .config/*
 echo '[[ -e ~/bashrc_extra ]] && . ~/bashrc_extra' >> ~/.bashrc
 
 if [[ $1 == zsh ]]; then
-    ln -s ${PWD}/.zshrc $HOME/.zshrc
-    ln -s ${PWD}/zshrc_extra $HOME/zshrc_extra
-
-    # install oh my zsh
-    git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    source setup_zsh.sh
 fi
