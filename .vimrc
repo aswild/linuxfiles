@@ -32,9 +32,11 @@ set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
 set number
+"set noexpandtab
+set expandtab
 set tabstop=4
-set noexpandtab
 set shiftwidth=4
+set softtabstop=4
 set autoindent
 set showmode
 set showcmd

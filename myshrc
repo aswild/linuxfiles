@@ -1,0 +1,69 @@
+# Allen's unified custom shell config and alias script for bash and zsh
+
+# Common options for bash and zsh
+export FIGNORE=".o:.pyc:~"
+
+alias ls='ls --color=auto --group-directories-first'
+alias lsl='ls -alh --color=auto --group-directories-first'
+alias g='egrep'
+alias srcrc='source ~/.bashrc'
+alias rmtmp='rm `ls -a | grep "~$"`'
+alias df='df -h'
+alias du='du -h'
+alias tmus='tmux'
+alias psa='ps aux'
+
+alias ifconfig='sudo ifconfig'
+alias ifdown='sudo ifdown'
+alias ifup='sudo ifup'
+alias ip='sudo ip'
+alias route='sudo route'
+alias 'apt-get'='sudo apt-get'
+
+alias gs='git status'
+
+function tmx {
+    echo "TMUX"
+    tmux ls &>/dev/null
+    if [[ $? -eq 1 ]]
+    then
+        echo "starting new"
+        tmux
+    else
+        echo "trying to attach"
+        tmux attach
+    fi
+}
+
+# add ~/bin to PATH if it's not already there
+if [[ $PATH != *$HOME/bin* ]]; then
+    export PATH=$HOME/bin:$PATH
+fi
+
+eval `dircolors ~/.dircolors`
+stty -ixon
+
+function tftput
+{
+    #echo -e "binary\nput $1\nquit\n" | tftp 10.10.0.100
+    tftp 10.10.0.100 <<END_SCRIPT
+    binary
+    put $1 $2
+    quit
+END_SCRIPT
+    echo ''
+}
+
+# bash specific
+if [[ -n $BASH ]]; then
+    # immediate report background job changes
+    set -b
+    alias srcrc='source ~/.bashrc'
+    PS1='\[\e[1;32m\][\u@\[\e[1;34m\]\h \[\e[1;36m\]\W\[\e[1;32m\]]\$\[\e[0m\] '
+
+# zsh specific
+elif [[ -n $ZSH_NAME ]]; then
+    # don't automatically cd since it screws with binaries of the same name
+    unsetopt AUTO_CD
+    alias srcrc='source ~/.zshrc'
+fi

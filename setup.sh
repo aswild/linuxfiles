@@ -1,11 +1,9 @@
 #! /bin/bash
 
 # Setup for Allen's linux files.
-# Everything in this repo is assumed to belong in the ${HOME} directory
-# and is simlinked
-#
 
-EXCLUDE_FILES="setup.sh .gitignore .git bin .config"
+#EXCLUDE_FILES="setup.sh .gitignore .git bin .config"
+SYMLINK_FILES=".vim .dircolors myshrc .tmux.conf .vimrc .zshrc"
 
 contains() {
 	local e
@@ -14,25 +12,31 @@ contains() {
 }
 
 #create symlinks for config files
-for f in $(ls -A); do
-	# ignore excluded files
-	contains $f $EXCLUDE_FILES && continue
-
+#for f in $(ls -A); do
+#	# ignore excluded files
+#	contains $f $EXCLUDE_FILES && continue
+for f in $SYMLINK_FILES; do
 	# create symlinks so everything stays in this git repo folder
-	[[ -e $HOME/$f ]] && [[ ! -e $HOME/${f}.bak ]] && mv $HOME/$f $HOME/${f}.bak
+	if [[ ( -e $HOME/$f ) && ( ! -e $HOME/${f}.bak ) ]]; then
+        echo "Backing up: $HOME/$f"
+        mv $HOME/$f $HOME/${f}.bak
+    fi
+    echo "Symlink $f"
 	ln -s ${PWD}/$f $HOME/$f
 done
 
 # copy bin files
+echo "copying files from bin/"
 mkdir -p $HOME/bin
-cp -rt $HOME/bin bin/*
+cp -rvt $HOME/bin bin/*
 
 # copy .config files
+echo "copying files from .config/"
 mkdir -p $HOME/.config
-cp -rt $HOME/.config .config/*
+cp -rvt $HOME/.config .config/*
 
-echo '[[ -e ~/bashrc_extra ]] && . ~/bashrc_extra' >> ~/.bashrc
+echo 'sourcing myshrc in .bashrc'
+echo '[[ -e ~/myshrc ]] && . ~/myshrc' >> ~/.bashrc
 
-if [[ $1 == zsh ]]; then
-    source setup_zsh.sh
-fi
+read -p 'Install oh my zsh? (y/n) ' i_zsh
+[[ ${i_zsh:0:1} =~ [yY] ]] && git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
