@@ -37,7 +37,7 @@ cp -rvt $HOME/.config .config/*
 
 echo 'sourcing myshrc in .bashrc'
 echo '[[ -e ~/myshrc ]] && . ~/myshrc' >> ~/.bashrc
-echo '[[ -e ~/.myshrc_local && . ~/.myshrc_local' >> ~/.bashrc
+echo '[[ -e ~/.myshrc_local ]] && . ~/.myshrc_local' >> ~/.bashrc
 
 read -p 'Install oh my zsh? (y/n) ' i_zsh
 [[ ${i_zsh:0:1} =~ [yY] ]] && git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
