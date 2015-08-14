@@ -17,7 +17,7 @@ contains() {
 #	contains $f $EXCLUDE_FILES && continue
 for f in $SYMLINK_FILES; do
 	# create symlinks so everything stays in this git repo folder
-	if [[ -e $HOME/$f -a ! -e $HOME/${f}.bak ]]; then
+	if [[ ( -e $HOME/$f ) && ( ! -e $HOME/${f}.bak ) ]]; then
         echo "Backing up: $HOME/$f"
         mv $HOME/$f $HOME/${f}.bak
     fi
