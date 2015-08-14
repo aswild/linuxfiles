@@ -1,6 +1,8 @@
-#! /bin/bash
+#! /bin/zsh
 
 export FIGNORE=".o:.pyc:~"
+
+unsetopt AUTO_CD
 
 alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'
