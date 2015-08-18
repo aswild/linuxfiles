@@ -85,6 +85,6 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 [[ -e ~/myshrc ]] && . ~/myshrc
-[[ -e ~/.myshrc_local ]] && . ~/.myshrc_local
+[[ -e ~/myshrc_local ]] && . ~/myshrc_local
 
 source $ZSH/oh-my-zsh.sh
