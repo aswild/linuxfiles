@@ -88,3 +88,6 @@ fi
 [[ -e ~/myshrc_local ]] && . ~/myshrc_local
 
 source $ZSH/oh-my-zsh.sh
+
+# oh-my-zsh sets auto_cd, so undo that now
+unsetopt AUTO_CD

@@ -39,6 +39,10 @@ function tmx {
     fi
 }
 
+function mdcd {
+    mkdir $1 && cd $1
+}
+
 # add ~/bin to PATH if it's not already there
 if [[ $PATH != *$HOME/bin* ]]; then
     export PATH=$HOME/bin:$PATH
