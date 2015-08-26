@@ -13,6 +13,7 @@ alias df='df -h'
 alias du='du -h'
 alias tmus='tmux'
 alias psa='ps aux'
+alias psag='ps aux | grep '
 
 alias ifconfig='sudo ifconfig'
 alias ifdown='sudo ifdown'
