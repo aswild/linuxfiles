@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/nethome/awild3/FourierTransform2D'
-let g:netrw_dirhist_2='/nethome/awild3/Vector'
-let g:netrw_dirhist_3='/nethome/awild3/RSA'
-let g:netrw_dirhist_4='/nethome/awild3/project3/traces/16proc_validation'
-let g:netrw_dirhist_5='/nethome/awild3/Procsim'
-let g:netrw_dirhist_6='/home/ubuntu/crazyflie-firmware'
-let g:netrw_dirhist_7='/home/ubuntu/crazyflie-firmware/lib/STM32F4xx_StdPeriph_Driver'
