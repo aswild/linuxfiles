@@ -1,0 +1,12 @@
+#! /bin/bash
+
+echo "TMUX"
+tmux ls &>/dev/null
+if [[ $? -eq 1 ]]
+then
+    echo "starting new"
+    tmux
+else
+    echo "trying to attach"
+    tmux attach
+fi
