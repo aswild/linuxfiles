@@ -71,7 +71,5 @@ if [[ -n $BASH ]]; then
 
 # zsh specific
 elif [[ -n $ZSH_NAME ]]; then
-    # don't automatically cd since it screws with binaries of the same name
-    unsetopt AUTO_CD
     alias srcrc='source ~/.zshrc'
 fi
