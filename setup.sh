@@ -6,23 +6,23 @@
 SYMLINK_FILES=".vim .dircolors myshrc .tmux.conf .vimrc .zshrc"
 
 contains() {
-	local e
-	for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
-	  return 1
+    local e
+    for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+      return 1
 }
 
 #create symlinks for config files
 #for f in $(ls -A); do
-#	# ignore excluded files
-#	contains $f $EXCLUDE_FILES && continue
+#   # ignore excluded files
+#   contains $f $EXCLUDE_FILES && continue
 for f in $SYMLINK_FILES; do
-	# create symlinks so everything stays in this git repo folder
-	if [[ ( -e $HOME/$f ) && ( ! -e $HOME/${f}.bak ) ]]; then
+    # create symlinks so everything stays in this git repo folder
+    if [[ ( -e $HOME/$f ) && ( ! -e $HOME/${f}.bak ) ]]; then
         echo "Backing up: $HOME/$f"
         mv $HOME/$f $HOME/${f}.bak
     fi
     echo "Symlink $f"
-	ln -s ${PWD}/$f $HOME/$f
+    ln -s ${PWD}/$f $HOME/$f
 done
 
 # copy bin files
