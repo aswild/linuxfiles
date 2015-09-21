@@ -21,6 +21,7 @@ alias ifup='sudo ifup'
 alias ip='sudo ip'
 alias route='sudo route'
 alias 'apt-get'='sudo apt-get'
+alias update-motd='[ -d /etc/update-motd.d ] && sudo run-parts /etc/update-motd.d | sudo tee /run/motd.dynamic'
 
 alias gs='git status'
 alias zshrc='vim ~/.zshrc'
