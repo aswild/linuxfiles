@@ -16,7 +16,7 @@ hi clear
 if exists("syntax_on")
     syntax reset
 endif
-let g:colors_name="mine"
+let g:colors_name="bluegreen"
 
 hi Normal	guifg=White guibg=#061A3E
 
@@ -39,7 +39,7 @@ hi Visual gui=bold guifg=black guibg=#C0FFC0
 hi WarningMsg	guifg=#F60000 gui=underline
 
 " syntax highlighting groups
-hi Comment guifg=#DABEA2
+hi Comment guifg=#DABEA2 ctermfg=blue
 hi Constant guifg=#72A5E4 gui=bold
 hi Identifier	guifg=#ADCBF1
 hi Statement guifg=#7E75B5
@@ -51,6 +51,7 @@ hi Todo	guibg=#9C8C84 guifg=#244C0A
 
 hi Number ctermfg=1
 hi User1 ctermfg=White gui=bold
+hi Include ctermfg=cyan
 
 "vim: ts=4
 
