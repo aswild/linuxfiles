@@ -30,18 +30,18 @@ alias zshrc='vim ~/.zshrc'
 alias bashrc='vim ~/.bashrc'
 alias myshrc='vim ~/myshrc'
 
-#function tmx {
-#    echo "TMUX"
-#    tmux ls &>/dev/null
-#    if [[ $? -eq 1 ]]
-#    then
-#        echo "starting new"
-#        tmux
-#    else
-#        echo "trying to attach"
-#        tmux attach
-#    fi
-#}
+function tmx {
+    echo "TMUX"
+    tmux ls &>/dev/null
+    if [[ $? -eq 1 ]]
+    then
+        echo "starting new"
+        tmux
+    else
+        echo "trying to attach"
+        tmux attach
+    fi
+}
 
 function mdcd {
     mkdir $1 && cd $1
