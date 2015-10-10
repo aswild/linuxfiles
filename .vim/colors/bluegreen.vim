@@ -39,7 +39,8 @@ hi Visual gui=bold guifg=black guibg=#C0FFC0
 hi WarningMsg	guifg=#F60000 gui=underline
 
 " syntax highlighting groups
-hi Comment guifg=#DABEA2 ctermfg=blue
+"hi Comment guifg=#DABEA2 ctermfg=blue
+hi Comment guifg=#DABEA2
 hi Constant guifg=#72A5E4 gui=bold
 hi Identifier	guifg=#ADCBF1
 hi Statement guifg=#7E75B5
