@@ -39,6 +39,11 @@ if [[ -e /cygdrive/c/Program\ Files\ \(x86\)/Vim/vim74/gvim.exe ]]; then
     export WINDOWS_HOME='C:\Users\'${HOME##*/}
     function gvim()
     {
+        if [[ -z $1 ]]; then
+            HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe'
+            return
+        fi
+
         for i in "$@"; do
             HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe' --remote-tab-silent \"$i\"
         done
