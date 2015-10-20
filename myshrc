@@ -76,6 +76,16 @@ END_SCRIPT
     echo ''
 }
 
+function tftpget
+{
+    tftp 10.10.0.100 <<END_SCRIPT2
+    binary
+    get $1
+    quit
+END_SCRIPT2
+    echo ''
+}
+
 # bash specific
 if [[ -n $BASH ]]; then
     # immediate report background job changes
