@@ -1,9 +1,17 @@
 # Allen's unified custom shell config and alias script for bash and zsh
 
-# Common options for bash and zsh
+# Shell Options
 export FIGNORE=".o:.pyc:~"
 export EDITOR="vim"
+stty -ixon
 
+# add ~/bin to PATH if it's not already there
+if [[ $PATH != *$HOME/bin* ]]; then
+    export PATH=$HOME/bin:$PATH
+fi
+[[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
+
+# Core aliases
 alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'
 alias g='egrep'
@@ -14,35 +22,42 @@ alias tmus='tmux'
 alias psa='ps aux'
 alias psag='ps aux | grep '
 alias lspath='echo $PATH | tr ":" "\n"'
+alias zshrc='vim ~/.zshrc'
+alias bashrc='vim ~/.bashrc'
+alias myshrc='vim ~/myshrc'
 
+# networking/sudo aliases
 alias ifconfig='sudo ifconfig'
 alias ifdown='sudo ifdown'
 alias ifup='sudo ifup'
 alias ip='sudo ip'
 alias ip6='sudo ip -6'
 alias 'apt-get'='sudo apt-get'
-alias update-motd='[ -d /etc/update-motd.d ] && sudo run-parts /etc/update-motd.d | sudo tee /run/motd.dynamic'
+alias yum='sudo yum'
+
+# Conditional aliases
+# ubuntu-specific
+[[ -d /etc/update-motd.d ]] && alias update-motd='sudo run-parts /etc/update-motd.d | sudo tee /run/motd.dynamic'
 [[ -x $(which tracert) ]] || alias tracert='traceroute'
 [[ -x /usr/lib/update-notifier/update-motd-reboot-required ]] && alias rboot='/usr/lib/update-notifier/update-motd-reboot-required || echo "No Update Needed"'
 
+# git aliases/functions
 alias gs='git status'
-alias zshrc='vim ~/.zshrc'
-alias bashrc='vim ~/.bashrc'
-alias myshrc='vim ~/myshrc'
+alias gdn='git --no-pager diff'
+alias gdh='git diff HEAD'
+alias gdhn='git --no-pager diff HEAD'
 
-function tmx {
-    echo "TMUX"
-    tmux ls &>/dev/null
-    if [[ $? -eq 1 ]]
-    then
-        echo "starting new"
-        tmux
-    else
-        echo "trying to attach"
-        tmux attach
-    fi
+alias | grep -q gcp && unalias gcp
+function gcp {
+    git commit -m "$@" && git push
 }
 
+alias | grep -q gcap && unalias gcap
+function gcap {
+    git commit -a -m "$@" && git push
+}
+
+# Core functions
 function mdcd {
     mkdir $1 && cd $1
 }
@@ -58,13 +73,20 @@ function ffr {
     find . -regex ".*$pattern.*" "$@"
 }
 
-# add ~/bin to PATH if it's not already there
-if [[ $PATH != *$HOME/bin* ]]; then
-    export PATH=$HOME/bin:$PATH
-fi
 
-eval `dircolors ~/.dircolors`
-stty -ixon
+# tmx function usually duplicated in ~/bin/tmx
+function tmx {
+    echo "TMUX"
+    tmux ls &>/dev/null
+    if [[ $? -eq 1 ]]
+    then
+        echo "starting new"
+        tmux
+    else
+        echo "trying to attach"
+        tmux attach
+    fi
+}
 
 function tftput
 {
@@ -86,6 +108,23 @@ function tftpget
 END_SCRIPT2
     echo ''
 }
+
+
+# gvim function for when running in cygwin
+if [[ -e /cygdrive/c/Program\ Files\ \(x86\)/Vim/vim74/gvim.exe ]]; then
+    export WINDOWS_HOME='C:\Users\'${HOME##*/}
+    function gvim()
+    {
+        if [[ -z $1 ]]; then
+            HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe'
+            return
+        fi
+
+        for i in "$@"; do
+            HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe' --remote-tab-silent \"$i\"
+        done
+    }
+fi
 
 # bash specific
 if [[ -n $BASH ]]; then

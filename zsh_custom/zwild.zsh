@@ -1,4 +1,7 @@
 #! /bin/zsh
+# Allen Wild zwild.zsh
+# Functions that specifically involve oh-my-zsh
+# Everything generic should be in myshrc
 
 # re-run all of my aliases from myshrc because oh my zsh clobbers some (like ls)
 eval "$(grep -Eh '^(un)?alias' ~/myshrc)"
@@ -22,30 +25,3 @@ function git_prompt_info() {
         fi
     fi
 }
-
-alias | grep -q gcp && unalias gcp
-function gcp {
-    git commit -m "$@" && git push
-}
-
-alias | grep -q gcap && unalias gcap
-function gcap {
-    git commit -a -m "$@" && git push
-}
-
-alias gdh='git diff HEAD'
-
-if [[ -e /cygdrive/c/Program\ Files\ \(x86\)/Vim/vim74/gvim.exe ]]; then
-    export WINDOWS_HOME='C:\Users\'${HOME##*/}
-    function gvim()
-    {
-        if [[ -z $1 ]]; then
-            HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe'
-            return
-        fi
-
-        for i in "$@"; do
-            HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe' --remote-tab-silent \"$i\"
-        done
-    }
-fi
