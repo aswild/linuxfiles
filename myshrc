@@ -75,6 +75,10 @@ function ffr {
 }
 
 
+function vimf {
+    vim $(find . -name "$1" | head -n1)
+}
+
 # tmx function usually duplicated in ~/bin/tmx
 function tmx {
     echo "TMUX"
