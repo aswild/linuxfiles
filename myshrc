@@ -68,6 +68,7 @@ function ff {
     shift 1
     find . -name "*$pattern*" "$@"
 }
+
 function ffr {
     pattern=$1
     shift 1
