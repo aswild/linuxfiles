@@ -28,12 +28,28 @@ done
 # copy bin files
 echo "copying files from bin/"
 mkdir -p $HOME/bin
-cp -rvt $HOME/bin bin/*
+#cp -rvt $HOME/bin bin/*
+for f in $(ls bin); do 
+    if [[ ( -e $HOME/bin/$f ) && ( ! -e $HOME/bin/${f}.bak ) ]]; then
+        echo "Backing up: $HOME/bin/$f"
+        mv $HOME/bin/$f $HOME/bin/${f}.bak
+    fi
+    echo "Symlink $f"
+    ln -s ${PWD}/bin/$f $HOME/bin/$f
+done
 
 # copy .config files
 echo "copying files from .config/"
 mkdir -p $HOME/.config
-cp -rvt $HOME/.config .config/*
+#cp -rvt $HOME/.config .config/*
+for f in $(ls .config); do 
+    if [[ ( -e $HOME/.config/$f ) && ( ! -e $HOME/.config/${f}.bak ) ]]; then
+        echo "Backing up: $HOME/.config/$f"
+        mv $HOME/.config/$f $HOME/.config/${f}.bak
+    fi
+    echo "Symlink $f"
+    ln -s ${PWD}/.config/$f $HOME/.config/$f
+done
 
 echo 'sourcing myshrc in .bashrc'
 echo '[[ -e ~/myshrc ]] && . ~/myshrc' >> ~/.bashrc
