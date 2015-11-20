@@ -2,8 +2,7 @@
 
 # Setup for Allen's linux files.
 
-#EXCLUDE_FILES="setup.sh .gitignore .git bin .config"
-SYMLINK_FILES=".vim .dircolors myshrc .tmux.conf .vimrc .zshrc"
+SYMLINK_FILES=".vim .dircolors myshrc .tmux.conf .vimrc .zshrc .gitconfig_common"
 
 contains() {
     local e
@@ -12,9 +11,6 @@ contains() {
 }
 
 #create symlinks for config files
-#for f in $(ls -A); do
-#   # ignore excluded files
-#   contains $f $EXCLUDE_FILES && continue
 for f in $SYMLINK_FILES; do
     # create symlinks so everything stays in this git repo folder
     if [[ ( -e $HOME/$f ) && ( ! -e $HOME/${f}.bak ) ]]; then
@@ -39,5 +35,12 @@ echo 'sourcing myshrc in .bashrc'
 echo '[[ -e ~/myshrc ]] && . ~/myshrc' >> ~/.bashrc
 echo '[[ -e ~/myshrc_local ]] && . ~/myshrc_local' >> ~/.bashrc
 
+echo 'including .gitconfig_common'
+echo -e "\n[include]\n    file = ~/.gitconfig_common" >>~/.gitconfig
+
 read -p 'Install oh my zsh? (y/n) ' i_zsh
 [[ ${i_zsh:0:1} =~ [yY] ]] && git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
+read -p 'Download tmux 2.0? (y/n)' i_tmux
+[[ ${i_tmux:0:1} =~ [yY] ]] && (mkdir -p ~/packages; wget -O ~/packages/tmux-2.0.tar.gz \
+    https://github.com/tmux/tmux/releases/download/2.0/tmux-2.0.tar.gz')
