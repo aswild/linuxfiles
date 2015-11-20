@@ -13,3 +13,4 @@ read foo
 
 cd $OPWD
 rm -f add_gitconfig_common.sh
+git update-index --assume-unchanged add_gitconfig_common.sh
