@@ -35,17 +35,17 @@ for f in $(ls bin); do
 done
 
 # copy .config files
-echo "copying files from .config/"
-mkdir -p $HOME/.config
-#cp -rvt $HOME/.config .config/*
-for f in $(ls .config); do 
-    if [[ ( -e $HOME/.config/$f ) && ( ! -e $HOME/.config/${f}.bak ) ]]; then
-        echo "Backing up: $HOME/.config/$f"
-        mv $HOME/.config/$f $HOME/.config/${f}.bak
-    fi
-    echo "Symlink $f"
-    ln -s ${PWD}/.config/$f $HOME/.config/$f
-done
+#echo "copying files from .config/"
+#mkdir -p $HOME/.config
+##cp -rvt $HOME/.config .config/*
+#for f in $(ls .config); do 
+#    if [[ ( -e $HOME/.config/$f ) && ( ! -e $HOME/.config/${f}.bak ) ]]; then
+#        echo "Backing up: $HOME/.config/$f"
+#        mv $HOME/.config/$f $HOME/.config/${f}.bak
+#    fi
+#    echo "Symlink $f"
+#    ln -s ${PWD}/.config/$f $HOME/.config/$f
+#done
 
 echo 'sourcing myshrc in .bashrc'
 echo '[[ -e ~/myshrc ]] && . ~/myshrc' >> ~/.bashrc
