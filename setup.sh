@@ -59,4 +59,4 @@ read -p 'Install oh my zsh? (y/n) ' i_zsh
 
 read -p 'Download tmux 2.0? (y/n)' i_tmux
 [[ ${i_tmux:0:1} =~ [yY] ]] && (mkdir -p ~/packages; wget -O ~/packages/tmux-2.0.tar.gz \
-    https://github.com/tmux/tmux/releases/download/2.0/tmux-2.0.tar.gz')
+    https://github.com/tmux/tmux/releases/download/2.0/tmux-2.0.tar.gz)

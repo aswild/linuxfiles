@@ -38,7 +38,7 @@ alias yum='sudo yum'
 # Conditional aliases
 # ubuntu-specific
 [[ -d /etc/update-motd.d ]] && alias update-motd='sudo run-parts /etc/update-motd.d | sudo tee /run/motd.dynamic'
-[[ -x $(which tracert) ]] || alias tracert='traceroute'
+[[ -x $(which tracert >/dev/null 2>&1) ]] || alias tracert='traceroute'
 [[ -x /usr/lib/update-notifier/update-motd-reboot-required ]] && alias rboot='/usr/lib/update-notifier/update-motd-reboot-required || echo "No Update Needed"'
 alias findmod='find /lib/modules/$(uname -r) -name "*.ko" | grep -i'
 
