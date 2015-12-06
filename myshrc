@@ -4,6 +4,7 @@
 export FIGNORE=".o:.pyc:~"
 export EDITOR="vim"
 stty -ixon
+set -o ignoreeof
 
 # add ~/bin to PATH if it's not already there
 if [[ $PATH != *$HOME/bin* ]]; then

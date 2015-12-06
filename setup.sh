@@ -2,7 +2,7 @@
 
 # Setup for Allen's linux files.
 
-SYMLINK_FILES=".vim .dircolors myshrc .tmux.conf .vimrc .zshrc .gitconfig_common"
+SYMLINK_FILES=".vim .dircolors myshrc .tmux.conf .tmux_version_conf.sh .vimrc .zshrc .gitconfig_common"
 
 contains() {
     local e
