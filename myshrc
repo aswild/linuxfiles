@@ -85,6 +85,16 @@ function vimf {
     vim $(find . -name "$1" | head -n1)
 }
 
+function walltime {
+    local starttime=$(date -u +%s)
+    local prog=$1
+    shift
+    $prog "$@"
+    local endtime=$(date -u +%s)
+    local diff=$(($endtime - $starttime))
+    echo "Completed in $(($diff / 60))m $(($diff % 60))s"
+}
+
 # tmx function usually duplicated in ~/bin/tmx
 function tmx {
     echo "TMUX"
