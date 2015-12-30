@@ -1,3 +1,4 @@
+#! /bin/bash
 # Allen's unified custom shell config and alias script for bash and zsh
 
 # Shell Options
@@ -26,6 +27,9 @@ alias lspath='echo $PATH | tr ":" "\n"'
 alias zshrc='vim ~/.zshrc'
 alias bashrc='vim ~/.bashrc'
 alias myshrc='vim ~/myshrc'
+
+alias cgrep="find -L . -name '*.[ch]' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
+alias rgrep="find -L . -print0 2>/dev/null | xargs -0 grep --color=auto"
 
 # networking/sudo aliases
 alias ifconfig='sudo ifconfig'
@@ -80,6 +84,9 @@ function ffr {
     find . -regex ".*$pattern.*" "$@"
 }
 
+function cfind {
+    find -L . -name '*.[ch]' | grep --color=auto "$@" 2>/dev/null
+}
 
 function vimf {
     vim $(find . -name "$1" | head -n1)
@@ -108,28 +115,6 @@ function tmx {
         tmux attach
     fi
 }
-
-function tftput
-{
-    #echo -e "binary\nput $1\nquit\n" | tftp 10.10.0.100
-    tftp 10.10.0.100 <<END_SCRIPT
-    binary
-    put $1 $2
-    quit
-END_SCRIPT
-    echo ''
-}
-
-function tftpget
-{
-    tftp 10.10.0.100 <<END_SCRIPT2
-    binary
-    get $1
-    quit
-END_SCRIPT2
-    echo ''
-}
-
 
 # gvim function for when running in cygwin
 if [[ -e /cygdrive/c/Program\ Files\ \(x86\)/Vim/vim74/gvim.exe ]]; then
