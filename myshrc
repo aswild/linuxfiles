@@ -63,6 +63,11 @@ function gcap {
     git commit -a -m "$@" && git push
 }
 
+function gbase {
+    local dir=$(git rev-parse --show-toplevel 2>/dev/null)
+    [[ -n $dir ]] && cd $dir
+}
+
 # Core functions
 function mdcd {
     mkdir $1 && cd $1
