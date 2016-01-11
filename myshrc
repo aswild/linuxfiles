@@ -99,7 +99,7 @@ function walltime {
     $prog "$@"
     local endtime=$(date -u +%s)
     local diff=$(($endtime - $starttime))
-    echo "Completed in $(($diff / 60))m $(($diff % 60))s"
+    echo "Completed '$prog $@' in $(($diff / 60))m $(($diff % 60))s"
 }
 
 # tmx function usually duplicated in ~/bin/tmx
