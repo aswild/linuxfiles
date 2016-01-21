@@ -147,4 +147,5 @@ if [[ -n $BASH ]]; then
 # zsh specific
 elif [[ -n $ZSH_NAME ]]; then
     alias srcrc='source ~/.zshrc'
+    alias mmv='noglob zmv -W'
 fi
