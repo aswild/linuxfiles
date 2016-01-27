@@ -169,9 +169,9 @@ nnoremap <silent># m`I#<ESC>``l
 nnoremap <silent><leader># :s/\v(\s*)#(.*)$/\1\2/<cr>:noh<cr>
 vmap <silent># V0<C-V>I#<ESC>
 vmap <silent><leader># :s/\v(\s*)#(.*)$/\1\2/<cr>:noh<cr>
-nnoremap <silent><leader>/ m`0i//<ESC>``l
+nnoremap <silent><leader>/ m`^i//<ESC>``l
 nnoremap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
-vmap <silent><leader>/ V0<C-V>I//<ESC>
+vmap <silent><leader>/ V^<C-V>I//<ESC>
 vmap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
 nnoremap <Space> 10j
 nnoremap <S-Space> 10k
