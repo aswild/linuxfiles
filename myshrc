@@ -29,7 +29,7 @@ alias bashrc='vim ~/.bashrc'
 alias myshrc='vim ~/myshrc'
 
 alias cgrep="find -L . -name '*.[ch]' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
-alias rgrep="find -L . -print0 2>/dev/null | xargs -0 grep --color=auto"
+alias rgrep="find -L . -type f -print0 2>/dev/null | xargs -0 grep --color=auto"
 
 # networking/sudo aliases
 alias ifconfig='sudo ifconfig'
