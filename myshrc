@@ -52,6 +52,8 @@ alias gs='git status'
 alias gdn='git --no-pager diff'
 alias gdh='git diff HEAD'
 alias gdhn='git --no-pager diff HEAD'
+alias glg='git log --oneline --decorate --color --graph'
+alias glga='git log --oneline --decorate --color --graph --all'
 
 alias | grep -q gcp && unalias gcp
 function gcp {
