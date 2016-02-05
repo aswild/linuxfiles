@@ -82,13 +82,13 @@ function cdls {
 function ff {
     pattern=$1
     shift 1
-    find . -name "*$pattern*" "$@"
+    find -L . -name "*$pattern*" "$@"
 }
 
 function ffr {
     pattern=$1
     shift 1
-    find . -regex ".*$pattern.*" "$@"
+    find -L . -regex ".*$pattern.*" "$@"
 }
 
 function cfind {
