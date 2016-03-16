@@ -96,7 +96,36 @@ function cfind {
 }
 
 function vimf {
-    vim $(find . -name "$1" | head -n1)
+    local _pattern=$1
+    shift
+    _files=$(find -L . -type f -name "*$_pattern*" "$@")
+    _nfiles=$(echo $_files | wc -l)
+    if [[ $_nfiles == 0 ]]; then
+        echo 'Error: no matches found'
+        return 1
+    elif [[ $_nfiles == 1 ]]; then
+        local _selected=$_files
+    else
+        if [[ -n $ZSH_NAME ]]; then
+            # cases like this are the one infuriating part of zsh
+            local _files_arr=("${(@f)${_files}}")
+        else
+            local _files_arr=$_files
+        fi
+        PS3='Select Match> '
+        select _sel in "$_files_arr[@]"; do
+            if [[ -n $_sel ]]; then
+                _selected=$_sel
+            else
+                echo 'Error: invalid selection'
+                return 2
+            fi
+            unset _sel
+            break
+        done
+    fi
+    echo selected: $_selected
+    vim $_selected
 }
 
 function walltime {
