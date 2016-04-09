@@ -4,6 +4,14 @@
 
 SYMLINK_FILES=".vim .dircolors myshrc .tmux.conf .tmux_version_conf.sh .vimrc .zshrc .gitconfig_common .ackrc"
 
+DEBIAN_PACKAGES="zsh \
+                 git \
+                 vim \
+                 tmux \
+                 htop \
+                 ack-grep \
+                "
+
 contains() {
     local e
     for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
@@ -57,6 +65,12 @@ echo -e "\n[include]\n    file = ~/.gitconfig_common" >>~/.gitconfig
 read -p 'Install oh my zsh? (y/n) ' i_zsh
 [[ ${i_zsh:0:1} =~ [yY] ]] && git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
-read -p 'Download tmux 2.0? (y/n)' i_tmux
+if which apt-get >/dev/null 2>&1; then
+    echo 'apt-get detected; use sudo to install base packages?'
+    read -p 'Install DEBIAN_PACKAGES? (y/n) ' i_install
+    [[ ${i_install:0:1} =~ [yY] ]] && sudo apt-get update && sudo apt-get install $DEBIAN_PACKAGES
+fi
+
+read -p 'Download tmux 2.0? (y/n) ' i_tmux
 [[ ${i_tmux:0:1} =~ [yY] ]] && (mkdir -p ~/packages; wget -O ~/packages/tmux-2.0.tar.gz \
     https://github.com/tmux/tmux/releases/download/2.0/tmux-2.0.tar.gz)
