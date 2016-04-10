@@ -38,6 +38,7 @@ alias ifup='sudo ifup'
 alias ip='sudo ip'
 alias ip6='sudo ip -6'
 alias 'apt-get'='sudo apt-get'
+alias apt='sudo apt'
 alias yum='sudo yum'
 
 # Conditional aliases
