@@ -52,11 +52,6 @@ ZSH_CUSTOM=~/linuxfiles/zsh_custom
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-# User configuration
-if [[ $PATH != *$HOME/bin* ]]; then
-    export PATH=~/bin:$PATH
-fi
-
 #export PATH="${HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -92,3 +87,7 @@ source $ZSH/oh-my-zsh.sh
 
 #unsetopt AUTO_CD
 unsetopt share_history
+unsetopt cdable_vars
+
+setopt shwordsplit
+setopt nullglob
