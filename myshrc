@@ -44,7 +44,6 @@ alias yum='sudo yum'
 # Conditional aliases
 # ubuntu-specific
 [[ -d /etc/update-motd.d ]] && alias update-motd='sudo run-parts /etc/update-motd.d | sudo tee /run/motd.dynamic'
-[[ -x $(which tracert >/dev/null 2>&1) ]] || alias tracert='traceroute'
 [[ -x /usr/lib/update-notifier/update-motd-reboot-required ]] && alias rboot='/usr/lib/update-notifier/update-motd-reboot-required || echo "No Update Needed"'
 alias findmod='find /lib/modules/$(uname -r) -name "*.ko" | grep -i'
 
@@ -102,7 +101,7 @@ function vimf {
     local _pattern=$1
     shift
     _files=$(find -L . -type f -name "*$_pattern*" "$@")
-    _nfiles=$(echo $_files | wc -l)
+    _nfiles=$(echo "$_files" | wc -l)
     if [[ $_nfiles == 0 ]]; then
         echo 'Error: no matches found'
         return 1
