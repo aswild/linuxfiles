@@ -13,3 +13,12 @@ else
     tmux set -g mouse-select-pane on
     tmux set -g mouse-select-window on
 fi
+
+# figure out default shell
+if [[ -e /bin/zsh ]]; then
+    tmux set -g default-shell /bin/zsh
+elif [[ -e $HOME/bin/zsh ]]; then
+    tmux set -g default-shell $HOME/bin/zsh
+else
+    tmux set -g default-shell $SHELL
+fi
