@@ -88,6 +88,5 @@ source $ZSH/oh-my-zsh.sh
 #unsetopt AUTO_CD
 unsetopt share_history
 unsetopt cdable_vars
-
 setopt shwordsplit
 setopt nullglob

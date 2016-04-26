@@ -72,6 +72,21 @@ function gbase {
     [[ -n $dir ]] && cd $dir
 }
 
+function rbase {
+    local repodir=$(readlink -f $PWD)
+    while true; do
+        if [[ -d $repodir/.repo ]]; then
+            cd $repodir
+            return 0
+        elif [[ $repodir == / ]]; then
+            echo 'No .repo found in any parents' >&2
+            return 1
+        else
+            repodir=$(readlink -f $repodir/..)
+        fi
+    done
+}
+
 # Core functions
 function mdcd {
     mkdir $1 && cd $1
