@@ -73,16 +73,16 @@ function gbase {
 }
 
 function rbase {
-    local repodir=$(readlink -f $PWD)
+    local repodir=$PWD
     while true; do
         if [[ -d $repodir/.repo ]]; then
             cd $repodir
             return 0
         elif [[ $repodir == / ]]; then
-            echo 'No .repo found in any parents' >&2
+            echo 'No .repo found' >&2
             return 1
         else
-            repodir=$(readlink -f $repodir/..)
+            repodir=$(dirname $repodir)
         fi
     done
 }
