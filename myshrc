@@ -115,7 +115,7 @@ function cfind {
 function vimf {
     local _pattern=$1
     shift
-    _files=$(find -L . -type f -name "*$_pattern*" "$@")
+    _files=$(find -L . -type f -name "*$_pattern*" "$@" 2>/dev/null)
     _nfiles=$(echo "$_files" | wc -l)
     if [[ $_nfiles == 0 ]]; then
         echo 'Error: no matches found'
