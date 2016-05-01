@@ -157,6 +157,15 @@ function walltime {
     local ret=$?
     local endtime=$(date -u +%s)
     local diff=$(($endtime - $starttime))
+    local min=$(($diff / 60))
+    local sec=$(($diff % 60))
+
+    if (( $min >= 60 )); then
+        local hour_s="$(($min / 60))h "
+        min=$(($min % 60))
+    else
+        local hour_s=''
+    fi
 
     if [[ $ret == 0 ]]; then
         local C="$(tput setaf 2)" # green
@@ -165,7 +174,7 @@ function walltime {
     fi
     local R="$(tput sgr0)"
 
-    echo -e "\n  $C'$prog $@' returned $ret in $(($diff / 60))m $(($diff % 60))s$R"
+    echo -e "\n  $C'$prog $@' returned $ret in ${hour_s}${min}m ${sec}s$R"
 }
 
 [[ -n $ZSH_NAME ]] && alias make="walltime make"
