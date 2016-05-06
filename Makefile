@@ -19,7 +19,6 @@ NODOTFILE_NAMES = \
 				  myshrc \
 
 
-
 DEBIAN_PACKAGES = \
 				  zsh \
                   git \
@@ -31,6 +30,9 @@ DEBIAN_PACKAGES = \
 
 DOTFILE_PATHS   = $(addprefix $(HOME)/., $(DOTFILE_NAMES))
 NODOTFILE_PATHS = $(addprefix $(HOME)/, $(NODOTFILE_NAMES))
+
+BINFILE_NAMES	= $(wildcard bin/*)
+BINFILE_PATHS	= $(addprefix $(HOME)/, $(BINFILE_NAMES))
 
 # help target is first because it's safe
 .PHONY: help
@@ -47,14 +49,17 @@ help:
 
 ###### CORE #######
 .PHONY: links install
-links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS)
+.PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
+links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
 install: links bashrc-append
 
-.PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS)
 $(DOTFILE_PATHS) : $(HOME)/.% : $(PWD)/%
 	ln -s $(LINK_FORCE) $< $@ || true
 
 $(NODOTFILE_PATHS) : $(HOME)/% : $(PWD)/%
+	ln -s $(LINK_FORCE) $< $@ || true
+
+$(BINFILE_PATHS) : $(HOME)/bin/% : $(PWD)/bin/%
 	ln -s $(LINK_FORCE) $< $@ || true
 
 .PHONY: bashrc-append
@@ -78,6 +83,7 @@ tmux-20:
 		https://github.com/tmux/tmux/releases/download/2.0/tmux-2.0.tar.gz
 
 .PHONY: debian-packages
+debian-packages:
 	@ if which apt-get >/dev/null 2>&1; then \
 	    sudo apt-get install $(DEBIAN_PACKAGES) \
 	  fi
