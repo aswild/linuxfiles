@@ -54,7 +54,7 @@ alias gdh='git diff HEAD'
 alias gdhn='git --no-pager diff HEAD'
 alias glg='git log --oneline --decorate --color --graph'
 alias glga='git log --oneline --decorate --color --graph --all'
-alias gsh='git show'
+alias gsh='git show --decorate'
 alias gshn='git show --name-status'
 
 [[ -n $ZSH_NAME ]] && [[ -x $(which smartless) ]] && export GIT_PAGER="$(which smartless)"
