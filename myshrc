@@ -57,6 +57,8 @@ alias glga='git log --oneline --decorate --color --graph --all'
 alias gsh='git show'
 alias gshn='git show --name-status'
 
+[[ -n $ZSH_NAME ]] && [[ -x $(which smartless) ]] && export GIT_PAGER="$(which smartless)"
+
 alias | grep -q gcp && unalias gcp
 function gcp {
     git commit -m "$@" && git push
@@ -178,6 +180,16 @@ function walltime {
 }
 
 [[ -n $ZSH_NAME ]] && alias make="walltime make"
+
+if which smartless &>/dev/null; then
+    function page {
+        $@ | $(which smartless)
+    }
+else
+    function page {
+        $@ | less
+    }
+fi
 
 # tmx function usually duplicated in ~/bin/tmx
 function tmx {
