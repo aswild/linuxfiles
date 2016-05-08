@@ -98,6 +98,19 @@ function cdls {
     cd $1 && ls
 }
 
+function up {
+    local dir=$(dirname $PWD)
+    while [[ $dir != / ]]; do
+        if echo ${dir##*/} | grep -q "$1"; then
+            cd $dir
+            return 0
+        fi
+        dir=$(dirname $dir)
+    done
+    echo "dir matching pattern not found: $1"
+    return 1
+}
+
 function ff {
     pattern=$1
     shift 1
