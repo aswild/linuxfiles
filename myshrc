@@ -245,4 +245,5 @@ if [[ -n $BASH ]]; then
 elif [[ -n $ZSH_NAME ]]; then
     alias srcrc='source ~/.zshrc'
     alias mmv='noglob zmv -W'
+    alias dh='dirs -v'
 fi
