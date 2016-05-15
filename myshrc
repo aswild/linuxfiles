@@ -128,6 +128,12 @@ function cfind {
 }
 
 function vimf {
+    if [[ ${1:0:1} == "-" ]]; then
+        [[ $1 == *g* ]] && local _VIM="gvim --remote-tab-silent"
+        [[ $1 == *c* ]] && local _CD=y
+        shift
+    fi
+    [[ -z $_VIM ]] && local _VIM=vim
     local _pattern=$1
     shift
     _files=$(find -L . -type f -name "*$_pattern*" "$@" 2>/dev/null)
@@ -161,8 +167,13 @@ function vimf {
         done
     fi
     echo selected: $_selected
-    vim $_selected
+    if [[ $_CD == y ]]; then
+        ( cd $(dirname $_selected) && $_VIM $(basename $_selected) )
+    else
+        $_VIM $_selected
+    fi
 }
+alias gvimf="vimf -g"
 
 function walltime {
     local starttime=$(date -u +%s)
