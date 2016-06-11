@@ -1,0 +1,11 @@
+#! /bin/bash
+
+out=$(cat)
+termln=$(($(tput lines) - 3))
+outln=$(echo "$out" | wc -l)
+
+if (( $outln > $termln )); then
+    echo "$out" | less
+else
+    echo "$out"
+fi

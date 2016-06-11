@@ -57,6 +57,8 @@ alias glga='git log --oneline --decorate --color --graph --all'
 alias gsh='git show --decorate'
 alias gshn='git show --name-status'
 
+[[ -n $ZSH_NAME ]] && [[ -x $(which smartless) ]] && export GIT_PAGER="$(which smartless)"
+
 alias | grep -q gcp && unalias gcp
 function gcp {
     git commit -m "$@" && git push
@@ -96,6 +98,19 @@ function cdls {
     cd $1 && ls
 }
 
+function up {
+    local dir=$(dirname $PWD)
+    while [[ $dir != / ]]; do
+        if echo ${dir##*/} | grep -q "$1"; then
+            cd $dir
+            return 0
+        fi
+        dir=$(dirname $dir)
+    done
+    echo "dir matching pattern not found: $1"
+    return 1
+}
+
 function ff {
     pattern=$1
     shift 1
@@ -113,6 +128,12 @@ function cfind {
 }
 
 function vimf {
+    if [[ ${1:0:1} == "-" ]]; then
+        [[ $1 == *g* ]] && local _VIM="gvim --remote-tab-silent"
+        [[ $1 == *c* ]] && local _CD=y
+        shift
+    fi
+    [[ -z $_VIM ]] && local _VIM=vim
     local _pattern=$1
     shift
     _files=$(find -L . -type f -name "*$_pattern*" "$@" 2>/dev/null)
@@ -146,8 +167,13 @@ function vimf {
         done
     fi
     echo selected: $_selected
-    vim $_selected
+    if [[ $_CD == y ]]; then
+        ( cd $(dirname $_selected) && $_VIM $(basename $_selected) )
+    else
+        $_VIM $_selected
+    fi
 }
+alias gvimf="vimf -g"
 
 function walltime {
     local starttime=$(date -u +%s)
@@ -178,6 +204,16 @@ function walltime {
 }
 
 [[ -n $ZSH_NAME ]] && alias make="walltime make"
+
+if which smartless &>/dev/null; then
+    function page {
+        $@ | $(which smartless)
+    }
+else
+    function page {
+        $@ | less
+    }
+fi
 
 # tmx function usually duplicated in ~/bin/tmx
 function tmx {
@@ -220,4 +256,5 @@ if [[ -n $BASH ]]; then
 elif [[ -n $ZSH_NAME ]]; then
     alias srcrc='source ~/.zshrc'
     alias mmv='noglob zmv -W'
+    alias dh='dirs -v'
 fi

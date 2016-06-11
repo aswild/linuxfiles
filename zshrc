@@ -89,4 +89,6 @@ source $ZSH/oh-my-zsh.sh
 unsetopt share_history
 unsetopt cdable_vars
 setopt shwordsplit
-setopt nullglob
+#setopt nullglob
+unsetopt nullglob
+unsetopt nomatch
