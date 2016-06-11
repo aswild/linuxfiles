@@ -9,6 +9,9 @@
 "  for MS-DOS and Win32:  $VIM\_vimrc
 "	    for OpenVMS:  sys$login:.vimrc
 
+" enable pathogen plugin-loading
+execute pathogen#infect()
+
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
@@ -193,6 +196,7 @@ endif
 command! Space set et | retab | set noet
 command! Tab set tabstop=3 | retab! | set tabstop=4 | set noet
 command! Wrap set cc=90 | set tw=90 | set formatoptions+=t
+command! NT NERDTree
 
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
@@ -214,7 +218,9 @@ endif
 if has("gui_running")
 	colorscheme developer
 	set cursorline
-	au GUIEnter * simalt ~x " maximize on startup
+    if has("win32")
+        au GUIEnter * simalt ~x " maximize on startup
+    endif
 else
 	colorscheme bluegreen
 endif
@@ -265,4 +271,9 @@ endif
 if has("gui_running")
 	"set lines=40 columns=120
 	
+endif
+
+" allow for local overrides
+if filereadable(expand("~/.vimrc_local"))
+    source ~/.vimrc_local
 endif
