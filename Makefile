@@ -41,6 +41,7 @@ help:
 	@echo "  install"
 	@echo "    links"
 	@echo "    bashrc-append"
+	@echo "    submodules"
 	@echo "  extras"
 	@echo "    oh-my-zsh"
 	@echo "    tmux-20"
@@ -51,7 +52,7 @@ help:
 .PHONY: links install
 .PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
 links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
-install: links bashrc-append
+install: links bashrc-append submodules
 
 $(DOTFILE_PATHS) : $(HOME)/.% : $(PWD)/%
 	ln -s $(LINK_FORCE) $< $@ || true
@@ -66,6 +67,11 @@ $(BINFILE_PATHS) : $(HOME)/bin/% : $(PWD)/bin/%
 bashrc-append:
 	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(HOME)/.bashrc'
 	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(HOME)/.bashrc'
+
+.PHONY: submodules subs submodules-update subm
+subs: submodules
+submodules:
+	git submodule update --init --recursive --remote
 
 
 ###### EXTRAS #######
