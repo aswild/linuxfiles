@@ -136,7 +136,7 @@ function vimf {
     [[ -z $_VIM ]] && local _VIM=vim
     local _pattern=$1
     shift
-    _files=$(find -L . -type f -name "*$_pattern*" "$@" 2>/dev/null)
+    _files=$(find -L . -path '*/.git' -prune -o -type f -name "*$_pattern*" -print "$@" 2>/dev/null)
     if [[ -n $_files ]]; then
         _nfiles=$(echo "$_files" | wc -l)
     else
