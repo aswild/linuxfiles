@@ -1,5 +1,5 @@
 " Vim color file
-" Maintainer:	Jens Frederich <jfrederich@gmail.com>
+" Maintainer:   Jens Frederich <jfrederich@gmail.com>
 
 " First remove all old syntax autocommands.
 hi clear
@@ -17,51 +17,56 @@ let colors_name = "developer"
 " 4 = rgb: 163/21/21   hex: #A31515  red      (string, chars, todo, errors)
 " 5 = rgb: 255/255/255 hex: #ffffff  white    (todo, selection and errors)
 
-hi Cursor                                           guibg=Orange    gui=NONE
+hi Cursor                                             guibg=Orange      gui=NONE
 
-hi Visual         ctermfg=5 ctermbg=3 guifg=#ffffff guibg=#335EA8   gui=NONE
-hi Comment        ctermfg=1           guifg=#008000                 gui=NONE     
-hi String         ctermfg=4           guifg=#A31515                 gui=NONE
-hi Constant	      ctermfg=2           guifg=#0000ff                 gui=NONE    
-hi Error 		      ctermfg=5 ctermbg=4 guifg=#ffffff guibg=#A31515   gui=NONE    
-hi ErrorMsg       ctermfg=5 ctermbg=4 guifg=#ffffff guibg=#A31515   gui=NONE
-hi Search		      ctermfg=5 ctermbg=3 guifg=#ffffff guibg=#335EA8   gui=NONE    
-hi Directory      ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Todo           ctermfg=5 ctermbg=4 guifg=#ffffff guibg=#A31515   gui=NONE
-hi Folded         ctermbg=0           guifg=#000000                 gui=NONE
-hi FoldColumn     ctermbg=0           guifg=#000000                 gui=NONE
-hi Method         ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Special        ctermfg=2           guifg=#0000ff                 gui=NONE
-hi SpecialChar    ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Identifier     ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Statement      ctermfg=2           guifg=#0000ff                 gui=bold
-hi Include        ctermfg=2           guifg=#0000ff                 gui=NONE
-hi PreProc        ctermfg=4           guifg=#A31515                 gui=NONE
-hi Character	    ctermfg=4           guifg=#A31515                 gui=NONE
-hi Number		      ctermfg=2           guifg=#ff0000                 gui=NONE
-hi Boolean		    ctermfg=2           guifg=#ff0000                 gui=NONE
-hi Float		      ctermfg=2           guifg=#ff0000                 gui=NONE
-hi Function	      ctermfg=2           guifg=#aa00aa                 gui=NONE
-hi Type           ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Conditional	  ctermfg=2           guifg=#0000ff                 gui=bold
-hi Repeat		      ctermfg=2           guifg=#0000ff                 gui=bold
-hi Label		      ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Operator	      ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Keyword		    ctermfg=2           guifg=#0000ff                 gui=bold
-hi Exception	    ctermfg=2           guifg=#2b91af                 gui=NONE
-hi Include		    ctermfg=2           guifg=#8800ff                 gui=NONE
-hi Define		      ctermfg=2           guifg=#8800ff                 gui=NONE
-hi Macro		      ctermfg=2           guifg=#8800ff                 gui=NONE
-hi PreCondit	    ctermfg=2           guifg=#0000ff                 gui=NONE
-hi StorageClass	  ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Structure	    ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Typedef		    ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Tag		        ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Delimiter	    ctermfg=2           guifg=#0000ff                 gui=NONE
-hi SpecialComment ctermfg=2           guifg=#0000ff                 gui=NONE
-hi Debug		      ctermfg=2           guifg=#0000ff                 gui=NONE
-hi NonText        ctermfg=2                                         gui=NONE
-hi VertSplit                                                        gui=NONE  cterm=NONE term=NONE 
-hi MatchParen     ctermfg=0 ctermbg=3 guibg=#335EA8
-hi User1                                                            gui=bold  cterm=bold
+hi Visual           ctermfg=5 ctermbg=3 guifg=#ffffff guibg=#335EA8     gui=NONE
+hi Comment          ctermfg=1           guifg=#008000                   gui=NONE
+hi String           ctermfg=4           guifg=#A31515                   gui=NONE
+hi Constant         ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Error            ctermfg=5 ctermbg=4 guifg=#ffffff guibg=#A31515     gui=NONE
+hi ErrorMsg         ctermfg=5 ctermbg=4 guifg=#ffffff guibg=#A31515     gui=NONE
+hi Search           ctermfg=5 ctermbg=3 guifg=#ffffff guibg=#335EA8     gui=NONE
+hi Directory        ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Todo             ctermfg=5 ctermbg=4 guifg=#ffffff guibg=#A31515     gui=NONE
+hi Folded           ctermbg=0           guifg=#000000                   gui=NONE
+hi FoldColumn       ctermbg=0           guifg=#000000                   gui=NONE
+hi Method           ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Special          ctermfg=2           guifg=#0000ff                   gui=NONE
+hi SpecialChar      ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Identifier       ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Statement        ctermfg=2           guifg=#0000ff                   gui=bold
+hi Include          ctermfg=2           guifg=#0000ff                   gui=NONE
+hi PreProc          ctermfg=4           guifg=#A31515                   gui=NONE
+hi Character        ctermfg=4           guifg=#A31515                   gui=NONE
+hi Number           ctermfg=2           guifg=#ff0000                   gui=NONE
+hi Boolean          ctermfg=2           guifg=#ff0000                   gui=NONE
+hi Float            ctermfg=2           guifg=#ff0000                   gui=NONE
+hi Function         ctermfg=2           guifg=#aa00aa                   gui=NONE
+hi Type             ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Conditional      ctermfg=2           guifg=#0000ff                   gui=bold
+hi Repeat           ctermfg=2           guifg=#0000ff                   gui=bold
+hi Label            ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Operator         ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Keyword          ctermfg=2           guifg=#0000ff                   gui=bold
+hi Exception        ctermfg=2           guifg=#2b91af                   gui=NONE
+hi Include          ctermfg=2           guifg=#8800ff                   gui=NONE
+hi Define           ctermfg=2           guifg=#8800ff                   gui=NONE
+hi Macro            ctermfg=2           guifg=#8800ff                   gui=NONE
+hi PreCondit        ctermfg=2           guifg=#0000ff                   gui=NONE
+hi StorageClass     ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Structure        ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Typedef          ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Tag              ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Delimiter        ctermfg=2           guifg=#0000ff                   gui=NONE
+hi SpecialComment   ctermfg=2           guifg=#0000ff                   gui=NONE
+hi Debug            ctermfg=2           guifg=#0000ff                   gui=NONE
+hi NonText          ctermfg=2                                           gui=NONE
+hi VertSplit                                                            gui=NONE  cterm=NONE term=NONE
+hi MatchParen       ctermfg=0 ctermbg=3 guibg=#335EA8
+hi User1                                                                gui=bold  cterm=bold
 
+hi diffFile         ctermfg=4           guifg=#0000FF                   gui=bold
+hi diffOldFile      ctermfg=1           guifg=#C00000                   gui=bold
+hi diffNewFile      ctermfg=3           guifg=#008000                   gui=bold
+hi diffAdded        ctermfg=3           guifg=#006000                   gui=NONE
+hi diffRemoved      ctermfg=1           guifg=#800000                   gui=NONE
