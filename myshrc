@@ -54,6 +54,8 @@ alias gdh='git diff HEAD'
 alias gdhn='git --no-pager diff HEAD'
 alias glg='git log --oneline --decorate --color --graph'
 alias glga='git log --oneline --decorate --color --graph --all'
+alias gll='git log --decorate --color --graph --name-status'
+alias glla='git log --decorate --color --graph --name-status --all'
 alias gsh='git show --decorate'
 alias gshn='git show --name-status'
 
@@ -201,6 +203,7 @@ function walltime {
     local R="$(tput sgr0)"
 
     echo -e "\n  $C'$prog $@' returned $ret in ${hour_s}${min}m ${sec}s$R"
+    return $ret
 }
 
 [[ -n $ZSH_NAME ]] && alias make="walltime make"
