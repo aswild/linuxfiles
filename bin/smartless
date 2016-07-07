@@ -5,7 +5,7 @@ termln=$(($(tput lines) - 3))
 outln=$(echo "$out" | wc -l)
 
 if (( $outln > $termln )); then
-    echo "$out" | less
+    exec less <<< "$out"
 else
     echo "$out"
 fi
