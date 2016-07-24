@@ -41,7 +41,7 @@ help:
 	@echo "  install"
 	@echo "    links"
 	@echo "    bashrc-append"
-	@echo "    submodules"
+	@echo "    submodules (subs)"
 	@echo "  extras"
 	@echo "    oh-my-zsh"
 	@echo "    tmux-20"
@@ -61,6 +61,7 @@ $(NODOTFILE_PATHS) : $(HOME)/% : $(PWD)/%
 	ln -s $(LINK_FORCE) $< $@ || true
 
 $(BINFILE_PATHS) : $(HOME)/bin/% : $(PWD)/bin/%
+	@mkdir -p $(HOME)/bin
 	ln -s $(LINK_FORCE) $< $@ || true
 
 .PHONY: bashrc-append
@@ -68,7 +69,7 @@ bashrc-append:
 	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(HOME)/.bashrc'
 	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(HOME)/.bashrc'
 
-.PHONY: submodules subs submodules-update subm
+.PHONY: submodules subs
 subs: submodules
 submodules:
 	git submodule update --init --recursive --remote
@@ -90,9 +91,7 @@ tmux-20:
 
 .PHONY: debian-packages
 debian-packages:
-	@ if which apt-get >/dev/null 2>&1; then \
-	    sudo apt-get install $(DEBIAN_PACKAGES) \
-	  fi
+	@which apt-get >/dev/null 2>&1 && sudo apt-get install $(DEBIAN_PACKAGES)
 
 ###### UPGRADE ######
 .PHONY: upgrade
