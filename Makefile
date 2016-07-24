@@ -55,14 +55,14 @@ links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
 install: links bashrc-append submodules
 
 $(DOTFILE_PATHS) : $(HOME)/.% : $(PWD)/%
-	ln -s $(LINK_FORCE) $< $@ || true
+	ln -sT $(LINK_FORCE) $< $@ || true
 
 $(NODOTFILE_PATHS) : $(HOME)/% : $(PWD)/%
-	ln -s $(LINK_FORCE) $< $@ || true
+	ln -sT $(LINK_FORCE) $< $@ || true
 
 $(BINFILE_PATHS) : $(HOME)/bin/% : $(PWD)/bin/%
 	@mkdir -p $(HOME)/bin
-	ln -s $(LINK_FORCE) $< $@ || true
+	ln -sT $(LINK_FORCE) $< $@ || true
 
 .PHONY: bashrc-append
 bashrc-append:
