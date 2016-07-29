@@ -71,6 +71,11 @@ function gcap {
     git commit -a -m "$@" && git push
 }
 
+# wrap gitk in a function to automatically run it in the background
+function gitk {
+    command gitk "$@" &
+}
+
 function gbase {
     local dir=$(git rev-parse --show-toplevel 2>/dev/null)
     [[ -n $dir ]] && cd $dir
