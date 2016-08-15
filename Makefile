@@ -13,6 +13,7 @@ DOTFILE_NAMES   = \
 				  vim \
 				  vimrc \
 				  zshrc \
+				  oh-my-zsh \
 
 
 NODOTFILE_NAMES = \
@@ -43,10 +44,10 @@ help:
 	@echo "    bashrc-append"
 	@echo "    submodules (subs)"
 	@echo "  extras"
-	@echo "    oh-my-zsh"
 	@echo "    tmux-20"
 	@echo "    debian-packages"
 	@echo "  upgrade"
+	@echo "  upgrade-omzsh"
 
 ###### CORE #######
 .PHONY: links install
@@ -77,11 +78,7 @@ submodules:
 
 ###### EXTRAS #######
 .PHONY: extras
-extras: oh-my-zsh debian-packages tmux-20
-
-.PHONY: oh-my-zsh
-oh-my-zsh:
-	git clone https://github.com/robbyrussell/oh-my-zsh.git $(HOME)/.oh-my-zsh
+extras: debian-packages tmux-20
 
 .PHONY: tmux-20
 tmux-20:
@@ -94,6 +91,10 @@ debian-packages:
 	@which apt-get >/dev/null 2>&1 && sudo apt-get install $(DEBIAN_PACKAGES)
 
 ###### UPGRADE ######
-.PHONY: upgrade
+.PHONY: upgrade upgrade-omzsh
 upgrade:
 	make LINK_FORCE=-f links
+
+upgrade-omzsh:
+	rm -rf $(HOME)/.oh-my-zsh
+	ln -sT $(PWD)/oh-my-zsh $(HOME)/.oh-my-zsh
