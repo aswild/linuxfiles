@@ -61,16 +61,6 @@ alias gshn='git show --name-status'
 
 [[ -n $ZSH_NAME ]] && [[ -x $(which smartless) ]] && export GIT_PAGER="$(which smartless)"
 
-alias | grep -q gcp && unalias gcp
-function gcp {
-    git commit -m "$@" && git push
-}
-
-alias | grep -q gcap && unalias gcap
-function gcap {
-    git commit -a -m "$@" && git push
-}
-
 # wrap gitk in a function to automatically run it in the background
 function gitk {
     command gitk "$@" &
