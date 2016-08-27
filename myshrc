@@ -31,6 +31,14 @@ alias myshrc='vim ~/myshrc'
 alias cgrep="find -L . -name '*.[ch]' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
 alias rgrep="find -L . -type f -print0 2>/dev/null | xargs -0 grep --color=auto"
 
+__pmake=$(grep -c processor /proc/cpuinfo 2>/dev/null)
+if [[  $__pmake > 0 ]]; then
+    alias jake="make -j$__pmake"
+else
+    alias jake="make"
+fi
+unset __pmake
+
 # networking/sudo aliases
 alias ifconfig='sudo ifconfig'
 alias ifdown='sudo ifdown'
