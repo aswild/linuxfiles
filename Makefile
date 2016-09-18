@@ -43,6 +43,7 @@ help:
 	@echo "    links"
 	@echo "    bashrc-append"
 	@echo "    submodules (subs)"
+	@echo "    subs-commit (subsc)"
 	@echo "  extras"
 	@echo "    tmux-20"
 	@echo "    debian-packages"
@@ -70,10 +71,15 @@ bashrc-append:
 	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(HOME)/.bashrc'
 	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(HOME)/.bashrc'
 
-.PHONY: submodules subs
+###### SUBMODULES #######
+.PHONY: submodules subs subs-commit subsc
 subs: submodules
 submodules:
 	git submodule update --init --recursive --remote
+
+subsc: subs-commit
+subs-commit: submodules
+	@[ -x ./commit_submodules.sh ] && ./commit_submodules.sh
 
 
 ###### EXTRAS #######
