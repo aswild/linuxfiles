@@ -11,6 +11,12 @@ set -o ignoreeof
 if [[ $PATH != *$HOME/bin* ]]; then
     export PATH=$HOME/bin:$PATH
 fi
+
+# add LD_LIBRARY_PATH for shared libraries
+if [[ -d $HOME/lib ]] && [[ $LD_LIBRARY_PATH != *$HOME/lib* ]]; then
+    export LD_LIBRARY_PATH=$(echo "$HOME/lib:$LD_LIBRARY_PATH" | sed 's/:$//')
+fi
+
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
 
 # Core aliases

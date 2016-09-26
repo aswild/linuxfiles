@@ -15,10 +15,8 @@ else
 fi
 
 # figure out default shell
-if [[ -e /bin/zsh ]]; then
-    tmux set -g default-shell /bin/zsh
-elif [[ -e $HOME/bin/zsh ]]; then
-    tmux set -g default-shell $HOME/bin/zsh
+if [[ -x $(which zsh) ]]; then
+    tmux set -g default-shell $(which zsh)
 else
     tmux set -g default-shell $SHELL
 fi
