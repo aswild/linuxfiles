@@ -7,15 +7,24 @@ export EDITOR="vim"
 stty -ixon
 set -o ignoreeof
 
-# add ~/bin to PATH if it's not already there
-if [[ $PATH != *$HOME/bin* ]]; then
-    export PATH=$HOME/bin:$PATH
-fi
+function pathadd
+{
+    ( [[ -n $1 ]] && [[ -n $2 ]] ) || return 1
+    local OLDPATH=$(eval "echo -E -n \${$1}")
 
-# add LD_LIBRARY_PATH for shared libraries
-if [[ -d $HOME/lib ]] && [[ $LD_LIBRARY_PATH != *$HOME/lib* ]]; then
-    export LD_LIBRARY_PATH=$(echo "$HOME/lib:$LD_LIBRARY_PATH" | sed 's/:$//')
-fi
+    if [[ :$OLDPATH: != :*$2*: ]]; then
+        if [[ $3 == "append" ]]; then
+            local NEWPATH=$OLDPATH:$2
+        else
+            local NEWPATH=$2:$OLDPATH
+        fi
+    else
+        local NEWPATH=$OLDPATH
+    fi
+    echo -E -n "$NEWPATH" | sed -e 's/^://' -e 's/:$//'
+}
+export PATH="$(pathadd PATH $HOME/bin)"
+[[ -d $HOME/lib ]] && export LD_LIBRARY_PATH="$(pathadd LD_LIBRARY_PATH $HOME/lib)"
 
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
 
@@ -35,6 +44,7 @@ alias bashrc='vim ~/.bashrc'
 alias myshrc='vim ~/myshrc'
 
 alias cgrep="find -L . -name '*.[ch]' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
+alias hgrep="find -L . -name '*.h' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
 alias rgrep="find -L . -type f -print0 2>/dev/null | xargs -0 grep --color=auto"
 
 __pmake=$(grep -c processor /proc/cpuinfo 2>/dev/null)
@@ -123,6 +133,7 @@ function up {
     return 1
 }
 
+unset -f ff 2>/dev/null
 function ff {
     pattern=$1
     shift 1
