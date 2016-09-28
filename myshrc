@@ -159,7 +159,10 @@ function vimf {
     [[ -z $_VIM ]] && local _VIM=vim
     local _pattern=$1
     shift
-    _files=$(find -L . -path '*/.git' -prune -o -type f -name "*$_pattern*" -print "$@" 2>/dev/null)
+    _files=$(find -L . -not \( -path '*/.git' -prune \) \
+                       -not \( -path '*/.pc'  -prune \) \
+                       -not \( -name '*.swp' \) \
+                       -type f -name "*$_pattern*" -print "$@" 2>/dev/null)
     if [[ -n $_files ]]; then
         _nfiles=$(echo "$_files" | wc -l)
     else
@@ -173,14 +176,16 @@ function vimf {
     else
         if [[ -n $ZSH_NAME ]]; then
             # cases like this are the one infuriating part of zsh
-            local _files_arr=("${(@f)${_files}}")
+            set -A _files_arr ${(f)_files}
         else
-            local _files_arr=$_files
+            local _files_arr=( $_files )
         fi
         PS3='Select Match> '
-        select _sel in "$_files_arr[@]"; do
+        select _sel in "${_files_arr[@]}"; do
             if [[ -n $_sel ]]; then
                 _selected=$_sel
+            elif [[ $REPLY == "q" ]]; then
+                return 0
             else
                 echo 'Error: invalid selection'
                 return 2
