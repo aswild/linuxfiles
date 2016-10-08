@@ -137,7 +137,7 @@ unset -f ff 2>/dev/null
 function ff {
     pattern=$1
     shift 1
-    find -L . -name "*$pattern*" "$@"
+    find -L . -name "*$pattern*" "$@" 2>/dev/null
 }
 
 function ffr {
