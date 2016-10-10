@@ -195,7 +195,7 @@ endif
 
 command! Space set et | retab | set noet
 command! Tab set tabstop=3 | retab! | set tabstop=4 | set noet
-command! Wrap set cc=90 | set tw=90 | set formatoptions+=t
+command! -nargs=1 Wrap set cc=<args> | set tw=<args> | set formatoptions+=t
 command! NT NERDTree
 
 
