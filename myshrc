@@ -23,7 +23,8 @@ function pathadd
     fi
     echo -E -n "$NEWPATH" | sed -e 's/^://' -e 's/:$//'
 }
-export PATH="$(pathadd PATH $HOME/bin)"
+[[ -d $HOME/bin ]] && export PATH="$(pathadd PATH $HOME/bin)"
+[[ -d $HOME/scripts ]] && export PATH="$(pathadd PATH $HOME/scripts)"
 [[ -d $HOME/lib ]] && export LD_LIBRARY_PATH="$(pathadd LD_LIBRARY_PATH $HOME/lib)"
 
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
