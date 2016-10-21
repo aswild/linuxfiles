@@ -29,6 +29,18 @@ function pathadd
 
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
 
+# set WORKSPACES_ROOT for zsh
+if [[ -n $ZSH_NAME ]]; then
+    __TRY_WORKSPACES=( "/export/$USER" "/workspace" )
+    for __ws in "${__TRY_WORKSPACES[@]}"; do
+        if [[ -d $__ws ]]; then
+            WORKSPACES_ROOT=$__ws
+            break
+        fi
+    done
+    unset __TRY_WORKSPACES __ws
+fi
+
 # Core aliases
 alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'

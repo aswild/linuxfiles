@@ -26,3 +26,28 @@ function git_prompt_info() {
         fi
     fi
 }
+
+function zwild_get_view() {
+    if [[ -n $TOP ]]; then
+        if [[ $PWD == $TOP ]]; then
+            return 0
+        elif [[ $PWD == $TOP/* ]]; then
+            echo -n "$(basename $TOP)::"
+            return 0
+        else
+            local __zwild_not_in_top="$(basename $TOP)!!"
+        fi
+    fi
+    if [[ -n $WORKSPACES_ROOT ]] && [[ $PWD == $WORKSPACES_ROOT/* ]]; then
+        echo -n "$__zwild_not_in_top"
+        [[ $PWD == $WORKSPACES_ROOT/*/* ]] && echo "${${PWD#${WORKSPACES_ROOT}/}%%/*}::"
+    fi
+}
+ZSH_THEME_TERM_TAB_TITLE_IDLE='$(zwild_get_view)%1d'
+
+# don't set terminal title when running a command in tmux
+if [[ -n $TMUX ]]; then
+    # remove termsupport from preexec function list
+    #preexec_functions[$preexec_functions[(i)omz_termsupport_preexec]]=()
+    unset preexec_functions
+fi

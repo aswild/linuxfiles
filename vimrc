@@ -188,14 +188,14 @@ let g:airline_theme="wombat"
 " tmuxline - don't use weird unicode characters
 let g:tmuxline_powerline_separators = 1
 let g:tmuxline_preset = {
-      \'a'    : '#S',
-      \'b'    : '#W',
-      \'c'    : '',
+      \'a'    : 'S#S',
+      \'b'    : 'W#I',
+      \'c'    : 'P#P',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
       \'x'    : '',
       \'y'    : '%l:%M %P',
-      \'z'    : '#(whoami)@#h'}
+      \'z'    : '#(whoami)@#H'}
 
 
 if has("win32")
