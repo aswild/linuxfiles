@@ -186,7 +186,7 @@ let g:ctrlp_custom_ignore = {'dir': '\v[/]\.(pc|repo|git)$'}
 let g:airline_theme="wombat"
 
 " tmuxline - don't use weird unicode characters
-let g:tmuxline_powerline_separators = 0
+let g:tmuxline_powerline_separators = 1
 let g:tmuxline_preset = {
       \'a'    : '#S',
       \'b'    : '#W',

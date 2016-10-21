@@ -312,8 +312,8 @@ syn match diffComment	"^#.*"
 
 " Define the default highlighting.
 " Only used when an item doesn't have highlighting yet
-"hi def link diffOldFile		diffFile
-"hi def link diffNewFile		diffFile
+hi def link diffOldFile		diffRemoved
+hi def link diffNewFile		diffFile
 hi def link diffFile		Type
 hi def link diffOnly		Constant
 hi def link diffIdentical	Constant
