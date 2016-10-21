@@ -115,7 +115,7 @@ function rbase {
 
 # Core functions
 function mdcd {
-    mkdir $1 && cd $1
+    mkdir -p $1 && cd $1
 }
 
 function cdls {
@@ -176,12 +176,8 @@ function vimf {
     elif [[ $_nfiles == 1 ]]; then
         local _selected=$_files
     else
-        if [[ -n $ZSH_NAME ]]; then
-            # cases like this are the one infuriating part of zsh
-            set -A _files_arr ${(f)_files}
-        else
-            local _files_arr=( $_files )
-        fi
+        # convert $_files into an array, using eval for bash/zsh compatibility
+        eval "local _files_arr=( $_files )"
         PS3='Select Match> '
         select _sel in "${_files_arr[@]}"; do
             if [[ -n $_sel ]]; then

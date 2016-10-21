@@ -1,1 +1,2 @@
 --color-match=bright_magenta
+--type-set=bb:ext:bb,bbappend,bbclass,inc,conf
