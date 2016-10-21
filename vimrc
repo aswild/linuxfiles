@@ -1,13 +1,6 @@
-
+""""""""""""""""""""""
 " Allen's vimrc file
-"
-" http://stevelosh.com/blog/2010/09/coming-home-to-vim/
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
+""""""""""""""""""""""
 
 " enable pathogen plugin-loading
 execute pathogen#infect()
@@ -25,15 +18,15 @@ set nocompatible
 set backspace=indent,eol,start
 
 if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
+  set nobackup  " do not keep a backup file, use versions instead
 else
-  "set backup		" keep a backup file
+  "set backup   " keep a backup file
   set nobackup
 endif
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set history=50  " keep 50 lines of command line history
+set ruler       " show the cursor position all the time
+set showcmd     " display incomplete commands
+set incsearch   " do incremental searching
 set number
 "set noexpandtab
 set expandtab
@@ -63,13 +56,13 @@ set laststatus=2
 
 let $REL=0
 function! ToggleNumber()
-	if $REL
-		set number
-		let $REL=0
-	else
-		set relativenumber
-		let $REL=1
-	endif
+    if $REL
+        set number
+        let $REL=0
+    else
+        set relativenumber
+        let $REL=1
+    endif
 endfunction
 nmap <silent><F8> :call ToggleNumber()<CR>
 
@@ -186,11 +179,29 @@ imap <C-K> <ESC>ka
 imap <C-L> <ESC>la
 imap <C-S> <ESC>S
 
+" ctrlp.vim mappings/settings
+let g:ctrlp_root_markers = ['.repo']
+let g:ctrlp_custom_ignore = {'dir': '\v[/]\.(pc|repo|git)$'}
+
+let g:airline_theme="wombat"
+
+" tmuxline - don't use weird unicode characters
+let g:tmuxline_powerline_separators = 0
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'b'    : '#W',
+      \'c'    : '',
+      \'win'  : '#I #W',
+      \'cwin' : '#I #W',
+      \'x'    : '',
+      \'y'    : '%l:%M %P',
+      \'z'    : '#(whoami)@#h'}
+
 
 if has("win32")
-	nmap <F11> :so ~/_vimrc<CR>
+    nmap <F11> :so ~/_vimrc<CR>
 else
-	nmap <F11> :so ~/.vimrc<CR>
+    nmap <F11> :so ~/.vimrc<CR>
 endif
 
 command! Space set et | retab | set noet
@@ -216,13 +227,13 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 if has("gui_running")
-	colorscheme developer
-	set cursorline
+    colorscheme developer
+    set cursorline
     if has("win32")
         au GUIEnter * simalt ~x " maximize on startup
     endif
 else
-	colorscheme bluegreen
+    colorscheme bluegreen
 endif
 
 " Only do this part when compiled with support for autocommands.
@@ -255,7 +266,7 @@ if has("autocmd")
 
 else
 
-  set autoindent		" always set autoindenting on
+  set autoindent " always set autoindenting on
 
 endif " has("autocmd")
 
@@ -264,13 +275,12 @@ endif " has("autocmd")
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+          \ | wincmd p | diffthis
 endif
 
 "maximize gvim, use for linux
 if has("gui_running")
-	"set lines=40 columns=120
-	
+    "set lines=40 columns=120
 endif
 
 " allow for local overrides

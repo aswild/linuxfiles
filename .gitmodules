@@ -13,3 +13,15 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
+[submodule "vim/bundle/ctrlp"]
+	path = vim/bundle/ctrlp
+	url = git://github.com/ctrlpvim/ctrlp.vim.git
+[submodule "vim/bundle/tmuxline"]
+	path = vim/bundle/tmuxline
+	url = git://github.com/edkolev/tmuxline.vim
+[submodule "vim/bundle/vim-airline"]
+	path = vim/bundle/vim-airline
+	url = git://github.com/vim-airline/vim-airline
+[submodule "vim/bundle/vim-airline-themes"]
+	path = vim/bundle/vim-airline-themes
+	url = git://github.com/vim-airline/vim-airline-themes
