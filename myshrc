@@ -44,7 +44,6 @@ fi
 # Core aliases
 alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'
-alias ll="ls -lAh --color=always --group-directories-first | sed 's/[ ]\+/ /g' |  cut -d' ' -f9-"
 alias g='egrep'
 alias rmtmp='rm `ls -a | grep "~$"`'
 alias df='df -h'
@@ -132,6 +131,11 @@ function mdcd {
 
 function cdls {
     cd $1 && ls
+}
+
+unalias ll 2>/dev/null
+function ll {
+    ls -lAh --color=always --group-directories-first "$@" | sed 's/[ ]\+/ /g' |  cut -d' ' -f9-
 }
 
 function up {
