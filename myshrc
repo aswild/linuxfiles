@@ -242,7 +242,7 @@ function walltime {
     fi
     local R="$(tput sgr0)"
 
-    echo -e "\n  $C'$prog $@' returned $ret in ${hour_s}${min}m ${sec}s$R"
+    echo -e >&2 "\n  $C'$prog $@' returned $ret in ${hour_s}${min}m ${sec}s$R"
     return $ret
 }
 
