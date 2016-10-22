@@ -183,10 +183,12 @@ imap <C-S> <ESC>S
 let g:ctrlp_root_markers = ['.repo']
 let g:ctrlp_custom_ignore = {'dir': '\v[/]\.(pc|repo|git)$'}
 
-let g:airline_theme="wombat"
+let g:airline_theme = 'wombat'
+let g:airline_powerline_fonts = 1
 
 " tmuxline - don't use weird unicode characters
 let g:tmuxline_powerline_separators = 1
+let g:tmuxline_status_justify = 'left'
 let g:tmuxline_preset = {
       \'a'    : 'S#S',
       \'b'    : 'W#I',
