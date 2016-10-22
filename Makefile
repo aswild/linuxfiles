@@ -72,13 +72,17 @@ bashrc-append:
 	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(HOME)/.bashrc'
 
 ###### SUBMODULES #######
-.PHONY: submodules subs subs-commit subsc
+.PHONY: submodules subs subs-commit subsc subs-update subsu
 subs: submodules
 submodules:
+	git submodule update --init --recursive
+
+subsu: subs-update
+subs-update:
 	git submodule update --init --recursive --remote
 
 subsc: subs-commit
-subs-commit: submodules
+subs-commit: submodules-update
 	@[ -x ./commit_submodules.sh ] && ./commit_submodules.sh
 
 
