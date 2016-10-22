@@ -10,7 +10,8 @@ set -o ignoreeof
 function pathadd
 {
     ( [[ -n $1 ]] && [[ -n $2 ]] ) || return 1
-    local OLDPATH=$(eval "echo -E -n \${$1}")
+    local OLDPATH
+    eval OLDPATH="\$$1"
 
     if [[ :$OLDPATH: != :*$2*: ]]; then
         if [[ $3 == "append" ]]; then

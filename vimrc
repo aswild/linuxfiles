@@ -229,7 +229,8 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 if has("gui_running")
-    colorscheme developer
+    set background=light
+    colorscheme solarized
     set cursorline
     if has("win32")
         au GUIEnter * simalt ~x " maximize on startup
