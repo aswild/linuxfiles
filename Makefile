@@ -82,7 +82,7 @@ subs-update:
 	git submodule update --init --recursive --remote
 
 subsc: subs-commit
-subs-commit: submodules-update
+subs-commit: subs-update
 	@[ -x ./commit_submodules.sh ] && ./commit_submodules.sh
 
 
