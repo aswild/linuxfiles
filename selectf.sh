@@ -232,6 +232,7 @@ fi
 
 if [[ $CD_FIRST == true ]]; then
     cd "$(dirname "$SELECTION")"
+    SELECTION="$(basename $SELECTION)"
 fi
 
 # here we go!
