@@ -82,7 +82,6 @@ set foldmethod=marker
 nnoremap <silent><leader><space> :noh<cr>
 nnoremap <tab> %
 vnoremap <tab> %
-nnoremap <C-P> <C-I>
 
 set wrap
 set formatoptions=qrn1
@@ -180,6 +179,7 @@ imap <C-L> <ESC>la
 imap <C-S> <ESC>S
 
 " ctrlp.vim mappings/settings
+nnoremap <C-P> :CtrlP<cr>
 let g:ctrlp_root_markers = ['.repo']
 let g:ctrlp_custom_ignore = {'dir': '\v[/]\.(pc|repo|git)$'}
 
@@ -210,6 +210,7 @@ command! Space set et | retab | set noet
 command! Tab set tabstop=3 | retab! | set tabstop=4 | set noet
 command! -nargs=1 Wrap set cc=<args> | set tw=<args> | set formatoptions+=t
 command! NT NERDTree
+command! Trailsp %s/\s\+$//e | noh
 
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
