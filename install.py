@@ -90,5 +90,6 @@ if __name__ == "__main__":
     # make the base link
     make_link(base_target, os.path.join(destdir, target), force)
 
+    # make multi-call links
     for link in link_names():
         make_link(target, os.path.join(destdir, link), force)

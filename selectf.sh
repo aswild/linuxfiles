@@ -67,15 +67,16 @@ EOF
 # Settings and Defaults
 ###################################
 
-FIND_IGNORE_DIRS=( \
-    '*/.git'  \
-    '*/.pc'   \
-    '*/.repo' \
+FIND_IGNORE_DIRS=(  \
+    '*/.git'        \
+    '*/.pc'         \
+    '*/.repo'       \
+    '*/.cache'      \
 )
 FIND_IGNORE_FILES=( \
-    '*.swp'   \
-    '*.pyc'   \
-    '*.orig'  \
+    '*.swp'         \
+    '*.pyc'         \
+    '*.orig'        \
 )
 
 
@@ -86,7 +87,7 @@ FIND_TYPE=f
 FIND_PATTERNTYPE=name
 
 # Multi-Call modes
-# Possible permutations of m/g?vimfr?i?/
+# Possible permutations of [g]vimf[r][i]
 case $(basename $0) in
     vimf*)   COMMAND=vim            ;;
     gvimf*)  COMMAND=gvim           ;;
@@ -94,8 +95,11 @@ case $(basename $0) in
     *vimf*i) IGNORE_CASE=true       ;;
 esac
 
+###################################
 # Parse Args
-while getopts "e:cpgtTC:LfdnPrh" opt; do
+###################################
+
+while getopts "e:cpgtTC:LfdnPrih" opt; do
     case $opt in
         e) COMMAND="$OPTARG"        ;;
         c) CD_FIRST=true            ;;
@@ -110,18 +114,18 @@ while getopts "e:cpgtTC:LfdnPrh" opt; do
         n) FIND_PATTERNTYPE=name    ;;
         P) FIND_PATTERNTYPE=path    ;;
         r) FIND_PATTERNTYPE=regex   ;;
-        r) IGNORE_CASE=true         ;;
+        i) IGNORE_CASE=true         ;;
         h)
             print_help
             exit 0
             ;;
         :)
-            echo "Option -$OPTARG requires an argument!"
+            echo "Option -$OPTARG requires an argument!" >&2
             print_help
             exit 1
             ;;
         \?)
-            echo "Invalid option: -$OPTARG"
+            echo "Invalid option: -$OPTARG" >&2
             print_help
             exit 1
             ;;
@@ -133,18 +137,18 @@ shift $(($OPTIND - 1))
 PATTERN="$1"
 shift
 if [[ -z $PATTERN ]]; then
-    echo "A pattern is required!"
+    echo "A pattern is required!" >&2
     print_help
     exit 1
 fi
 
 # command to exec
-if [[ -z $COMMAND ]]; then
+if [[ -z $COMMAND ]] && [[ $PRINT_ONLY != true ]]; then
     if [[ -n $1 ]]; then
         COMMAND="$1"
         shift
     else
-        echo "A command is required!"
+        echo "A command is required!" >&2
         print_help
         exit 1
     fi
@@ -156,7 +160,10 @@ if [[ $COMMAND == gvim ]] && [[ $GVIM_REMOTE_TAB == true ]]; then
     OPTIONS+=(--remote-tab-silent)
 fi
 
+###################################
 # build find command
+###################################
+
 FINDARGS=()
 if [[ $FIND_SYMLINKS == true ]]; then
     FINDARGS+=(-L)
@@ -181,7 +188,10 @@ fi
 
 FINDARGS+=( -type $FIND_TYPE -$FIND_PATTERNTYPE "$PATTERN" -print0 )
 
+###################################
 # Get the results from find
+###################################
+
 # while-read loop adapted from http://mywiki.wooledge.org/BashFAQ/020
 RESULTS=()
 count=0
@@ -190,7 +200,7 @@ while IFS= read -r -d $'\0' result; do
 done < <( find "${FINDARGS[@]}" 2>/dev/null )
 
 if [[ -z "$RESULTS" ]] || [[ ${#RESULTS[@]} == 0 ]]; then
-    echo "No matches found!"
+    echo "No matches found!" >&2
     exit 2
 elif [[ ${#RESULTS[@]} == 1 ]]; then
     SELECTION="${RESULTS[0]}"
@@ -203,15 +213,18 @@ else
             break
         elif [[ $REPLY == q ]]; then
             # selecting 'q' bails with exit success
-            echo "Abort"
+            echo "Abort" >&2
             exit 0
         else
-            echo "Invalid Selection: $REPLY"
+            echo "Invalid Selection: $REPLY" >&2
         fi
     done
 fi
 
-# now we have the selection, time to do something with it
+###################################
+# Take action
+###################################
+
 if [[ $PRINT_ONLY == true ]]; then
     echo "$SELECTION"
     exit 0
@@ -222,5 +235,5 @@ if [[ $CD_FIRST == true ]]; then
 fi
 
 # here we go!
-echo "$COMMAND ${OPTIONS[@]} $SELECTION"
+echo "$COMMAND ${OPTIONS[@]} $SELECTION" >&2
 exec $COMMAND "${OPTIONS[@]}" "$SELECTION"
