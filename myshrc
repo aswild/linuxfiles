@@ -154,13 +154,13 @@ function up {
 
 unset -f ff 2>/dev/null
 function ff {
-    pattern=$1
+    local pattern=$1
     shift 1
     find -L . -name "*$pattern*" "$@" 2>/dev/null
 }
 
 function ffr {
-    pattern=$1
+    local pattern=$1
     shift 1
     find -L . -regex ".*$pattern.*" "$@"
 }
@@ -169,54 +169,13 @@ function cfind {
     find -L . -name '*.[ch]' | grep --color=auto "$@" 2>/dev/null
 }
 
-function vimf {
-    if [[ ${1:0:1} == "-" ]]; then
-        [[ $1 == *g* ]] && local _VIM="gvim --remote-tab-silent"
-        [[ $1 == *c* ]] && local _CD=y
-        shift
-    fi
-    [[ -z $_VIM ]] && local _VIM=vim
-    local _pattern=$1
-    shift
-    _files=$(find -L . -not \( -path '*/.git' -prune \) \
-                       -not \( -path '*/.pc'  -prune \) \
-                       -not \( -name '*.swp' \) \
-                       -type f -name "*$_pattern*" -print "$@" 2>/dev/null)
-    if [[ -n $_files ]]; then
-        _nfiles=$(echo "$_files" | wc -l)
-    else
-        _nfiles=0
-    fi
-    if [[ $_nfiles == 0 ]]; then
-        echo 'Error: no matches found'
-        return 1
-    elif [[ $_nfiles == 1 ]]; then
-        local _selected=$_files
-    else
-        # convert $_files into an array, using eval for bash/zsh compatibility
-        eval "local _files_arr=( $_files )"
-        PS3='Select Match> '
-        select _sel in "${_files_arr[@]}"; do
-            if [[ -n $_sel ]]; then
-                _selected=$_sel
-            elif [[ $REPLY == "q" ]]; then
-                return 0
-            else
-                echo 'Error: invalid selection'
-                return 2
-            fi
-            unset _sel
-            break
-        done
-    fi
-    echo selected: $_selected
-    if [[ $_CD == y ]]; then
-        ( cd $(dirname $_selected) && $_VIM $(basename $_selected) )
-    else
-        $_VIM $_selected
-    fi
+function cdf {
+    local __dir=$(selectf -dp "$@")
+    [[ -n "$__dir" ]] && [[ -d "$__dir" ]] && cd "$__dir"
 }
-alias gvimf="vimf -g"
+alias cdfr="cdf -r"
+alias cdfi="cdf -i"
+alias cdfri="cdf -ri"
 
 function walltime {
     local starttime=$(date -u +%s)

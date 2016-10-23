@@ -1,8 +1,5 @@
 # Allen Wild
 # Makefile for linuxfiles
-#
-# TODO:
-#  * install directories for bin and .config
 
 DOTFILE_NAMES   = \
 				  ackrc \
@@ -42,11 +39,10 @@ help:
 	@echo "  install"
 	@echo "    links"
 	@echo "    bashrc-append"
+	@echo "    selectf"
 	@echo "    submodules (subs)"
+	@echo "    subs-update (subsu)"
 	@echo "    subs-commit (subsc)"
-	@echo "  extras"
-	@echo "    tmux-20"
-	@echo "    debian-packages"
 	@echo "  upgrade"
 	@echo "  upgrade-omzsh"
 
@@ -54,7 +50,7 @@ help:
 .PHONY: links install
 .PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
 links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
-install: links bashrc-append submodules
+install: links bashrc-append submodules selectf
 
 $(DOTFILE_PATHS) : $(HOME)/.% : $(PWD)/%
 	ln -sT $(LINK_FORCE) $< $@ || true
@@ -71,6 +67,10 @@ bashrc-append:
 	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(HOME)/.bashrc'
 	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(HOME)/.bashrc'
 
+.PHONY: selectf
+selectf: submodules
+	python selectf/install.py $(HOME)/bin
+
 ###### SUBMODULES #######
 .PHONY: submodules subs subs-commit subsc subs-update subsu
 subs: submodules
@@ -85,20 +85,6 @@ subsc: subs-commit
 subs-commit: submodules-update
 	@[ -x ./commit_submodules.sh ] && ./commit_submodules.sh
 
-
-###### EXTRAS #######
-.PHONY: extras
-extras: debian-packages tmux-20
-
-.PHONY: tmux-20
-tmux-20:
-	mkdir -p $(HOME)/packages
-	wget -O $(HOME)/packages/tmux-2.0.tar.gz \
-		https://github.com/tmux/tmux/releases/download/2.0/tmux-2.0.tar.gz
-
-.PHONY: debian-packages
-debian-packages:
-	@which apt-get >/dev/null 2>&1 && sudo apt-get install $(DEBIAN_PACKAGES)
 
 ###### UPGRADE ######
 .PHONY: upgrade upgrade-omzsh

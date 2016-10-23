@@ -28,3 +28,6 @@
 [submodule "vim/bundle/vim-colors-solarized"]
 	path = vim/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized
+[submodule "selectf"]
+	path = selectf
+	url = git://github.com/aswild/selectf
