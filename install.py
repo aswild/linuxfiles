@@ -39,7 +39,8 @@ def parse_args(argv=None):
     parser.add_argument("-f", "--force", action="store_true",
                         help="Overwrite existing links in <destdir>")
     parser.add_argument("destdir", help="link destination directory")
-    parser.add_argument("target", nargs="?", default="./selectf.sh",
+    default_target = os.path.join(os.path.dirname(sys.argv[0]), "selectf.sh")
+    parser.add_argument("target", nargs="?", default=default_target,
                         help="Target of the base 'selectf' link "
                              + "(will be expanded to an absolute path)")
     return parser.parse_args(argv) if argv else parser.parse_args()
@@ -56,7 +57,8 @@ def make_link(target, linkdest, force=False):
     try:
         os.symlink(target, linkdest)
     except FileExistsError:
-        print("Error: '%s' already exists. Use [-f] to force overwriting")
+        print("Error: '%s' already exists."%linkdest
+              + " Use [-f] to force overwriting")
 
 # generator which yields the links to make
 # all permutations of [g]vimf[r][i]
@@ -75,7 +77,7 @@ if __name__ == "__main__":
 
     # target must exist, expand to absolute path
     if not os.path.isfile(args.target):
-        fatal("Target '%s' does not exist")
+        fatal("Target '%s' does not exist"%args.target)
     base_target = os.path.abspath(args.target)
 
     # individual links will point back to "selectf" locally rather than
