@@ -47,7 +47,16 @@ ZSH_THEME_TERM_TAB_TITLE_IDLE='$(zwild_get_view)%1d'
 
 # don't set terminal title when running a command in tmux
 if [[ -n $TMUX ]]; then
-    # remove termsupport from preexec function list
-    #preexec_functions[$preexec_functions[(i)omz_termsupport_preexec]]=()
-    unset preexec_functions
+    # disable omz defaults in termsupport.zsh
+    unset preexec_functions 2>/dev/null
+
+    function zwild_tmux_preexec() {
+        case $1 in
+            htop|minicom)
+                title $1 $1
+                ;;
+        esac
+    }
+
+    preexec_functions=(zwild_tmux_preexec)
 fi
