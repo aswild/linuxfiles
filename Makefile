@@ -25,12 +25,18 @@ DEBIAN_PACKAGES = \
                   htop \
                   ack-grep \
 
+ifeq ($(SRCDIR),)
+	SRCDIR = $(PWD)
+endif
+ifeq ($(DESTDIR),)
+	DESTDIR = $(HOME)
+endif
 
-DOTFILE_PATHS   = $(addprefix $(HOME)/., $(DOTFILE_NAMES))
-NODOTFILE_PATHS = $(addprefix $(HOME)/, $(NODOTFILE_NAMES))
+DOTFILE_PATHS   = $(addprefix $(DESTDIR)/., $(DOTFILE_NAMES))
+NODOTFILE_PATHS = $(addprefix $(DESTDIR)/, $(NODOTFILE_NAMES))
 
 BINFILE_NAMES	= $(wildcard bin/*)
-BINFILE_PATHS	= $(addprefix $(HOME)/, $(BINFILE_NAMES))
+BINFILE_PATHS	= $(addprefix $(DESTDIR)/, $(BINFILE_NAMES))
 
 # help target is first because it's safe
 .PHONY: help
@@ -52,24 +58,29 @@ help:
 links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
 install: links bashrc-append submodules selectf
 
-$(DOTFILE_PATHS) : $(HOME)/.% : $(PWD)/%
-	ln -sT $(LINK_FORCE) $< $@ || true
+$(DESTDIR):
+	mkdir -p $(DESTDIR)
 
-$(NODOTFILE_PATHS) : $(HOME)/% : $(PWD)/%
-	ln -sT $(LINK_FORCE) $< $@ || true
+$(DOTFILE_PATHS) : $(DESTDIR)/.% : $(PWD)/%
+	@mkdir -p $(@D)
+	ln -sT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ || true
 
-$(BINFILE_PATHS) : $(HOME)/bin/% : $(PWD)/bin/%
-	@mkdir -p $(HOME)/bin
-	ln -sT $(LINK_FORCE) $< $@ || true
+$(NODOTFILE_PATHS) : $(DESTDIR)/% : $(PWD)/%
+	@mkdir -p $(@D)
+	ln -sT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ || true
+
+$(BINFILE_PATHS) : $(DESTDIR)/bin/% : $(PWD)/bin/%
+	@mkdir -p $(DESTDIR)/bin
+	ln -sT $(LINK_FORCE) $(SRCDIR)/bin/$(notdir $<) $@ || true
 
 .PHONY: bashrc-append
 bashrc-append:
-	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(HOME)/.bashrc'
-	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(HOME)/.bashrc'
+	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(DESTDIR)/.bashrc'
+	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(DESTDIR)/.bashrc'
 
 .PHONY: selectf
 selectf: submodules
-	python selectf/install.py $(HOME)/bin
+	python selectf/install.py $(DESTDIR)/bin
 
 ###### SUBMODULES #######
 .PHONY: submodules subs subs-commit subsc subs-update subsu
@@ -92,5 +103,5 @@ upgrade:
 	make LINK_FORCE=-f links
 
 upgrade-omzsh:
-	rm -rf $(HOME)/.oh-my-zsh
-	ln -sT $(PWD)/oh-my-zsh $(HOME)/.oh-my-zsh
+	rm -rf $(DESTDIR)/.oh-my-zsh
+	ln -sT $(PWD)/oh-my-zsh $(DESTDIR)/.oh-my-zsh
