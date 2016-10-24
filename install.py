@@ -75,9 +75,8 @@ if __name__ == "__main__":
     destdir = args.destdir
     force = args.force
 
-    # target must exist, expand to absolute path
-    if not os.path.isfile(args.target):
-        fatal("Target '%s' does not exist"%args.target)
+    # expand target to absolute path
+    # may not exist in the case of cross-installing
     base_target = os.path.abspath(args.target)
 
     # individual links will point back to "selectf" locally rather than
