@@ -36,7 +36,6 @@ set softtabstop=4
 set autoindent
 set showmode
 set showcmd
-set guifont=Courier_New:h11:cANSI
 "set makeprg=nmake
 
 " from stevelosh
@@ -235,6 +234,9 @@ if has("gui_running")
     set cursorline
     if has("win32")
         au GUIEnter * simalt ~x " maximize on startup
+    else
+        " default GUI font on Linux
+        set guifont=Noto\ Mono\ for\ Powerline\ 10
     endif
 else
     colorscheme bluegreen

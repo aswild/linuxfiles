@@ -11,6 +11,7 @@ DOTFILE_NAMES   = \
 				  vimrc \
 				  zshrc \
 				  oh-my-zsh \
+				  fonts \
 
 
 NODOTFILE_NAMES = \
@@ -24,6 +25,7 @@ DEBIAN_PACKAGES = \
                   tmux \
                   htop \
                   ack-grep \
+
 
 ifeq ($(SRCDIR),)
 	SRCDIR = $(PWD)
