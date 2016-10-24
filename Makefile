@@ -80,7 +80,7 @@ bashrc-append:
 
 .PHONY: selectf
 selectf: submodules
-	python selectf/install.py $(DESTDIR)/bin
+	python selectf/install.py $(DESTDIR)/bin $(SRCDIR)/selectf/selectf.sh
 
 ###### SUBMODULES #######
 .PHONY: submodules subs subs-commit subsc subs-update subsu
