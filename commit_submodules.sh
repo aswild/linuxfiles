@@ -12,27 +12,27 @@ git status >/dev/null
 topdir=$(git rev-parse --show-toplevel 2>/dev/null)
 [[ -d $topdir ]] && cd $topdir
 
-subs_dirty=$(git submodule status | awk '/^+/ {print $2}')
-[[ -z $subs_dirty ]] && exit 0
-
 # unstage changes so we don't accidentally commit other stuff
 git reset HEAD .
 
-subs_list=""
+subs_dirty=$(git submodule status | awk '/^+/ {print $2}')
+[[ -z $subs_dirty ]] && exit 0
+
+subs_list=()
 for sub in $subs_dirty; do
     echo "Commiting submodule update: $sub"
     git add $sub
-    subs_list+="$sub, "
+    subs_list+=($sub)
 done
-subs_list=$(echo "$subs_list" | sed 's/, $//')
 
 # take care of singular/plural
-subs_num=$(echo "$subs_list" | wc -l)
-if [[ $subs_num == 1 ]]; then
+if [[ ${#subs_list[@]} == 1 ]]; then
     subs_word=submodule
 else
     subs_word=submodules
 fi
+subs_str=$(IFS=, ; echo "${subs_list[*]}")
+subs_str=${subs_str//,/, }
 
-commit_msg="Update $subs_word: $subs_list"
+commit_msg="Update $subs_word: $subs_str"
 git commit -m "$commit_msg"

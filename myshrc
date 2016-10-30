@@ -233,15 +233,22 @@ function tmx {
 }
 
 # gvim function for when running in cygwin
-if [[ -e /cygdrive/c/Program\ Files\ \(x86\)/Vim/vim74/gvim.exe ]]; then
+for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim80" \
+                "/cygdrive/c/Program Files (x86)/Vim/vim74" ; do
+    if [[ -e "$__vimdir/gvim.exe" ]]; then
+        __WINDOW_GVIM="$__vimdir/gvim.exe"
+        break
+    fi
+done
+unset __vimdir
+if [[ -e "$__WINDOWS_GVIM" ]]; then
     export WINDOWS_HOME='C:\Users\'${HOME##*/}
     function gvim()
     {
         if [[ -z $1 ]]; then
-            SHELL='' HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe'
+            SHELL='' HOME=$WINDOWS_HOME cygstart "$__WINDOWS_GVIM"
             return
         fi
-
         for i in "$@"; do
             SHELL='' HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe' --remote-tab-silent \"$i\"
         done
