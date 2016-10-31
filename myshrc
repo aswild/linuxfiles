@@ -218,6 +218,16 @@ else
     }
 fi
 
+function waitproc {
+    if [[ -z $1 ]]; then
+        echo >&2 "Need to specify a PID!"
+        return 1
+    fi
+    while [[ -d /proc/$1 ]]; do
+        sleep 2
+    done
+}
+
 # tmx function usually duplicated in ~/bin/tmx
 function tmx {
     echo "TMUX"
