@@ -49,25 +49,32 @@ def fatal(message):
     print(message, file=sys.stderr)
     sys.exit(1)
 
+printed_force_hint = False
 def make_link(target, linkdest, force=False):
+    global printed_force_hint
+
     if force and os.path.islink(linkdest):
         print("unlink: " + linkdest)
         os.unlink(linkdest)
-    print("link: %s -> %s"%(linkdest, target))
     try:
         os.symlink(target, linkdest)
-    except FileExistsError:
-        print("Error: '%s' already exists."%linkdest
-              + " Use [-f] to force overwriting")
+    except OSError as e:
+        print("Error: Can't make %s: %s"%(linkdest, e.strerror))
+        if not printed_force_hint:
+            print("Hint: Use [-f] to force overwriting")
+            printed_force_hint = True
+    else:
+        print("link: %s -> %s"%(linkdest, target))
 
 # generator which yields the links to make
-# all permutations of [g]vimf[r][i]
+# all permutations of [g]vimf[r][i][a]
 def link_names():
     G = ['', 'g']
     R = ['', 'r']
     I = ['', 'i']
-    for i in itertools.product(G, R, I):
-        yield "%svimf%s%s"%i
+    A = ['', 'a']
+    for i in itertools.product(G, R, I, A):
+        yield "%svimf%s%s%s"%i
 
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@ print_help()
   ${B}-h${N}            Show help
 
   Vim Options:
+  ${B}-a${N}            Open all matches in tabs rather than prompting for selection
   ${B}-g${N}            gvim instead of vim
   ${B}-t${N}            use gvim '--remote-tab-silent' [default]
   ${B}-T${N}            Start a new gvim
@@ -87,23 +88,24 @@ FIND_TYPE=f
 FIND_PATTERNTYPE=name
 
 # Multi-Call modes
-# Possible permutations of [g]vimf[r][i]
-case $(basename $0) in
-    vimf*)   COMMAND=vim            ;;
-    gvimf*)  COMMAND=gvim           ;;
-    *vimfr*) FIND_PATTERNTYPE=regex ;;
-    *vimf*i) IGNORE_CASE=true       ;;
-esac
+# Possible permutations of [g]vimf[r][i][a]
+name=$(basename $0)
+[[ $name == vimf*    ]] && COMMAND=vim
+[[ $name == gvimf*   ]] && COMMAND=gvim
+[[ $name == *vimfr*  ]] && FIND_PATTERNTYPE=regex
+[[ $name == *vimf*i* ]] && IGNORE_CASE=true
+[[ $name == *vimf*a  ]] && VIM_OPEN_ALL=true
 
 ###################################
 # Parse Args
 ###################################
 
-while getopts "e:cpgtTC:LfdnPrih" opt; do
+while getopts "e:cpagtTC:LfdnPrih" opt; do
     case $opt in
         e) COMMAND="$OPTARG"        ;;
         c) CD_FIRST=true            ;;
         p) PRINT_ONLY=true          ;;
+        a) VIM_OPEN_ALL=true        ;;
         g) COMMAND=gvim             ;;
         t) GVIM_REMOTE_TAB=true     ;;
         T) GVIM_REMOTE_TAB=false    ;;
@@ -159,6 +161,9 @@ OPTIONS=("$@")
 if [[ $COMMAND == gvim ]] && [[ $GVIM_REMOTE_TAB == true ]]; then
     OPTIONS+=(--remote-tab-silent)
 fi
+if [[ $COMMAND == *vim ]] && [[ $VIM_OPEN_ALL == true ]]; then
+    OPTIONS+=(-p)
+fi
 
 ###################################
 # build find command
@@ -203,13 +208,15 @@ if [[ -z "$RESULTS" ]] || [[ ${#RESULTS[@]} == 0 ]]; then
     echo "No matches found!" >&2
     exit 2
 elif [[ ${#RESULTS[@]} == 1 ]]; then
-    SELECTION="${RESULTS[0]}"
+    SELECTION=("${RESULTS[0]}")
+elif [[ $VIM_OPEN_ALL == true ]]; then
+    SELECTION=("${RESULTS[@]}")
 else
     # Prompt to select the the match
     PS3="Select Match> "
     select sel in "${RESULTS[@]}"; do
         if [[ -n "$sel" ]]; then
-            SELECTION="$sel"
+            SELECTION=("$sel")
             break
         elif [[ $REPLY == q ]]; then
             # selecting 'q' bails with exit success
@@ -226,15 +233,21 @@ fi
 ###################################
 
 if [[ $PRINT_ONLY == true ]]; then
-    echo "$SELECTION"
+    # there's probably only one thing selected, but in case there's more,
+    # print all with newline separators
+    ( IFS=$'\n' ; echo "${SELECTION[*]}" )
     exit 0
 fi
 
 if [[ $CD_FIRST == true ]]; then
-    cd "$(dirname "$SELECTION")"
-    SELECTION="$(basename $SELECTION)"
+    # cd first only works for a single result
+    cd "$(dirname "${SELECTION[0]}")"
+    SELECTION=("$(basename ${SELECTION[0]})")
+else
+    # remove leading "./" from each selection
+    SELECTION=("${SELECTION[@]#./}")
 fi
 
 # here we go!
-echo "$COMMAND ${OPTIONS[@]} $SELECTION" >&2
-exec $COMMAND "${OPTIONS[@]}" "$SELECTION"
+echo "$COMMAND ${OPTIONS[@]} ${SELECTION[*]}" >&2
+exec $COMMAND "${OPTIONS[@]}" "${SELECTION[@]}"
