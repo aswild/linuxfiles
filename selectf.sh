@@ -158,11 +158,11 @@ fi
 
 # optional arguments to COMMAND
 OPTIONS=("$@")
-if [[ $COMMAND == gvim ]] && [[ $GVIM_REMOTE_TAB == true ]]; then
-    OPTIONS+=(--remote-tab-silent)
-fi
 if [[ $COMMAND == *vim ]] && [[ $VIM_OPEN_ALL == true ]]; then
     OPTIONS+=(-p)
+fi
+if [[ $COMMAND == gvim ]] && [[ $GVIM_REMOTE_TAB == true ]]; then
+    OPTIONS+=(--remote-tab-silent)
 fi
 
 ###################################
