@@ -246,7 +246,7 @@ function tmx {
 for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim80" \
                 "/cygdrive/c/Program Files (x86)/Vim/vim74" ; do
     if [[ -e "$__vimdir/gvim.exe" ]]; then
-        __WINDOW_GVIM="$__vimdir/gvim.exe"
+        __WINDOWS_GVIM="$__vimdir/gvim.exe"
         break
     fi
 done
