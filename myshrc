@@ -260,7 +260,7 @@ if [[ -e "$__WINDOWS_GVIM" ]]; then
             return
         fi
         for i in "$@"; do
-            SHELL='' HOME=$WINDOWS_HOME cygstart '/cygdrive/c/Program Files (x86)/Vim/vim74/gvim.exe' --remote-tab-silent \"$i\"
+            SHELL='' HOME=$WINDOWS_HOME cygstart "$__WINDOWS_GVIM" --remote-tab-silent \"$i\"
         done
     }
 fi
