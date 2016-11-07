@@ -161,7 +161,7 @@ nnoremap <A-a> <C-a>
 nnoremap <A-x> <C-x>
 nnoremap <silent># m`I#<ESC>``l
 nnoremap <silent><leader># :s/\v(\s*)#(.*)$/\1\2/<cr>:noh<cr>
-vmap <silent># V0<C-V>I#<ESC>
+vmap <silent># V^<C-V>I#<ESC>
 vmap <silent><leader># :s/\v(\s*)#(.*)$/\1\2/<cr>:noh<cr>
 nnoremap <silent><leader>/ m`^i//<ESC>``l
 nnoremap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
@@ -176,6 +176,9 @@ imap <C-J> <ESC>ja
 imap <C-K> <ESC>ka
 imap <C-L> <ESC>la
 imap <C-S> <ESC>S
+
+" solarized light/dark toggle
+call togglebg#map("<F7>")
 
 " ctrlp.vim mappings/settings
 nnoremap <C-P> :CtrlP<cr>
