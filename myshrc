@@ -87,9 +87,8 @@ alias findmod='find /lib/modules/$(uname -r) -name "*.ko" | grep -i'
 
 # git aliases/functions
 alias gs='git status'
-alias gdn='git --no-pager diff'
+alias gdn='git diff --name-status'
 alias gdh='git diff HEAD'
-alias gdhn='git --no-pager diff HEAD'
 alias gds='git diff --staged'
 alias glg='git log --oneline --decorate --color --graph'
 alias glga='git log --oneline --decorate --color --graph --all'
