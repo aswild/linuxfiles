@@ -241,6 +241,31 @@ function tmx {
     fi
 }
 
+# download Google's git-repo tool
+function install-repo-tool {
+    if [[ -n $1 ]]; then
+        local _dlpath=$1
+    else
+        local _dlpath="$PWD/repo"
+    fi
+    [[ -d $_dlpath ]] && _dlpath=${_dlpath%/}/repo
+    if [[ $_dlpath = /usr/* ]]; then
+        local _sudo=sudo
+    else
+        local _sudo=
+    fi
+    (
+        set -e
+        $_sudo wget -O $_dlpath https://storage.googleapis.com/git-repo-downloads/repo
+        $_sudo chmod 755 $_dlpath
+    )
+    if [[ $? == 0 ]]; then
+        echo "Repo successfully installed to $_dlpath"
+    else
+        echo "Failed to install repo to $_dlpath"
+    fi
+}
+
 # gvim function for when running in cygwin
 for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim80" \
                 "/cygdrive/c/Program Files (x86)/Vim/vim74" ; do
