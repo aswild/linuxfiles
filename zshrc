@@ -92,3 +92,7 @@ setopt shwordsplit
 #setopt nullglob
 unsetopt nullglob
 unsetopt nomatch
+
+alias srcrc="source ~/.zshrc"
+alias mmv="noglob zmv -W"
+alias dh="dirs -v"

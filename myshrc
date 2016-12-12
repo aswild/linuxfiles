@@ -30,18 +30,6 @@ function pathadd
 
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
 
-# set WORKSPACES_ROOT for zsh
-if [[ -n $ZSH_NAME ]]; then
-    __TRY_WORKSPACES=( "/export/$USER" "/workspace" )
-    for __ws in "${__TRY_WORKSPACES[@]}"; do
-        if [[ -d $__ws ]]; then
-            WORKSPACES_ROOT=$__ws
-            break
-        fi
-    done
-    unset __TRY_WORKSPACES __ws
-fi
-
 # Core aliases
 alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'
@@ -107,21 +95,6 @@ function gitk {
 function gbase {
     local dir=$(git rev-parse --show-toplevel 2>/dev/null)
     [[ -n $dir ]] && cd $dir
-}
-
-function rbase {
-    local repodir=$PWD
-    while true; do
-        if [[ -d $repodir/.repo ]]; then
-            cd $repodir
-            return 0
-        elif [[ $repodir == / ]]; then
-            echo 'No .repo found' >&2
-            return 1
-        else
-            repodir=$(dirname $repodir)
-        fi
-    done
 }
 
 # Core functions
@@ -241,6 +214,8 @@ function tmx {
     fi
 }
 
+####### Bitbake/Repo/Yocto Aliases/Functions #######
+
 # download Google's git-repo tool
 function install-repo-tool {
     if [[ -n $1 ]]; then
@@ -266,6 +241,156 @@ function install-repo-tool {
     fi
 }
 
+function rbase {
+    local repodir=$PWD
+    while true; do
+        if [[ -d $repodir/.repo ]]; then
+            cd $repodir
+            return 0
+        elif [[ $repodir == / ]]; then
+            echo 'No .repo found' >&2
+            return 1
+        else
+            repodir=$(dirname $repodir)
+        fi
+    done
+}
+alias base='rbase'
+
+function clearbbpath
+{
+    # strip previous bitbake bin paths from PATH
+    local newpath=""
+    for _p in ${(s.:.)PATH}; do
+        echo $_p | grep -q openembedded-core
+        if [[ $? != 0 ]]; then
+            # if openembedded-core not in this path, add it
+            newpath=$newpath:$_p
+        fi
+    done
+
+    # strip leading/training : in newpath and export that as PATH
+    export PATH=$(echo $newpath | sed 's/^://;s/:$//')
+}
+
+function setbbpath
+{
+    if [[ ! -d $TOP ]]; then
+        echo "TOP not set or invalid! ($TOP)"
+        return 1
+    fi
+    [[ -d $TOP/openembedded-core ]] && local _OEPATH=$TOP/openembedded-core
+    [[ -d $TOP/yocto/openembedded-core ]] && local _OEPATH=$TOP/yocto/openembedded-core
+
+    if [[ -d $_OEPATH/bitbake/bin ]]; then
+        clearbbpath
+        export PATH=$_OEPATH/scripts:$_OEPATH/bitbake/bin:$PATH
+    else
+        echo "Bitbake not found! (TOP=$TOP)"
+        return 1
+    fi
+}
+
+unalias bb 2>/dev/null
+function bb
+{
+    if ( ! which bitbake &>/dev/null ); then
+        setbbpath || return 1
+        echo >&2 "Updated PATH"
+    fi
+    walltime bitbake "$@"
+}
+alias bbclean='bb -c cleansstate'
+
+function localconf-parallel
+{
+    if [[ $1 == -j* ]]; then
+        local __parallel=$(sed 's/-j\(.*\)/\1/' <<<$1)
+        shift
+    else
+        local __cpus=$(grep -c ^processor /proc/cpuinfo)
+        if (( $__cpus < 16 )); then
+            local __parallel=$__cpus
+        else
+            local __parallel=16
+        fi
+    fi
+
+    if [[ $# == 0 ]]; then
+        if [[ -f ./conf/local.conf ]]; then
+            local __files=(./conf/local.conf)
+        else
+            echo >&2 "Error: no file specified and can't find conf/local.conf"
+            return 1
+        fi
+    else
+        local __files=("$@")
+    fi
+
+    sed -i.bak -e 's/^\(BB_NUMBER_THREADS\).*/\1 = "'$__parallel'"/' \
+               -e 's/^\(PARALLEL_MAKE\).*/\1 = "-j'$__parallel'"/' \
+               "${__files[@]}"
+}
+
+# set WORKSPACES_ROOT
+__TRY_WORKSPACES=( "/export/$USER" "/workspace" )
+for __ws in "${__TRY_WORKSPACES[@]}"; do
+    if [[ -d $__ws ]]; then
+        WORKSPACES_ROOT=$__ws
+        break
+    fi
+done
+unset __TRY_WORKSPACES __ws
+[[ -d $WORKSPACES_ROOT ]] && alias ebase="cd $WORKSPACES_ROOT"
+
+function sview {
+    if [[ -n $1 ]]; then
+        local pattern="$1"
+    else
+        local pattern=".*"
+    fi
+
+    local choices=()
+    local __name=
+    for __name in $(ls $WORKSPACES_ROOT | grep -Ee "$pattern"); do
+        if [[ -d $WORKSPACES_ROOT/$__name/.repo ]] || [[ -d $WORKSPACES_ROOT/$__name/.git ]]; then
+            choices+=($__name)
+        fi
+    done
+
+    if [[ ${#choices[@]} == 0 ]]; then
+        echo "no matching view found: $pattern"
+        return 1
+    elif [[ ${#choices[@]} == 1 ]]; then
+        [[ -n $ZSH_NAME ]] && local i=1 || local i=0
+        export TOP=$WORKSPACES_ROOT/${choices[$i]}
+    else
+        select choice in ${choices[@]}; do
+            if [[ -n $choice ]]; then
+                break
+            elif [[ $REPLY == "q" ]]; then
+                return 0
+            else
+                return 1
+            fi
+        done
+        export TOP=$WORKSPACES_ROOT/$choice
+    fi
+    ( pwd | grep -qEe "${TOP}(/|$)" ) || cd $TOP
+}
+
+function settop {
+    if [[ $PWD == $WORKSPACES_ROOT/* ]]; then
+        export TOP=$(pwd | sed -r 's|^('$WORKSPACES_ROOT'/[^/]+).*$|\1|')
+        echo >&2 "Set TOP to $TOP"
+    fi
+}
+# set TOP if starting in a workspace
+settop
+
+
+####### System/utility things #######
+
 # gvim function for when running in cygwin
 for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim80" \
                 "/cygdrive/c/Program Files (x86)/Vim/vim74" ; do
@@ -276,7 +401,7 @@ for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim80" \
 done
 unset __vimdir
 if [[ -e "$__WINDOWS_GVIM" ]]; then
-    export WINDOWS_HOME='C:\Users\'${HOME##*/}
+    export WINDOWS_HOME="C:\\Users\\${USER}"
     function gvim()
     {
         if [[ -z $1 ]]; then
@@ -287,6 +412,12 @@ if [[ -e "$__WINDOWS_GVIM" ]]; then
             SHELL='' HOME=$WINDOWS_HOME cygstart "$__WINDOWS_GVIM" --remote-tab-silent \"$i\"
         done
     }
+    function gvimf()
+    {
+        # In cygwin the selectf script can't launch gvim directly
+        local _file="$(selectf -p "$@")" || return 1
+        gvim "$_file"
+    }
 fi
 
 # bash specific
@@ -295,10 +426,4 @@ if [[ -n $BASH ]]; then
     set -b
     alias srcrc='source ~/.bashrc'
     PS1='\[\e[1;32m\][\u@\[\e[1;34m\]\h \[\e[1;36m\]\W\[\e[1;32m\]]\$\[\e[0m\] '
-
-# zsh specific
-elif [[ -n $ZSH_NAME ]]; then
-    alias srcrc='source ~/.zshrc'
-    alias mmv='noglob zmv -W'
-    alias dh='dirs -v'
 fi
