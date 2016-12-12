@@ -380,7 +380,7 @@ function sview {
 }
 
 function settop {
-    if [[ $PWD == $WORKSPACES_ROOT/* ]]; then
+    if [[ -d $WORKSPACES_ROOT ]] && [[ $PWD == $WORKSPACES_ROOT/* ]]; then
         export TOP=$(pwd | sed -r 's|^('$WORKSPACES_ROOT'/[^/]+).*$|\1|')
         echo >&2 "Set TOP to $TOP"
     fi
