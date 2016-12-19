@@ -3,6 +3,7 @@
 
 DOTFILE_NAMES   = \
 				  ackrc \
+				  agrc \
 				  dircolors \
 				  gitconfig_common \
 				  tmux.conf \
