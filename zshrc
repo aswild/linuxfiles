@@ -92,6 +92,7 @@ setopt shwordsplit
 #setopt nullglob
 unsetopt nullglob
 unsetopt nomatch
+unsetopt pushd_ignore_dups
 
 alias srcrc="source ~/.zshrc"
 alias mmv="noglob zmv -W"
