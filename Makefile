@@ -54,6 +54,7 @@ help:
 	@echo "    subs-commit (subsc)"
 	@echo "  upgrade"
 	@echo "  upgrade-omzsh"
+	@echo "  windows-vim (copy vim files to cygwin Windows home)"
 
 ###### CORE #######
 .PHONY: links install
@@ -108,3 +109,9 @@ upgrade:
 upgrade-omzsh:
 	rm -rf $(DESTDIR)/.oh-my-zsh
 	ln -sT $(PWD)/oh-my-zsh $(DESTDIR)/.oh-my-zsh
+
+.PHONY: windows-vim
+windows-vim:
+	test -d /cygdrive/c/Users/$(USER) && ( \
+		rsync -rLt --delete vim /cygdrive/c/Users/$(USER)/vimfiles ; \
+		cp -vf vimrc /cygdrive/c/Users/$(USER)/_vimrc )

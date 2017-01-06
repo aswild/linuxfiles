@@ -187,6 +187,7 @@ let g:ctrlp_custom_ignore = {'dir': '\v[/]\.(pc|repo|git)$'}
 
 let g:airline_theme = 'wombat'
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tmuxline#enabled = 0
 
 " tmuxline - don't use weird unicode characters
 let g:tmuxline_powerline_separators = 1
@@ -238,6 +239,7 @@ if has("gui_running")
     set tabpagemax=100
     if has("win32")
         au GUIEnter * simalt ~x " maximize on startup
+        set guifont=Noto_Mono_for_Powerline:h10:cANSI
     else
         " default GUI font on Linux
         set guifont=Noto\ Mono\ for\ Powerline\ 10
