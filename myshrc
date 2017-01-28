@@ -58,14 +58,16 @@ fi
 unset __pmake
 
 # networking/sudo aliases
-alias ifconfig='sudo ifconfig'
-alias ifdown='sudo ifdown'
-alias ifup='sudo ifup'
-alias ip='sudo ip'
-alias ip6='sudo ip -6'
-alias 'apt-get'='sudo apt-get'
-alias apt='sudo apt'
-alias yum='sudo yum'
+if [[ $USER != root ]] && ( sudo -l &>/dev/null ); then
+    alias ifconfig='sudo ifconfig'
+    alias ifdown='sudo ifdown'
+    alias ifup='sudo ifup'
+    alias ip='sudo ip'
+    alias ip6='sudo ip -6'
+    alias 'apt-get'='sudo apt-get'
+    alias apt='sudo apt'
+    alias yum='sudo yum'
+fi
 
 # Conditional aliases
 # ubuntu-specific
