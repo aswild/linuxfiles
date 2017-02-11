@@ -88,8 +88,6 @@ set formatoptions=qrn1
 
 nnoremap j gj
 nnoremap k gk
-nnoremap 0 g0
-nnoremap $ g$
 
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
