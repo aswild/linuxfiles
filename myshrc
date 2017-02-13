@@ -287,12 +287,21 @@ function setbbpath
         echo "TOP not set or invalid! ($TOP)"
         return 1
     fi
-    [[ -d $TOP/openembedded-core ]] && local _OEPATH=$TOP/openembedded-core
-    [[ -d $TOP/yocto/openembedded-core ]] && local _OEPATH=$TOP/yocto/openembedded-core
+    local _oe_candidates=( "$TOP" \
+                           "$TOP/openembedded-core" \
+                           "$TOP/yocto/openembedded-core" \
+                        )
+    local _oec
+    for _oec in "${_oe_candidates[@]}"; do
+        if [[ -x "$_oec/bitbake/bin/bitbake" ]]; then
+            local _oedir="$_oec"
+            break
+        fi
+    done
 
-    if [[ -d $_OEPATH/bitbake/bin ]]; then
+    if [[ -d "$_oedir" ]]; then
         clearbbpath
-        export PATH=$_OEPATH/scripts:$_OEPATH/bitbake/bin:$PATH
+        export PATH=$_oedir/scripts:$_oedir/bitbake/bin:$PATH
     else
         echo "Bitbake not found! (TOP=$TOP)"
         return 1
