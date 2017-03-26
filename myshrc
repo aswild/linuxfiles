@@ -77,6 +77,7 @@ alias findmod='find /lib/modules/$(uname -r) -name "*.ko" | grep -i'
 
 # git aliases/functions
 alias gs='git status'
+alias gcm='git commit -m'
 alias gdn='git diff --name-status'
 alias gdh='git diff HEAD'
 alias gds='git diff --staged'
