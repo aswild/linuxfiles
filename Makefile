@@ -60,7 +60,7 @@ help:
 .PHONY: links install
 .PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
 links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
-install: links bashrc-append submodules selectf
+install: links bashrc-append gitconfig-common-add submodules selectf
 
 $(DESTDIR):
 	mkdir -p $(DESTDIR)
@@ -81,6 +81,10 @@ $(BINFILE_PATHS) : $(DESTDIR)/bin/% : $(PWD)/bin/%
 bashrc-append:
 	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(DESTDIR)/.bashrc'
 	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(DESTDIR)/.bashrc'
+
+.PHONY: gitconfig-common-add
+gitconfig-common-add:
+	git config --global include.path ~/.gitconfig_common || true
 
 .PHONY: selectf
 selectf: submodules
