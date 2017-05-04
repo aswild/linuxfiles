@@ -204,6 +204,8 @@ let g:tmuxline_preset = {
 " NERDTree filtering
 let g:NERDTreeIgnore = ['\.o$', '\.pyc$']
 
+let g:NERDTreeMapOpenSplit = "s"
+let g:NERDTreeMapOpenVSplit = "v"
 
 if has("win32")
     nmap <F11> :so ~/_vimrc<CR>
