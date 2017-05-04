@@ -443,5 +443,11 @@ if [[ -n $BASH ]]; then
     # immediate report background job changes
     set -b
     alias srcrc='source ~/.bashrc'
-    PS1='\[\e[1;32m\][\u@\[\e[1;34m\]\h \[\e[1;36m\]\W\[\e[1;32m\]]\$\[\e[0m\] '
+    if [[ $USER == root ]]; then
+        # red prompt for root
+        PS1='\[\e[1;31m\][\u@\[\e[1;34m\]\h \[\e[1;36m\]\W\[\e[1;31m\]]\$\[\e[0m\] '
+    else
+        # green prompt for normal users
+        PS1='\[\e[1;32m\][\u@\[\e[1;34m\]\h \[\e[1;36m\]\W\[\e[1;32m\]]\$\[\e[0m\] '
+    fi
 fi
