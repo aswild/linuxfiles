@@ -201,6 +201,9 @@ let g:tmuxline_preset = {
       \'y'    : '%l:%M %P',
       \'z'    : '#(whoami)@#H'}
 
+" NERDTree filtering
+let g:NERDTreeIgnore = ['\.o$', '\.pyc$']
+
 
 if has("win32")
     nmap <F11> :so ~/_vimrc<CR>
