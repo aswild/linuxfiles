@@ -13,10 +13,13 @@ eval "$(grep -Eh '^(un)?alias' ~/myshrc)"
 ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH="false"
 
 function git_prompt_info() {
+    git rev-parse --git-dir &>/dev/null || return 0
     if [[ "$(command git config --get oh-my-zsh.hide-status 2>/dev/null)" != "1" ]]; then
         ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
             ref=tags/$(command git describe --tags --exact-match HEAD 2>/dev/null) || \
-            ref=$(command git rev-parse --short HEAD 2> /dev/null) || return 0
+            ref=$(command git show-ref 2>/dev/null | sed -n '/^'$(command git rev-parse HEAD 2>/dev/null)' refs\/remotes\/\(m\/.*\)/,${s//\1/p;q0};$q1') || \
+            ref=$(command git rev-parse --short HEAD 2> /dev/null)
+        [[ -n "$ref" ]] || return 0
 
         # re-order the git prompt so that dirty/clean can be before the current branch
         if [[ $ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH == "true" ]]; then
