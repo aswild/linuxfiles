@@ -14,7 +14,7 @@ if ver_at_least 2.4 ; then
     tmux bind -T copy-mode-vi y                 send -X copy-selection-and-cancel
     tmux bind -T copy-mode-vi Space             send -X clear-selection
     tmux bind -T copy-mode-vi Escape            send -X cancel
-    tmux bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection
+    tmux bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection-and-cancel
 else
     # pre-2.4 copy mode bindings
     tmux bind -t vi-copy v                  begin-selection
