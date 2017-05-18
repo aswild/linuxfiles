@@ -223,6 +223,31 @@ function tmx {
     fi
 }
 
+# diff the hexdump of 2 files in vimdiff
+# Warning: could be slow if the files are big
+function bindiff {
+    if [[ "$1" == "-g" ]]; then
+        local _vimdiff_cmd=gvimdiff
+        shift
+    else
+        local _vimdiff_cmd=vimdiff
+    fi
+    if [[ $# != 2 ]]; then
+        echo "usage: bindirr <file 1> <file 2>"
+        return 1
+    fi
+    if [[ ! -f "$1" ]]; then
+        echo "Error: $1 doesn't exist or isn't a file"
+        return 1
+    fi
+    if [[ ! -f "$2" ]]; then
+        echo "Error: $2 doesn't exist or isn't a file"
+        return 1
+    fi
+    $_vimdiff_cmd <(hexdump -C "$1") <(hexdump -C "$2")
+}
+alias gbindiff="bindiff -g"
+
 ####### Bitbake/Repo/Yocto Aliases/Functions #######
 
 # download Google's git-repo tool
