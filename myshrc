@@ -387,6 +387,10 @@ unset __TRY_WORKSPACES __ws
 [[ -d $WORKSPACES_ROOT ]] && alias ebase="cd $WORKSPACES_ROOT"
 
 function sview {
+    if [[ ! -d "$WORKSPACES_ROOT" ]]; then
+        echo "WORKSPACES_ROOT '$WORKSPACES_ROOT' doesn't exist!"
+        return 1
+    fi
     if [[ -n $1 ]]; then
         local pattern="$1"
     else
