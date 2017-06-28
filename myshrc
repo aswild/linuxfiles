@@ -345,6 +345,11 @@ function bb
 }
 alias bbclean='bb -c cleansstate'
 
+function bbrebuild
+{
+    bbclean "$@" && bb "$@"
+}
+
 function localconf-parallel
 {
     if [[ $1 == -j* ]]; then
