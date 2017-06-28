@@ -175,6 +175,10 @@ imap <C-K> <ESC>ka
 imap <C-L> <ESC>la
 imap <C-S> <ESC>S
 
+" Try to get list formatting working for bullets as well
+" Evil amounts of backslash escaping = no fun
+set formatlistpat=^\\s*[\\d*-]\\+[\\]:.)}\\t\ ]\\s*
+
 " solarized light/dark toggle
 call togglebg#map("<F7>")
 
