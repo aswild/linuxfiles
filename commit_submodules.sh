@@ -25,14 +25,22 @@ for sub in $subs_dirty; do
     subs_list+=($sub)
 done
 
-# take care of singular/plural
-if [[ ${#subs_list[@]} == 1 ]]; then
-    subs_word=submodule
-else
-    subs_word=submodules
-fi
-subs_str=$(IFS=, ; echo "${subs_list[*]}")
-subs_str=${subs_str//,/, }
-
-commit_msg="Update $subs_word: $subs_str"
-git commit -m "$commit_msg"
+# Generate commit message and pipe to 'git commit'
+(
+    if (( ${#subs_list[@]} <= 3 )); then
+        # take care of singular/plural
+        if (( ${#subs_list[@]} == 1 )); then
+            echo -n 'Update submodule: '
+        else
+            echo -n 'Update submodules: '
+        fi
+        subs_str=$(IFS=, ; echo "${subs_list[*]}")
+        echo "${subs_str//,/, }"
+    else
+        commit_msg="$(printf "Update $subs_word\n\n")"
+        echo -ne 'Update submodules\n\n'
+        for sub in "${subs_list[@]}"; do
+            echo " * $sub"
+        done
+    fi
+) | git commit -F-
