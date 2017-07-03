@@ -18,7 +18,7 @@ au BufNewFile,BufRead *.inc		set filetype=bitbake
 
 " .conf
 au BufNewFile,BufRead *.conf
-    \ if (match(expand("%:p:h"), "conf") > 0) |
+    \ if (match(expand("%:p:h"), "/\\(meta\\|build\\)-[^/]\\+/conf") > 0) |
     \     set filetype=bitbake |
     \ endif
 
