@@ -117,5 +117,5 @@ upgrade-omzsh:
 .PHONY: windows-vim
 windows-vim:
 	test -d /cygdrive/c/Users/$(USER) && ( \
-		rsync -rLt --delete vim /cygdrive/c/Users/$(USER)/vimfiles ; \
+		rsync -rLtv --delete vim/ /cygdrive/c/Users/$(USER)/vimfiles ; \
 		cp -vf vimrc /cygdrive/c/Users/$(USER)/_vimrc )
