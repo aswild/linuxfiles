@@ -185,7 +185,7 @@ function walltime {
     return $ret
 }
 
-[[ -n $ZSH_NAME ]] && alias make="walltime make"
+[[ -n $ZSH_NAME ]] && alias make="walltime command make"
 
 if which smartless &>/dev/null; then
     function page {
@@ -339,7 +339,7 @@ function bb
         setbbpath || return 1
         echo >&2 "Updated PATH"
     fi
-    walltime bitbake "$@"
+    walltime command bitbake "$@"
 }
 alias bbclean='bb -c cleansstate'
 
