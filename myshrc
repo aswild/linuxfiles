@@ -181,7 +181,7 @@ function walltime {
     local R="$(tput sgr0)"
 
     printf >&2 '\n'
-    echo -E >&2 "  $C'$@' returned $ret in ${hour_s}${min}m ${sec}s$R"
+    echo -E >&2 "  $C'${*#command }' returned $ret in ${hour_s}${min}m ${sec}s$R"
     return $ret
 }
 
