@@ -149,6 +149,24 @@ function cfind {
     find -L . -name '*.[ch]' | grep --color=auto "$@" 2>/dev/null
 }
 
+function findpath {
+    local _saveifs=$IFS
+    IFS=:
+    local _patharr=($PATH)
+    IFS=$_saveifs
+    if [[ "$1" == -* ]]; then
+        find "${_patharr[@]}" "$@"
+    elif [[ "$1" == *\** ]]; then
+        # If pattern includes a *, use it as-is with -name
+        find "${_patharr[@]}" -name "$@"
+    else
+        # if pattern doesn't have a *, wrap it with them
+        local _name="*$1*"
+        shift
+        find "${_patharr[@]}" -name "$_name" "$@"
+    fi
+}
+
 function cdf {
     local __dir=$(selectf -dp "$@")
     [[ -n "$__dir" ]] && [[ -d "$__dir" ]] && cd "$__dir"
