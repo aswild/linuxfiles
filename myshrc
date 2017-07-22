@@ -62,16 +62,25 @@ fi
 [[ -x /usr/lib/update-notifier/update-motd-reboot-required ]] && alias rboot='/usr/lib/update-notifier/update-motd-reboot-required || echo "No Update Needed"'
 alias findmod='find /lib/modules/$(uname -r) -name "*.ko" | grep -i'
 
-# git aliases/functions
-alias gs='git status'
+# git aliases/functions (alphabetical)
+alias gb='git branch'
+alias gba='git branch -a'
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gcam='git commit -a -m'
 alias gcm='git commit -m'
-alias gdn='git diff --name-status'
+alias gd='git diff'
 alias gdh='git diff HEAD'
+alias gdn='git diff --name-status'
 alias gds='git diff --staged'
+alias gl='git pull'
 alias glg='git log --oneline --decorate --color --graph'
 alias glga='git log --oneline --decorate --color --graph --all'
 alias gll='git log --decorate --color --graph --name-status'
 alias glla='git log --decorate --color --graph --name-status --all'
+alias gp='git push'
+alias grv='git remote -v'
+alias gs='git status'
 alias gsh='git show --decorate'
 alias gshn='git show --name-status --decorate'
 
