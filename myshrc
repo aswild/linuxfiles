@@ -76,8 +76,25 @@ alias gds='git diff --staged'
 alias gl='git pull'
 alias glg='git log --oneline --decorate --color --graph'
 alias glga='git log --oneline --decorate --color --graph --all'
+function glgu {
+    local _upstream
+    if _upstream="$(git rev-parse --symbolic-full-name @{u})"; then
+        if (( $# > 0 )); then
+            local _opts=( --decorate --color --graph "$@" )
+        else
+            local _opts=( --decorate --color --graph --oneline )
+        fi
+        git log "${_opts[@]}" "${_upstream}.."
+    else
+        return $?
+    fi
+
+}
 alias gll='git log --decorate --color --graph --name-status'
 alias glla='git log --decorate --color --graph --name-status --all'
+alias gllp='git log --decorate --color --graph --patch --all'
+alias gllu='glgu --name-status'
+alias gllup='glgu --name-status --patch'
 alias gp='git push'
 alias grv='git remote -v'
 alias gs='git status'
