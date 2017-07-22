@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # returns whether $version >= $1
-# unlike bash (( arith )) comparisons, expr supports floats
+# unlike bash (( arith )) comparisons, awk supports floats
 ver_at_least() {
     return $(echo "$version $1" | awk '{if ($1 >= $2) print 0; else print 1}')
 }

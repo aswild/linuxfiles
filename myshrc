@@ -7,8 +7,7 @@ export EDITOR="vim"
 stty -ixon
 set -o ignoreeof
 
-function pathadd
-{
+function pathadd {
     ( [[ -n $1 ]] && [[ -n $2 ]] ) || return 1
     local OLDPATH
     eval OLDPATH="\$$1"
@@ -33,12 +32,8 @@ function pathadd
 # Core aliases
 alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'
-alias g='egrep'
-alias rmtmp='rm `ls -a | grep "~$"`'
 alias df='df -h'
 alias du='du -h'
-alias tmus='tmux'
-alias psa='ps aux'
 alias psag='ps aux | grep '
 alias lspath='echo $PATH | tr ":" "\n"'
 alias zshrc='vim ~/.zshrc'
@@ -49,16 +44,8 @@ alias cgrep="find -L . -name '*.[ch]' -print0 2>/dev/null | xargs -0 grep -n --c
 alias hgrep="find -L . -name '*.h' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
 alias rgrep="find -L . -type f -print0 2>/dev/null | xargs -0 grep --color=auto"
 
-__pmake=$(grep -c processor /proc/cpuinfo 2>/dev/null)
-if [[  $__pmake > 0 ]]; then
-    alias jake="make -j$__pmake"
-else
-    alias jake="make"
-fi
-unset __pmake
-
 # networking/sudo aliases
-if [[ $USER != root ]] && ( sudo -l &>/dev/null ); then
+if [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
     alias ifconfig='sudo ifconfig'
     alias ifdown='sudo ifdown'
     alias ifup='sudo ifup'
@@ -103,10 +90,6 @@ function gbase {
 # Core functions
 function mdcd {
     mkdir -p $1 && cd $1
-}
-
-function cdls {
-    cd $1 && ls
 }
 
 unalias ll 2>/dev/null
@@ -205,16 +188,6 @@ function walltime {
 
 [[ -n $ZSH_NAME ]] && alias make="walltime command make"
 
-if which smartless &>/dev/null; then
-    function page {
-        $@ | $(which smartless)
-    }
-else
-    function page {
-        $@ | less
-    }
-fi
-
 function waitproc {
     if [[ -z $1 ]]; then
         echo >&2 "Need to specify a PID!"
@@ -305,10 +278,10 @@ function rbase {
         fi
     done
 }
-alias base='rbase'
+# leading space so zwild.zsh doesn't re-apply this (i.e. let myshrc_local clobber this alias)
+ alias base='rbase'
 
-function clearbbpath
-{
+function clearbbpath {
     # strip previous bitbake bin paths from PATH
     local newpath=""
     for _p in ${(s.:.)PATH}; do
@@ -323,8 +296,7 @@ function clearbbpath
     export PATH=$(echo $newpath | sed 's/^://;s/:$//')
 }
 
-function setbbpath
-{
+function setbbpath {
     if [[ ! -d $TOP ]]; then
         echo "TOP not set or invalid! ($TOP)"
         return 1
@@ -350,9 +322,7 @@ function setbbpath
     fi
 }
 
-unalias bb 2>/dev/null
-function bb
-{
+function bb {
     if ( ! which bitbake &>/dev/null ); then
         setbbpath || return 1
         echo >&2 "Updated PATH"
@@ -361,13 +331,11 @@ function bb
 }
 alias bbclean='bb -c cleansstate'
 
-function bbrebuild
-{
+function bbrebuild {
     bbclean "$@" && bb "$@"
 }
 
-function localconf-parallel
-{
+function localconf-parallel {
     if [[ $1 == -j* ]]; then
         local __parallel=$(sed 's/-j\(.*\)/\1/' <<<$1)
         shift
@@ -405,7 +373,9 @@ for __ws in "${__TRY_WORKSPACES[@]}"; do
     fi
 done
 unset __TRY_WORKSPACES __ws
-[[ -d $WORKSPACES_ROOT ]] && alias ebase="cd $WORKSPACES_ROOT"
+function ebase {
+    [[ -d "$WORKSPACES_ROOT" ]] && cd "$WORKSPACES_ROOT"
+}
 
 function sview {
     if [[ ! -d "$WORKSPACES_ROOT" ]]; then
@@ -470,8 +440,7 @@ done
 unset __vimdir
 if [[ -e "$__WINDOWS_GVIM" ]]; then
     export WINDOWS_HOME="C:\\Users\\${USER}"
-    function gvim()
-    {
+    function gvim() {
         if [[ -z $1 ]]; then
             SHELL='' HOME=$WINDOWS_HOME cygstart "$__WINDOWS_GVIM"
             return
@@ -480,8 +449,7 @@ if [[ -e "$__WINDOWS_GVIM" ]]; then
             SHELL='' HOME=$WINDOWS_HOME cygstart "$__WINDOWS_GVIM" --remote-tab-silent \"$i\"
         done
     }
-    function gvimf()
-    {
+    function gvimf() {
         # In cygwin the selectf script can't launch gvim directly
         local _file="$(selectf -p "$@")" || return 1
         gvim "$_file"
