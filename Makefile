@@ -3,6 +3,7 @@
 
 DOTFILE_NAMES   = \
 				  ackrc \
+				  agignore \
 				  agrc \
 				  dircolors \
 				  gitconfig_common \
