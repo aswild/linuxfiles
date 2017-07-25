@@ -47,8 +47,8 @@ print_help()
   Vim Options:
   ${B}-a${N}            Open all matches in tabs rather than prompting for selection
   ${B}-g${N}            gvim instead of vim
-  ${B}-t${N}            use gvim '--remote-tab-silent' [default]
-  ${B}-T${N}            Start a new gvim
+  ${B}-t${N}            use gvim '--remote-tab-silent'
+  ${B}-T${N}            Start a new gvim [default]
 
   Find Options:
   ${B}-C <dir>${N}      find in <dir> instead of pwd
@@ -82,7 +82,7 @@ FIND_IGNORE_FILES=( \
 
 
 # option defaults
-GVIM_REMOTE_TAB=true
+GVIM_REMOTE_TAB=false
 FIND_DIR=.
 FIND_TYPE=f
 FIND_PATTERNTYPE=name
