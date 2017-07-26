@@ -92,7 +92,7 @@ function glgu {
 }
 alias gll='git log --decorate --color --graph --name-status'
 alias glla='git log --decorate --color --graph --name-status --all'
-alias gllp='git log --decorate --color --graph --patch --all'
+alias gllp='git log --decorate --color --graph --patch'
 alias gllu='glgu --name-status'
 alias gllup='glgu --patch'
 alias gp='git push'
