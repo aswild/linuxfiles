@@ -98,6 +98,7 @@ alias gllup='glgu --patch'
 alias gp='git push'
 alias grv='git remote -v'
 alias gs='git status'
+alias gss='git status --short'
 alias gsh='git show --decorate'
 alias gshn='git show --name-status --decorate'
 
