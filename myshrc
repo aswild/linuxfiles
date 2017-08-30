@@ -119,6 +119,19 @@ function mdcd {
     mkdir -p $1 && cd $1
 }
 
+function cdh {
+    [[ -n "$1" ]] || return 1
+    local _dir
+    while read _dir; do
+        if grep -q "$1" <<<"$_dir"; then
+            cd "$_dir"
+            return 0
+        fi
+    done < <(dirs -v | awk '{print $2}')
+    echo "No history dir matching '$1' found"
+    return 1
+}
+
 unalias ll 2>/dev/null
 function ll {
     ls -lAh --color=always --group-directories-first "$@" | sed 's/[ ]\+/ /g' |  cut -d' ' -f9-
