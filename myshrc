@@ -432,7 +432,7 @@ function sview {
     choices=()
     local __name
     for __name in $(ls $WORKSPACES_ROOT | grep -Ee "$pattern"); do
-        if [[ -d $WORKSPACES_ROOT/$__name/.repo ]] || [[ -d $WORKSPACES_ROOT/$__name/.git ]]; then
+        if [[ -d $WORKSPACES_ROOT/$__name/.repo ]] || [[ -e $WORKSPACES_ROOT/$__name/.git ]]; then
             choices+=($__name)
         fi
     done
