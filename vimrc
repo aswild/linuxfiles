@@ -211,6 +211,15 @@ let g:NERDTreeIgnore = ['\.o$', '\.pyc$']
 let g:NERDTreeMapOpenSplit = "s"
 let g:NERDTreeMapOpenVSplit = "v"
 
+cnoreabbrev Ag Ack!
+nnoremap <leader>a :Ack!<space>
+let g:ackprg = 'ag --vimgrep'
+
+" use s/S for horizontal splits (default h/H)
+let g:ack_mappings = {
+      \ "s": "<C-W><CR><C-W>s",
+      \ "S": "<C-W><CR><C-W>s<C-W>b" }
+
 if has("win32")
     nmap <F11> :so ~/_vimrc<CR>
 else
