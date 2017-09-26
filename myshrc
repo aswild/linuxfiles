@@ -200,7 +200,7 @@ alias cdfri="cdf -ri"
 
 function walltime {
     local starttime=$(date -u +%s)
-    eval "$@"
+    "$@"
     local ret=$?
     local endtime=$(date -u +%s)
     local diff=$(($endtime - $starttime))
