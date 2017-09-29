@@ -74,6 +74,7 @@ alias gdh='git diff HEAD'
 alias gdn='git diff --name-status'
 alias gds='git diff --staged'
 alias gl='git pull'
+alias glr='git pull --rebase'
 alias glg='git log --oneline --decorate --color --graph'
 alias glga='git log --oneline --decorate --color --graph --all'
 function glgu {
