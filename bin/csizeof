@@ -1,0 +1,53 @@
+#!/bin/bash
+# Script which compiles a C program to print sizeof(type) for each type specified on the command line
+#
+# Respects CC and CFLAGS in the environment
+# INCLUDES can be set to a space-separated list of additional headers to include
+
+[[ -n "$CC" ]] || CC=gcc
+
+PROG_HEADER='
+#include <stdio.h>
+#include <stdint.h>
+#include <sys/types.h>
+
+#define PRINTSIZE(type) printf("%-16s %zu\n", #type, sizeof(type))
+
+int main() {'
+
+PROG_FOOTER='return 0;}'
+
+die() {
+    echo "DIE: $*"
+    exit 1
+}
+
+cleanup() {
+    rm -f $srcfile
+    rm -f $objfile
+}
+trap cleanup EXIT SIGINT SIGTERM
+
+(( $# < 1 )) && die "Need to specify types"
+
+srcfile=$(mktemp --suffix .c)
+objfile=$(mktemp)
+[[ -f $srcfile ]] && [[ -f $objfile ]] || die "couldn't create temp files"
+
+if [[ -n "$INCLUDES" ]]; then
+    for header in $INCLUDES; do
+        echo "#include <$header>" >>$srcfile
+    done
+fi
+
+echo "$PROG_HEADER" >>$srcfile
+for type in "$@"; do
+    echo "PRINTSIZE($type);" >>$srcfile
+done
+echo "$PROG_FOOTER" >>$srcfile
+
+$CC $CFLAGS -o $objfile $srcfile
+[[ $? == 0 ]] || die "compilation failed"
+
+$objfile
+cleanup
