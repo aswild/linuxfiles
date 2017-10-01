@@ -36,13 +36,6 @@ alias df='df -h'
 alias du='du -h'
 alias psag='ps aux | grep '
 alias lspath='echo $PATH | tr ":" "\n"'
-alias zshrc='vim ~/.zshrc'
-alias bashrc='vim ~/.bashrc'
-alias myshrc='vim ~/myshrc'
-
-alias cgrep="find -L . -name '*.[ch]' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
-alias hgrep="find -L . -name '*.h' -print0 2>/dev/null | xargs -0 grep -n --color=auto"
-alias rgrep="find -L . -type f -print0 2>/dev/null | xargs -0 grep --color=auto"
 
 # networking/sudo aliases
 if [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
