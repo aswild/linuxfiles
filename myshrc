@@ -36,6 +36,7 @@ alias df='df -h'
 alias du='du -h'
 alias psag='ps aux | grep '
 alias lspath='echo $PATH | tr ":" "\n"'
+alias af='ag --nocolor -lG'
 
 # networking/sudo aliases
 if [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
