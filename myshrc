@@ -39,7 +39,7 @@ alias lspath='echo $PATH | tr ":" "\n"'
 alias af='ag --nocolor -lG'
 
 # networking/sudo aliases
-if [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
+if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
     alias ifconfig='sudo ifconfig'
     alias ifdown='sudo ifdown'
     alias ifup='sudo ifup'
