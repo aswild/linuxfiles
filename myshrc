@@ -4,8 +4,12 @@
 # Shell Options
 export FIGNORE=".o:.pyc:~"
 export EDITOR="vim"
-stty -ixon
 set -o ignoreeof
+
+if [[ -t 1 ]]; then
+    # if we're in a terminal, disable C-S and C-Q flow control handling
+    stty -ixon
+fi
 
 function pathadd {
     ( [[ -n $1 ]] && [[ -n $2 ]] ) || return 1
