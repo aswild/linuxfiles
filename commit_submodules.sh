@@ -15,32 +15,29 @@ topdir=$(git rev-parse --show-toplevel 2>/dev/null)
 # unstage changes so we don't accidentally commit other stuff
 git reset HEAD .
 
-subs_dirty=$(git submodule status | awk '/^+/ {print $2}')
+# cache the output of git submodule status because it forks a bunch and is sloooowwww on cygwin
+subs_status="$(git submodule status)"
+subs_status_cached="$(git submodule status --cached)"
+
+subs_dirty="$(awk '/^+/ {print $2}' <<<"$subs_status")"
 [[ -z $subs_dirty ]] && exit 0
 
-subs_list=()
-for sub in $subs_dirty; do
-    echo "Commiting submodule update: $sub"
-    git add $sub
-    subs_list+=($sub)
-done
+# Generate commit message
+stage_changes()
+{
+    echo 'Update submodules'
+    for sub in $subs_dirty; do
+        oldrev="$(awk '/ '"${sub//\//\\/}"' /{sub(/^+/, "", $1); print $1}' <<<"$subs_status_cached")"
+        oldrev="${oldrev#+}"
+        newrev="$(awk '/ '"${sub//\//\\/}"' /{sub(/^+/, "", $1); print $1}' <<<"$subs_status")"
+        newrev="${newrev#+}"
 
-# Generate commit message and pipe to 'git commit'
-(
-    if (( ${#subs_list[@]} <= 3 )); then
-        # take care of singular/plural
-        if (( ${#subs_list[@]} == 1 )); then
-            echo -n 'Update submodule: '
-        else
-            echo -n 'Update submodules: '
-        fi
-        subs_str=$(IFS=, ; echo "${subs_list[*]}")
-        echo "${subs_str//,/, }"
-    else
-        commit_msg="$(printf "Update $subs_word\n\n")"
-        echo -ne 'Update submodules\n\n'
-        for sub in "${subs_list[@]}"; do
-            echo " * $sub"
-        done
-    fi
-) | git commit -F-
+        echo -e "\n * $sub"
+        git -C "$sub" log --pretty='   * %h %s' $oldrev..$newrev
+        git add "$sub"
+    done
+}
+
+commitmsg="$(stage_changes)"
+git commit -F - <<<"$commitmsg"
+git log -1
