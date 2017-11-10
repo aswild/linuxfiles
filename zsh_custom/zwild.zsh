@@ -13,7 +13,7 @@ eval "$(grep -Eh '^(un)?alias' ~/myshrc)"
 ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH="false"
 
 function git_prompt_info() {
-    git rev-parse --git-dir &>/dev/null || return 0
+    ( [[ "$PWD" != "$HOME" ]] && git rev-parse --git-dir &>/dev/null ) || return 0
     if [[ "$(command git config --get oh-my-zsh.hide-status 2>/dev/null)" != "1" ]]; then
         ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
             ref=tags/$(command git describe --tags --exact-match HEAD 2>/dev/null) || \
