@@ -44,7 +44,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=~/linuxfiles/zsh_custom
+__linuxfiles_dir=$(dirname $(readlink -e ~/.zshrc))
+ZSH_CUSTOM=$__linuxfiles_dir/zsh_custom
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -98,3 +99,14 @@ setopt bsd_echo
 alias srcrc="source ~/.zshrc"
 alias mmv="noglob zmv -W"
 alias dh="dirs -v"
+
+# syntax highlighting
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[arg0]='none'
+ZSH_HIGHLIGHT_STYLES[assign]='fg=cyan,bold'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[path]='none'
+
+source $__linuxfiles_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+unset __linuxfiles_dir
