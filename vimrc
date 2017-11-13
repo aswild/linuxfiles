@@ -191,6 +191,15 @@ let g:ctrlp_max_files = 500000
 let g:airline_theme = 'wombat'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tmuxline#enabled = 0
+let g:airline#extensions#whitespace#checks = ['indent', 'trailing']
+let g:airline#extensions#whitespace#mixed_indent_algo = 2
+let g:airline#extensions#whitespace#trailing_format = '[%s]trailing'
+let g:airline#extensions#whitespace#mixed_indent_format = '[%s]mix-indt'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#format = 2
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+"let g:airline_section_z = airline#section#create(['%3p%%'.g:airline_symbols.space, 'linenr',  ':%3v'])
+let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%3v'])
 
 " tmuxline - don't use weird unicode characters
 let g:tmuxline_powerline_separators = 1
