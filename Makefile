@@ -6,14 +6,15 @@ DOTFILE_NAMES   = \
 				  agignore \
 				  agrc \
 				  dircolors \
+				  fonts \
 				  gitconfig_common \
+				  oh-my-zsh \
+				  quiltrc \
 				  tmux.conf \
 				  tmux_version_conf.sh \
 				  vim \
 				  vimrc \
 				  zshrc \
-				  oh-my-zsh \
-				  fonts \
 
 
 NODOTFILE_NAMES = \

@@ -37,6 +37,9 @@ if has("cscope")
     " if you want the reverse search order.
     set csto=0
 
+    " ALLEN ADD disable verbose to avoid duplicate database errors
+    set nocscopeverbose
+
     " add any cscope database in current directory
     if filereadable("cscope.out")
         cs add cscope.out  

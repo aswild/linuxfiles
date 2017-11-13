@@ -1,0 +1,2 @@
+QUILT_DIFF_OPTS="--show-c-function"
+QUILT_NO_DIFF_TIMESTAMPS="y"

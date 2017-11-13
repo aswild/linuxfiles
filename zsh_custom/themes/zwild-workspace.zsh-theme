@@ -3,14 +3,13 @@ local ret_status="%(?:%{$fg_bold[green]%}» :%{$fg_bold[red]%}» %s)"
 
 function zsh_prompt_print_view
 {
-    #local view=$(pwd | awk -F/ '/^\/workspace// {print $3}')
-    local view="${PWD#/workspace/}"
+    local view="${PWD#${WORKSPACES_ROOT}/}"
     view=${view%%/*}
     [[ -n $view ]] && echo "[%{$fg[yellow]%}${view}%{$fg_bold[blue]%}]"
 }
 function zsh_prompt_print_pwd
 {
-    pwd | sed -e 's#^/workspace/[^/]*/##' \
+    pwd | sed -e "s#^${WORKSPACES_ROOT}/[^/]*/##" \
               -e "s#^${HOME}#~#"
 }
 
