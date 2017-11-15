@@ -6,6 +6,9 @@ export FIGNORE=".o:.pyc:~"
 export EDITOR="vim"
 set -o ignoreeof
 
+# color and smart-case search for less
+LESS=-Ri
+
 if [[ -t 1 ]]; then
     # if we're in a terminal, disable C-S and C-Q flow control handling
     stty -ixon
