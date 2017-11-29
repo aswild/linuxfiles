@@ -69,15 +69,15 @@ $(DESTDIR):
 
 $(DOTFILE_PATHS) : $(DESTDIR)/.% : $(PWD)/%
 	@mkdir -p $(@D)
-	ln -sT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ || true
+	@ln -svT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
 
 $(NODOTFILE_PATHS) : $(DESTDIR)/% : $(PWD)/%
 	@mkdir -p $(@D)
-	ln -sT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ || true
+	@ln -svT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
 
 $(BINFILE_PATHS) : $(DESTDIR)/bin/% : $(PWD)/bin/%
 	@mkdir -p $(DESTDIR)/bin
-	ln -sT $(LINK_FORCE) $(SRCDIR)/bin/$(notdir $<) $@ || true
+	@ln -svT $(LINK_FORCE) $(SRCDIR)/bin/$(notdir $<) $@ 2>/dev/null || true
 
 .PHONY: bashrc-append
 bashrc-append:
