@@ -2,12 +2,6 @@
 export ZSH=~/.oh-my-zsh
 autoload -U zmv
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="zwild-workspace"
-
 # Uncomment the following line to use case-sensitive completion.
 #CASE_SENSITIVE="true"
 
@@ -81,8 +75,20 @@ plugins=()
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# clear the theme, allow it to be set by myshrc*
+# and use the default if it doesn't
+unset ZSH_THEME
+
 [[ -e ~/myshrc ]] && . ~/myshrc
 [[ -e ~/myshrc_local ]] && . ~/myshrc_local
+
+if [[ -z $ZSH_THEME ]]; then
+    if [[ -d $WORKSPACES_ROOT ]]; then
+        ZSH_THEME=zwild-workspace
+    else
+        ZSH_THEME=zwild
+    fi
+fi
 
 source $ZSH/oh-my-zsh.sh
 
