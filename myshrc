@@ -63,6 +63,7 @@ fi
 alias findmod='find /lib/modules/$(uname -r) -name "*.ko" | grep -i'
 
 # git aliases/functions (alphabetical)
+alias gam='git commit -v --amend'
 alias gb='git branch'
 alias gba='git branch -a'
 alias gc='git commit -v'
@@ -371,6 +372,10 @@ function bb {
     walltime command bitbake "$@"
 }
 alias bbclean='bb -c cleansstate'
+for __bbalias in fetch unpack patch configure compile install; do
+    alias bb$__bbalias="bb -c $__bbalias"
+done
+unset __bbalias
 
 function bbrebuild {
     bbclean "$@" && bb "$@"
