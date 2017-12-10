@@ -1,5 +1,6 @@
 #!/bin/zsh
 local ret_status="%(?:%{$fg_bold[green]%}» :%{$fg_bold[red]%}» %s)"
+[[ $USER == root ]] && local rg_color='red' || local rg_color='green'
 
 function zsh_prompt_print_view
 {
@@ -14,7 +15,7 @@ function zsh_prompt_print_pwd
 }
 
 PROMPT='
-${ret_status}%{$fg_bold[green]%}%n@%{$fg_bold[blue]%}%m$(zsh_prompt_print_view)$(git_prompt_info) %{$fg_bold[cyan]%}$(zsh_prompt_print_pwd)%{$fg_bold[green]%}
+${ret_status}%{$fg_bold['$rg_color']%}%n@%{$fg_bold[blue]%}%m$(zsh_prompt_print_view)$(git_prompt_info) %{$fg_bold[cyan]%}$(zsh_prompt_print_pwd)%{$fg_bold['$rg_color']%}
 %#%{$reset_color%} '
 
 ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH="true"
