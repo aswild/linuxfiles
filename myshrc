@@ -373,7 +373,8 @@ function bb {
 }
 alias bbclean='bb -c cleansstate'
 for __bbalias in fetch unpack patch configure compile install; do
-    alias bb$__bbalias="bb -c $__bbalias"
+    alias "bb$__bbalias"="bb -c $__bbalias"
+    eval "$(echo "function bbre$__bbalias { bbclean \"\$@\" && bb -c $__bbalias \"\$@\"; }")"
 done
 unset __bbalias
 
