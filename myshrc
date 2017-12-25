@@ -34,6 +34,25 @@ function pathadd {
 [[ -d $HOME/scripts ]] && export PATH="$(pathadd PATH $HOME/scripts)"
 [[ -d $HOME/lib ]] && export LD_LIBRARY_PATH="$(pathadd LD_LIBRARY_PATH $HOME/lib)"
 
+# function to filter out paths
+#   $1 : variable to check (e.g. PATH)
+#   $2 : egrep regex applied to each PATH entry
+function path_filter {
+    # filter out paths matching this regex
+    local OLDPATH
+    eval OLDPATH="\$$1"
+    local NEWPATH=''
+    while read -r -d: entry; do
+        if ! egrep -q -e "$2" <<<"$entry"; then
+            NEWPATH="$NEWPATH:$entry"
+        fi
+    done <<<"$PATH"
+
+    echo "${NEWPATH#:}"
+}
+[[ -d /mnt/c/Windows ]] && export PATH="$(path_filter PATH '/mnt/c/(Python|cygwin)')"
+
+# colors for ls
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
 
 # Core aliases
