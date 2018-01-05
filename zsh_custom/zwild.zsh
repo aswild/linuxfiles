@@ -48,18 +48,35 @@ function zwild_get_view() {
 }
 ZSH_THEME_TERM_TAB_TITLE_IDLE='$(zwild_get_view)%1d'
 
-# don't set terminal title when running a command in tmux
-if [[ -n $TMUX ]]; then
-    # disable omz defaults in termsupport.zsh
-    unset preexec_functions 2>/dev/null
+# Runs before executing the command
+# copied/extended from oh-my-zsh/lib/termsupport.zsh
+function omz_termsupport_preexec {
+    emulate -L zsh
+    setopt extended_glob
 
-    function zwild_tmux_preexec() {
+    if [[ "$DISABLE_AUTO_TITLE" == true ]]; then
+        return
+    fi
+
+    # only set tab title in tmux for certain cases
+    if [[ -n $TMUX ]]; then
         case $1 in
-            htop|minicom)
-                title $1 $1
+            htop|minicom) title $1 ;;
+        esac
+        return
+    else
+        # set a sensible title when launching tmux (to avoid a bunch of windows all labeled "tmx")
+        case "$1" in
+            tmx|tmux)
+                title "tmux: $USER@$HOST"
+                return
                 ;;
         esac
-    }
+    fi
 
-    preexec_functions=(zwild_tmux_preexec)
-fi
+    # cmd name only, or if this is sudo or ssh, the next cmd
+    local CMD=${1[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]:gs/%/%%}
+    local LINE="${2:gs/%/%%}"
+
+    title '$CMD' '%100>...>$LINE%<<'
+}
