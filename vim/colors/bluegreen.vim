@@ -40,7 +40,7 @@ hi WarningMsg	guifg=#F60000 gui=underline
 
 " syntax highlighting groups
 "hi Comment guifg=#DABEA2 ctermfg=blue
-hi Comment guifg=#DABEA2
+hi Comment guifg=#DABEA2 cterm=none ctermfg=blue
 hi Constant guifg=#72A5E4 gui=bold
 hi Identifier	guifg=#ADCBF1 cterm=none ctermfg=cyan
 hi Statement guifg=#7E75B5
