@@ -188,7 +188,9 @@ nnoremap <C-P> :CtrlP<cr>
 let g:ctrlp_custom_ignore = {'dir': '\v[/]\.(pc|repo|git)$'}
 let g:ctrlp_max_files = 500000
 
-let g:airline_theme = 'wombat'
+let g:airline_solarized_dark_bg = 'dark'
+let g:airline_solarized_dark_termcolors = 256
+let g:airline_theme = 'solarized_dark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#whitespace#checks = ['indent', 'trailing']
