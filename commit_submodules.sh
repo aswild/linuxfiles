@@ -32,8 +32,8 @@ stage_changes()
         newrev="$(awk '/ '"${sub//\//\\/}"' /{sub(/^+/, "", $1); print $1}' <<<"$subs_status")"
         newrev="${newrev#+}"
 
-        echo -e "\n * $sub"
-        git -C "$sub" log --pretty='   * %h %s' $oldrev..$newrev
+        echo -e "\n  $sub"
+        git -C "$sub" log --pretty='  * %h %s' $oldrev..$newrev
         git add "$sub"
     done
 }
