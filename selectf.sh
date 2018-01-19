@@ -3,7 +3,7 @@
 #
 # selectf.sh
 #
-# Copyright (c) 2016 Allen Wild
+# Copyright (c) 2016-2018 Allen Wild
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -32,7 +32,7 @@ print_help()
     local N=$(tput sgr0)
     {
         cat <<EOF
-  Usage: $(basename $0) [options] [-e command] <pattern> [<command options>...]
+  Usage: $(basename $0) [options] [-e command] <pattern> [<find options>...]
 
   ${B}find${N} will be invoked with ${B}<pattern>${N}, and a menu will be presented
   to choose from the results. When a match is selected, selectf will exec the
@@ -100,7 +100,7 @@ name=$(basename $0)
 # Parse Args
 ###################################
 
-while getopts "e:cpagtTC:LfdnPrih" opt; do
+while getopts "e:cpagtTLfdnPrih" opt; do
     case $opt in
         e) COMMAND="$OPTARG"        ;;
         c) CD_FIRST=true            ;;
@@ -109,7 +109,6 @@ while getopts "e:cpagtTC:LfdnPrih" opt; do
         g) COMMAND=gvim             ;;
         t) GVIM_REMOTE_TAB=true     ;;
         T) GVIM_REMOTE_TAB=false    ;;
-        C) FIND_DIR="$OPTARG"       ;;
         L) FIND_SYMLINKS=true       ;;
         f) FIND_TYPE=f              ;;
         d) FIND_TYPE=d              ;;
@@ -138,6 +137,8 @@ shift $(($OPTIND - 1))
 # pattern to find
 PATTERN="$1"
 shift
+USER_FINDARGS=("$@")
+
 if [[ -z $PATTERN ]]; then
     echo "A pattern is required!" >&2
     print_help
@@ -146,18 +147,13 @@ fi
 
 # command to exec
 if [[ -z $COMMAND ]] && [[ $PRINT_ONLY != true ]]; then
-    if [[ -n $1 ]]; then
-        COMMAND="$1"
-        shift
-    else
-        echo "A command is required!" >&2
-        print_help
-        exit 1
-    fi
+    echo "A command is required!" >&2
+    print_help
+    exit 1
 fi
 
 # optional arguments to COMMAND
-OPTIONS=("$@")
+OPTIONS=()
 if [[ $COMMAND == *vim ]] && [[ $VIM_OPEN_ALL == true ]]; then
     OPTIONS+=(-p)
 fi
@@ -173,7 +169,7 @@ FINDARGS=()
 if [[ $FIND_SYMLINKS == true ]]; then
     FINDARGS+=(-L)
 fi
-FINDARGS+=("$FIND_DIR")
+FINDARGS+=("${USER_FINDARGS[@]}")
 
 # files/paths to ignore
 for ignore in "${FIND_IGNORE_DIRS[@]}"; do
@@ -184,7 +180,7 @@ for ignore in "${FIND_IGNORE_FILES[@]}"; do
 done
 
 # wrap the pattern in wildcards if there's none in the specificed pattern
-if [[ $FIND_PATTERNTYPE == name ]] && ( ! grep -q '\*' <<<"$PATTERN" ); then
+if [[ $FIND_PATTERNTYPE == name ]] && ( ! grep -q '[*?]' <<<"$PATTERN" ); then
     PATTERN="*${PATTERN}*"
 fi
 if [[ $IGNORE_CASE == true ]]; then
