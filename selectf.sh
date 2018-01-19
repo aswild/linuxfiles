@@ -42,6 +42,7 @@ print_help()
   ${B}-e <command>${N}  command to exec
   ${B}-c${N}            cd to directory before exec
   ${B}-p${N}            just print the selected file/directory, don't exec
+  ${B}-D${N}            debug mode (print the find command run)
   ${B}-h${N}            Show help
 
   Vim Options:
@@ -100,11 +101,12 @@ name=$(basename $0)
 # Parse Args
 ###################################
 
-while getopts "e:cpagtTLfdnPrih" opt; do
+while getopts "e:cpDagtTLfdnPrih" opt; do
     case $opt in
         e) COMMAND="$OPTARG"        ;;
         c) CD_FIRST=true            ;;
         p) PRINT_ONLY=true          ;;
+        D) DEBUG=true               ;;
         a) VIM_OPEN_ALL=true        ;;
         g) COMMAND=gvim             ;;
         t) GVIM_REMOTE_TAB=true     ;;
@@ -188,6 +190,9 @@ if [[ $IGNORE_CASE == true ]]; then
 fi
 
 FINDARGS+=( -type $FIND_TYPE -$FIND_PATTERNTYPE "$PATTERN" -print0 )
+if [[ $DEBUG == true ]]; then
+    echo "find ${FINDARGS[*]}" >&2
+fi
 
 ###################################
 # Get the results from find
