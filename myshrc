@@ -137,7 +137,7 @@ function gbase {
 
 # Core functions
 function mdcd {
-    mkdir -p $1 && cd $1
+    mkdir -p "$1" && cd "$1"
 }
 
 function cdh {
@@ -159,13 +159,13 @@ function ll {
 }
 
 function up {
-    local dir=$(dirname $PWD)
-    while [[ $dir != / ]]; do
-        if echo ${dir##*/} | grep -q -e "$1"; then
-            cd $dir
+    local dir="$(dirname "$PWD")"
+    while [[ "$dir" != / ]]; do
+        if echo "${dir##*/}" | grep -q -e "$1"; then
+            cd "$dir"
             return 0
         fi
-        dir=$(dirname $dir)
+        dir="$(dirname "$dir")"
     done
     echo "dir matching pattern not found: $1"
     return 1
