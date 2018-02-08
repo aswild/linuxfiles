@@ -343,18 +343,22 @@ function rbase {
  alias base='rbase'
 
 function clearbbpath {
-    # strip previous bitbake bin paths from PATH
+    # remove previous bitbake bin paths from PATH
     local newpath=""
-    for _p in ${(s.:.)PATH}; do
+    local _p
+
+    while read -r -d: _p; do
         echo $_p | grep -q openembedded-core
         if [[ $? != 0 ]]; then
             # if openembedded-core not in this path, add it
             newpath=$newpath:$_p
         fi
-    done
+    done <<<"$PATH"
 
     # strip leading/training : in newpath and export that as PATH
-    export PATH=$(echo $newpath | sed 's/^://;s/:$//')
+    newpath="${newpath#:}"
+    newpath="${newpath%:}"
+    export PATH="$newpath"
 }
 
 function setbbpath {
