@@ -37,6 +37,7 @@ set autoindent
 set showmode
 set showcmd
 "set makeprg=nmake
+set modeline
 
 " from stevelosh
 set encoding=utf-8
