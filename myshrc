@@ -149,7 +149,7 @@ function cdh {
             cd "$_dir"
             return 0
         fi
-    done < <(dirs -v | awk '{print $2}')
+    done < <(dirs -v | cut -f2)
     echo "No history dir matching '$1' found"
     return 1
 }
