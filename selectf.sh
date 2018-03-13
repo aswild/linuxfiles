@@ -79,6 +79,7 @@ FIND_IGNORE_FILES=( \
     '*.swp'         \
     '*.pyc'         \
     '*.orig'        \
+    '*.[ado]'       \
 )
 
 
