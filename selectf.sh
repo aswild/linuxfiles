@@ -69,17 +69,17 @@ EOF
 # Settings and Defaults
 ###################################
 
-FIND_IGNORE_DIRS=(  \
-    '*/.git'        \
-    '*/.pc'         \
-    '*/.repo'       \
-    '*/.cache'      \
+FIND_IGNORE_DIRS=(
+    '*/.git'
+    '*/.pc'
+    '*/.repo'
+    '*/.cache'
 )
-FIND_IGNORE_FILES=( \
-    '*.swp'         \
-    '*.pyc'         \
-    '*.orig'        \
-    '*.[ado]'       \
+FIND_IGNORE_FILES=(
+    '*.swp'
+    '*.pyc'
+    '*.orig'
+    '*.[ado]'
 )
 
 
