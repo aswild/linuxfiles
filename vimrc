@@ -245,7 +245,7 @@ endif
 
 command! Space set et | retab | set noet
 command! Tab set tabstop=3 | retab! | set tabstop=4 | set noet
-command! -nargs=1 Wrap set cc=<args> | set tw=<args> | set formatoptions+=t
+command! -nargs=1 Wrap set cc=<args> | set tw=<args> | set formatoptions+=tc
 command! NT NERDTree
 command! TL TlistToggle
 command! Trailsp %s/\s\+$//e | noh
