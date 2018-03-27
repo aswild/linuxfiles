@@ -6,11 +6,13 @@
 
 [[ -n "$CC" ]] || CC=gcc
 
-PROG_HEADER='
+PROG_HEADER1='
 #include <stdio.h>
 #include <stdint.h>
 #include <sys/types.h>
+'
 
+PROG_HEADER2='
 #define PRINTSIZE(type) printf("%-16s %zu\n", #type, sizeof(type))
 
 int main() {'
@@ -34,17 +36,20 @@ srcfile=$(mktemp --suffix .c)
 objfile=$(mktemp)
 [[ -f $srcfile ]] && [[ -f $objfile ]] || die "couldn't create temp files"
 
-if [[ -n "$INCLUDES" ]]; then
-    for header in $INCLUDES; do
-        echo "#include <$header>" >>$srcfile
-    done
-fi
+{
+    echo "$PROG_HEADER1"
+    if [[ -n "$INCLUDES" ]]; then
+        for header in $INCLUDES; do
+            echo "#include <$header>"
+        done
+    fi
 
-echo "$PROG_HEADER" >>$srcfile
-for type in "$@"; do
-    echo "PRINTSIZE($type);" >>$srcfile
-done
-echo "$PROG_FOOTER" >>$srcfile
+    echo "$PROG_HEADER2"
+    for type in "$@"; do
+        echo "PRINTSIZE($type);"
+    done
+    echo "$PROG_FOOTER"
+} >$srcfile
 
 $CC $CFLAGS -o $objfile $srcfile
 [[ $? == 0 ]] || die "compilation failed"
