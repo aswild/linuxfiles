@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+#
+# ppjs: pretty-print json files
+#
+
+import sys, json
+from pprint import pprint
+
+def ppjs(file):
+    """ pretty-print json file. Return True on success, False on failure.
+    file is either a string filename or a file-like object """
+    try:
+        if hasattr(file, 'read'):
+            filename = '<stdin>'
+            text = file.read()
+        else:
+            filename = file
+            with open(file, 'r') as fp:
+                text = fp.read()
+        js = json.loads(text)
+        pprint(js)
+        return True
+
+    except json.JSONDecodeError as e:
+        sys.stderr.write("Error processing '%s': Invalid json: %s\n"%(filename, e))
+    except OSError as e:
+        sys.stderr.write("Error processing '%s': %s\n"%(filename, e.strerror))
+    except Exception as e:
+        sys.stderr.write("Error processing '%s': %s\n"%(filename, e))
+    return False
+
+def main():
+    if len(sys.argv) > 1:
+        files = sys.argv[1:]
+    else:
+        files = [sys.stdin]
+
+    rets = [ppjs(f) for f in files]
+    return 0 if all(rets) else 1
+
+if __name__ == '__main__':
+    sys.exit(main())
