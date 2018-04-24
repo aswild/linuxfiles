@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # ppjs: pretty-print json files
 #
@@ -21,7 +21,7 @@ def ppjs(file):
         pprint(js)
         return True
 
-    except json.JSONDecodeError as e:
+    except ValueError as e:
         sys.stderr.write("Error processing '%s': Invalid json: %s\n"%(filename, e))
     except OSError as e:
         sys.stderr.write("Error processing '%s': %s\n"%(filename, e.strerror))
