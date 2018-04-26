@@ -41,6 +41,7 @@ print_help()
   ${B}Options:${N}
   ${B}-e <command>${N}  command to exec
   ${B}-c${N}            cd to directory before exec
+  ${B}-q${N}            Quiet mode: redirect cmd's stderr to /dev/null
   ${B}-p${N}            just print the selected file/directory, don't exec
   ${B}-D${N}            debug mode (print the find command run)
   ${B}-h${N}            Show help
@@ -102,7 +103,7 @@ name=$(basename $0)
 # Parse Args
 ###################################
 
-while getopts "e:cpDagtTLfdnPrih" opt; do
+while getopts "e:cpDagtTLfdnPqrih" opt; do
     case $opt in
         e) COMMAND="$OPTARG"        ;;
         c) CD_FIRST=true            ;;
@@ -117,6 +118,7 @@ while getopts "e:cpDagtTLfdnPrih" opt; do
         d) FIND_TYPE=d              ;;
         n) FIND_PATTERNTYPE=name    ;;
         P) FIND_PATTERNTYPE=path    ;;
+        q) SILENCE_STDERR=true      ;;
         r) FIND_PATTERNTYPE=regex   ;;
         i) IGNORE_CASE=true         ;;
         h)
@@ -160,8 +162,11 @@ OPTIONS=()
 if [[ $COMMAND == *vim ]] && [[ $VIM_OPEN_ALL == true ]]; then
     OPTIONS+=(-p)
 fi
-if [[ $COMMAND == gvim ]] && [[ $GVIM_REMOTE_TAB == true ]]; then
-    OPTIONS+=(--remote-tab-silent)
+if [[ $COMMAND == gvim ]]; then
+    SILENCE_STDERR=true
+    if [[ $GVIM_REMOTE_TAB == true ]]; then
+        OPTIONS+=(--remote-tab-silent)
+    fi
 fi
 
 ###################################
@@ -252,4 +257,8 @@ fi
 
 # here we go!
 echo "$COMMAND ${OPTIONS[@]} ${SELECTION[*]}" >&2
-exec $COMMAND "${OPTIONS[@]}" "${SELECTION[@]}"
+if [[ $SILENCE_STDERR == true ]]; then
+    exec $COMMAND "${OPTIONS[@]}" "${SELECTION[@]}" 2>/dev/null
+else
+    exec $COMMAND "${OPTIONS[@]}" "${SELECTION[@]}"
+fi
