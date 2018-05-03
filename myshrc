@@ -51,6 +51,7 @@ function path_filter {
     echo "${NEWPATH#:}"
 }
 [[ -d /mnt/c/Windows ]] && export PATH="$(path_filter PATH '/mnt/c/(Python|cygwin)')"
+[[ -d /cygdrive ]] && export PATH="$(path_filter PATH '/cygdrive/c/(Python|Dwimperl)')"
 
 # colors for ls
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
