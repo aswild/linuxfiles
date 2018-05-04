@@ -268,7 +268,7 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 if has("gui_running")
-    set background=light
+    set background=dark
     colorscheme solarized
     set cursorline
     set tabpagemax=100
