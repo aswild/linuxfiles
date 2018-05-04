@@ -548,6 +548,10 @@ exe "hi! Constant"       .s:fmt_none   .s:fg_cyan   .s:bg_none
 "        Number          a number constant: 234, 0xff
 "        Boolean         a boolean constant: TRUE, false
 "        Float           a floating point constant: 2.3e10
+" WILD: use violet for strings on dark background instead of cyan
+if &background == "dark"
+    exe "hi! String"     .s:fmt_none   .s:fg_violet .s:bg_none
+endif
 
 exe "hi! Identifier"     .s:fmt_none   .s:fg_blue   .s:bg_none
 "       *Identifier      any variable name
