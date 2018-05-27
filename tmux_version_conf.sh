@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # returns whether $version >= $1
 # unlike bash (( arith )) comparisons, awk supports floats
@@ -29,9 +29,36 @@ fi
 if ver_at_least 2.1 ; then
     # tmux >= 2.1 settings
     tmux set-option -g mouse on
-    tmux bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" \
-        "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
-    tmux bind -n WheelDownPane select-pane -t= \\; send-keys -M
+
+    # Hooray! tmux mouse scrolling in less and similar applications!
+    # Adapted from https://github.com/NHDaly/tmux-better-mouse-mode
+    # The quoting is a bit weird, here's the logic:
+    # if (application using mouse)
+    #   forward mouse event
+    # else
+    #   if (alternate screen mode)
+    #     send 3x up keystrokes
+    #   else
+    #     select current pane
+    #     if (pane in [copy] mode)
+    #       forward mouse event
+    #     else
+    #       enter copy mode
+    #       send mouse up event
+    tmux bind -n WheelUpPane if-shell -Ft= "#{mouse_any_flag}" "send-keys -M" \
+        "if -Ft= '#{alternate_on}' \"send-keys -t= -N3 up\" \
+        \"select-pane -t=; if -Ft= '#{pane_in_mode}' 'send-keys -M' 'copy-mode -e; send-keys -M'\""
+
+    # if (application using mouse)
+    #   forward mouse events
+    # else
+    #   if (alternate screen mode)
+    #     send 3x down keystrokes
+    #   else
+    #     select current pane
+    #     forward mouse event
+    tmux bind -n WheelDownPane if-shell -Ft= "#{mouse_any_flag}" "send-keys -M" \
+        "if -Ft= '#{alternate_on}' \"send-keys -t= -N3 down\" \"select-pane -t=; send-keys -M\""
 else
     tmux set -g mode-mouse on
     tmux set -g mouse-resize-pane on
