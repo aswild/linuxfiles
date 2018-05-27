@@ -7,7 +7,13 @@ export EDITOR="vim"
 set -o ignoreeof
 
 # color and smart-case search for less
-LESS=-Ri
+export LESS=Ri
+
+# by default systemctl/journalctl sets LESS to FRSXMK,
+# remove X (disable termcap alternate screen) to enable mouse scrolling
+# remove S to allow line wrapping
+# add i for ignore case search
+export SYSTEMD_LESS=FRMKi
 
 if [[ -t 1 ]]; then
     # if we're in a terminal, disable C-S and C-Q flow control handling
