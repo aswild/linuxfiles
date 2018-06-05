@@ -54,6 +54,8 @@ set laststatus=2
 "set relativenumber
 "set undofile
 
+set wildignore=*.o,*.d,*.pyc
+
 let $REL=0
 function! ToggleNumber()
     if $REL
