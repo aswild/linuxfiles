@@ -52,7 +52,7 @@ function path_filter {
         if ! egrep -q -e "$2" <<<"$entry"; then
             NEWPATH="$NEWPATH:$entry"
         fi
-    done <<<"$PATH"
+    done <<<"${OLDPATH}:"
 
     echo "${NEWPATH#:}"
 }
