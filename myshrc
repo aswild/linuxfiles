@@ -496,7 +496,8 @@ settop
 ####### System/utility things #######
 
 # gvim function for when running in cygwin
-for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim80" \
+for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim81" \
+                "/cygdrive/c/Program Files (x86)/Vim/vim80" \
                 "/cygdrive/c/Program Files (x86)/Vim/vim74" ; do
     if [[ -e "$__vimdir/gvim.exe" ]]; then
         __WINDOWS_GVIM="$__vimdir/gvim.exe"
