@@ -53,7 +53,6 @@ print_help()
   ${B}-T${N}            Start a new gvim [default]
 
   Find Options:
-  ${B}-C <dir>${N}      find in <dir> instead of pwd
   ${B}-L${N}            Follow symlinks
   ${B}-f${N}            find files [default]
   ${B}-d${N}            find directory names
@@ -86,7 +85,6 @@ FIND_IGNORE_FILES=(
 
 # option defaults
 GVIM_REMOTE_TAB=false
-FIND_DIR=.
 FIND_TYPE=f
 FIND_PATTERNTYPE=name
 
