@@ -400,6 +400,23 @@ function bbrebuild {
     bbclean "$@" && bb "$@"
 }
 
+function bbenv {
+    local vim="vim"
+    if [[ $1 == -g ]]; then
+        vim="gvim"
+        shift
+    fi
+    if ( ! which bitbake &>/dev/null ); then
+        setbbpath || return 1
+        echo >&2 "Updated PATH"
+    fi
+    bitbake -e "$1" | $vim -R -c 'set ft=bitbake' -
+}
+
+function gbbenv {
+    bbenv -g "$1"
+}
+
 function localconf-parallel {
     if [[ $1 == -j* ]]; then
         local __parallel=$(sed 's/-j\(.*\)/\1/' <<<$1)
