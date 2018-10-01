@@ -178,6 +178,10 @@ imap <C-K> <ESC>ka
 imap <C-L> <ESC>la
 imap <C-S> <ESC>S
 
+" Make ctrl-backspace send a ctrl-w
+" needed for terminals on a Linux host
+imap <C-H> <C-W>
+
 " Try to get list formatting working for bullets as well
 " Evil amounts of backslash escaping = no fun
 set formatlistpat=^\\s*[\\d*-]\\+[\\]:.)}\\t\ ]\\s*
