@@ -19,7 +19,7 @@ git reset HEAD .
 subs_status="$(git submodule status)"
 subs_status_cached="$(git submodule status --cached)"
 
-subs_dirty="$(awk '/^+/ {print $2}' <<<"$subs_status")"
+subs_dirty="$(gawk '/^+/ {print $2}' <<<"$subs_status")"
 [[ -z $subs_dirty ]] && exit 0
 
 # Generate commit message
@@ -27,9 +27,9 @@ stage_changes()
 {
     echo 'Update submodules'
     for sub in $subs_dirty; do
-        oldrev="$(awk '/ '"${sub//\//\\/}"' /{sub(/^+/, "", $1); print $1}' <<<"$subs_status_cached")"
+        oldrev="$(gawk '/ '"${sub//\//\\/}"' /{sub(/^+/, "", $1); print $1}' <<<"$subs_status_cached")"
         oldrev="${oldrev#+}"
-        newrev="$(awk '/ '"${sub//\//\\/}"' /{sub(/^+/, "", $1); print $1}' <<<"$subs_status")"
+        newrev="$(gawk '/ '"${sub//\//\\/}"' /{sub(/^+/, "", $1); print $1}' <<<"$subs_status")"
         newrev="${newrev#+}"
 
         echo -e "\n  $sub"
