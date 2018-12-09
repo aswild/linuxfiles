@@ -279,7 +279,7 @@ if has("gui_running")
     set cursorline
     set tabpagemax=100
     if has("win32")
-        au GUIEnter * simalt ~x " maximize on startup
+        "au GUIEnter * simalt ~x " maximize on startup
         set guifont=Noto_Mono_for_Powerline:h10:cANSI
     else
         " default GUI font on Linux
@@ -335,9 +335,9 @@ if !exists(":DiffOrig")
 endif
 
 "maximize gvim, use for linux
-if has("gui_running")
-    "set lines=40 columns=120
-endif
+"if has("gui_running")
+"    "set lines=40 columns=120
+"endif
 
 " allow for local overrides
 if filereadable(expand("~/.vimrc_local"))
