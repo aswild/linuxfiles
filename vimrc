@@ -234,6 +234,9 @@ let g:python_highlight_all = 1
 let g:python_highlight_space_errors = 0
 let g:python_highlight_indent_errors = 0
 
+" Go syntax highlighting options
+let g:go_highlight_trailing_whitespace_error = 0
+
 cnoreabbrev Ag Ack!
 nnoremap <leader>a :Ack!<space>
 let g:ackprg = 'ag --vimgrep'
