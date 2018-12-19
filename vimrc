@@ -127,12 +127,12 @@ nmap <F6> :wa \| :make<CR>
 nmap <F12> :wa <CR>
 imap <F12> <ESC>:wa<CR>
 imap <C-BS> <C-W>
-imap [127;5u <C-W>
-imap  <C-W>
+imap <C-_> <C-W>
 nmap <HOME> ^
 imap <HOME> <ESC>^i
-imap <C-V> <ESC>"+gpa
-nmap <C-V> "+gP
+inoremap <C-V> <C-R>+
+inoremap <S-Insert> <C-R>+
+nmap <C-V> "+gp
 vmap <C-C> "+y`>
 vmap <C-X> "+x
 vmap y y`>
@@ -142,7 +142,6 @@ inoremap {<CR>  {<CR>}<Esc>O
 "nmap s c$
 nmap <C-A> ggVG
 "Alt-/ searches for whatever's on the clipboard
-nmap ¯ /<C-R>+
 nmap J <C-E>
 nmap K <C-Y>
 vmap / y/<C-R>0
