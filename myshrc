@@ -113,6 +113,12 @@ alias gd='git diff'
 alias gdh='git diff HEAD'
 alias gdn='git diff --name-status'
 alias gds='git diff --staged'
+function gdiffall {
+    (
+        gbase
+        gvim -c "set diffopt=filler,vertical | tabdo :Gdiff $1" -p $(git diff --name-only $1)
+    )
+}
 alias gfp='git format-patch -N'
 alias gl='git pull'
 alias glr='git pull --rebase'
