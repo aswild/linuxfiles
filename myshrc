@@ -203,22 +203,12 @@ unset -f ff 2>/dev/null
 function ff {
     local pattern=$1
     shift 1
-    find -L "$@" -name "*$pattern*" 2>/dev/null
+    find "$@" -name "*$pattern*" 2>/dev/null
 }
 function ffi {
     local pattern=$1
     shift 1
-    find -L "$@" -iname "*$pattern*" 2>/dev/null
-}
-
-function ffr {
-    local pattern=$1
-    shift 1
-    find -L . -regex ".*$pattern.*" "$@"
-}
-
-function cfind {
-    find -L . -name '*.[ch]' | grep --color=auto "$@" 2>/dev/null
+    find "$@" -iname "*$pattern*" 2>/dev/null
 }
 
 function findpath {
