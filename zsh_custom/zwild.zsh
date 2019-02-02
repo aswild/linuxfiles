@@ -68,7 +68,7 @@ function omz_termsupport_preexec {
         # set a sensible title when launching tmux (to avoid a bunch of windows all labeled "tmx")
         case "$1" in
             tmx|tmux)
-                title "tmux: $USER@$HOST"
+                title "tmux $HOST"
                 return
                 ;;
         esac
