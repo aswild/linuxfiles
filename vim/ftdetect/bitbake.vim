@@ -11,10 +11,13 @@ if &compatible || version < 600
 endif
 
 " .bb, .bbappend and .bbclass
-au BufNewFile,BufRead *.{bb,bbappend,bbclass}	set filetype=bitbake
+au BufNewFile,BufRead *.{bb,bbappend,bbclass} set filetype=bitbake
 
 " .inc
-au BufNewFile,BufRead *.inc		set filetype=bitbake
+au BufNewFile,BufRead *.inc
+    \ if (match(expand("%:p:h"), "/meta-[^/]\\+") > 0) |
+    \       set filetype=bitbake |
+    \ endif
 
 " .conf
 au BufNewFile,BufRead *.conf
