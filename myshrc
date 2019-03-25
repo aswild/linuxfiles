@@ -63,6 +63,7 @@ function path_filter {
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
 
 # Core aliases
+alias 0='cd "$PWD"'
 alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'
 alias df='df -h'
