@@ -167,8 +167,6 @@ nnoremap <silent><leader>/ m`^i//<ESC>``l
 nnoremap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
 vmap <silent><leader>/ V^<C-V>I//<ESC>
 vmap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
-nnoremap <Space> 10j
-nnoremap <S-Space> 10k
 imap <M-C-F12> _
 nmap <M-C> f#llC
 imap <C-H> <Esc>i
