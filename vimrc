@@ -189,7 +189,7 @@ call togglebg#map("<F7>")
 " ctrlp.vim mappings/settings
 nnoremap <C-P> :CtrlP<cr>
 "let g:ctrlp_root_markers = ['.repo']
-let g:ctrlp_custom_ignore = {'dir': '\v[/]\.(pc|repo|git)$'}
+let g:ctrlp_custom_ignore = {'dir': '\v[/](\.(pc|repo|git)|venv)$'}
 let g:ctrlp_max_files = 500000
 
 let g:airline_solarized_dark_bg = 'dark'
