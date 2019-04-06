@@ -3,7 +3,7 @@
 #
 # selectf.sh
 #
-# Copyright (c) 2016-2018 Allen Wild
+# Copyright (c) 2016-2019 Allen Wild
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -74,6 +74,7 @@ FIND_IGNORE_DIRS=(
     '*/.pc'
     '*/.repo'
     '*/.cache'
+    '*/venv'
 )
 FIND_IGNORE_FILES=(
     '*.swp'
