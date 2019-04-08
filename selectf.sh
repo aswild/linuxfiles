@@ -194,7 +194,7 @@ if [[ $IGNORE_CASE == true ]]; then
     FIND_PATTERNTYPE="i${FIND_PATTERNTYPE}"
 fi
 
-FINDARGS+=( -type $FIND_TYPE -$FIND_PATTERNTYPE "$PATTERN" -print0 )
+FINDARGS+=( -type $FIND_TYPE -$FIND_PATTERNTYPE "$PATTERN" )
 if [[ $DEBUG == true ]]; then
     echo "find ${FINDARGS[*]}" >&2
 fi
@@ -208,7 +208,7 @@ RESULTS=()
 count=0
 while IFS= read -r -d $'\0' result; do
     RESULTS+=("$result")
-done < <( find "${FINDARGS[@]}" 2>/dev/null )
+done < <( find "${FINDARGS[@]}" -print0 2>/dev/null | sort -z )
 
 if [[ -z "$RESULTS" ]] || [[ ${#RESULTS[@]} == 0 ]]; then
     echo "No matches found!" >&2
