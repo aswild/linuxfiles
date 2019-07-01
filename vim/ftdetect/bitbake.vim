@@ -15,7 +15,7 @@ au BufNewFile,BufRead *.{bb,bbappend,bbclass} set filetype=bitbake
 
 " .inc
 au BufNewFile,BufRead *.inc
-    \ if (match(expand("%:p:h"), "/meta-[^/]\\+") > 0) |
+    \ if (match(expand("%:p:h"), "/meta-[^/]\\+\\|/meta") > 0) |
     \       set filetype=bitbake |
     \ endif
 
