@@ -317,7 +317,7 @@ function bindiff {
 }
 alias gbindiff="bindiff -g"
 
-if [[ -n "$ZSH_NAME" ]]; then
+if [[ -n "$ZSH_NAME" ]] && which -p zstd &>/dev/null; then
     function zstd {
         local _arg _args _has_t _has_n
         for _arg in "$@"; do
