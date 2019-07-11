@@ -541,31 +541,37 @@ settop
 ####### System/utility things #######
 
 # gvim function for when running in cygwin
-for __vimdir in "/cygdrive/c/Program Files (x86)/Vim/vim81" \
-                "/cygdrive/c/Program Files (x86)/Vim/vim80" \
-                "/cygdrive/c/Program Files (x86)/Vim/vim74" ; do
-    if [[ -e "$__vimdir/gvim.exe" ]]; then
-        __WINDOWS_GVIM="$__vimdir/gvim.exe"
-        break
-    fi
-done
-unset __vimdir
-if [[ -e "$__WINDOWS_GVIM" ]]; then
-    export WINDOWS_HOME="C:\\Users\\${USER}"
-    function gvim() {
-        if [[ -z $1 ]]; then
-            SHELL='' HOME=$WINDOWS_HOME cygstart "$__WINDOWS_GVIM"
-            return
+if [[ "$(uname)" == CYGWIN* ]]; then
+    __vimdirs=( \
+        "/cygdrive/c/Program Files/Vim/vim81"
+        "/cygdrive/c/Program Files (x86)/Vim/vim81"
+        "/cygdrive/c/Program Files/Vim/vim80"
+        "/cygdrive/c/Program Files (x86)/Vim/vim80"
+        "/cygdrive/c/Program Files (x86)/Vim/vim74")
+    for __vimdir in "${__vimdirs[@]}"; do
+        if [[ -e "$__vimdir/gvim.exe" ]]; then
+            __WINDOWS_GVIM="$__vimdir/gvim.exe"
+            break
         fi
-        for i in "$@"; do
-            SHELL='' HOME=$WINDOWS_HOME cygstart "$__WINDOWS_GVIM" \"$i\"
-        done
-    }
-    function gvimf() {
-        # In cygwin the selectf script can't launch gvim directly
-        local _file="$(selectf -p "$@")" || return 1
-        gvim "$_file"
-    }
+    done
+    unset __vimdir __vimdirs
+    if [[ -e "$__WINDOWS_GVIM" ]]; then
+        export WINDOWS_HOME="C:\\Users\\${USER}"
+        function gvim() {
+            if [[ -z $1 ]]; then
+                SHELL='' HOME="$WINDOWS_HOME" cygstart "$__WINDOWS_GVIM"
+                return
+            fi
+            for i in "$@"; do
+                SHELL='' HOME="$WINDOWS_HOME" cygstart "$__WINDOWS_GVIM" \"$i\"
+            done
+        }
+        function gvimf() {
+            # In cygwin the selectf script can't launch gvim directly
+            local _file="$(selectf -p "$@")" || return 1
+            gvim "$_file"
+        }
+    fi
 fi
 
 # bash specific
