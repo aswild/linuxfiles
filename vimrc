@@ -192,20 +192,38 @@ nnoremap <C-P> :CtrlP<cr>
 let g:ctrlp_custom_ignore = {'dir': '\v[/](\.(pc|repo|git)|venv)$'}
 let g:ctrlp_max_files = 500000
 
+" Airline customization
+" solarized dark theme with powerline fonts
+let g:airline_powerline_fonts = 1
 let g:airline_solarized_dark_bg = 'dark'
 let g:airline_solarized_dark_termcolors = 256
 let g:airline_theme = 'solarized_dark'
-let g:airline_powerline_fonts = 1
+" skip empty sections so there's no extra triangles
+let g:airline_skip_empty_sections = 1
+" disable tmuxline, I exported the tmux theme then customized it
 let g:airline#extensions#tmuxline#enabled = 0
+" whitespace warning checks
 let g:airline#extensions#whitespace#checks = ['indent', 'trailing']
 let g:airline#extensions#whitespace#mixed_indent_algo = 2
 let g:airline#extensions#whitespace#trailing_format = '[%s]trailing'
 let g:airline#extensions#whitespace#mixed_indent_format = '[%s]mix-indt'
+" VCS info, enable git only
 let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#vcs_priority = ['git']
 let g:airline#extensions#branch#format = 2
+" don't inform about dirty/untracked files
+let g:airline#extensions#branch#vcs_checks = []
+" don't show file encoding if it's the usual UTF-8/unix format
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-"let g:airline_section_z = airline#section#create(['%3p%%'.g:airline_symbols.space, 'linenr',  ':%3v'])
+" lighter weight right-hand section (line/column numbers)
 let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%3v'])
+
+" Disable line number symbol, it's just visual fluff. Have to define the map first to avoid
+" errors when starting up vim
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.maxlinenr = ''
 
 " tmuxline - don't use weird unicode characters
 let g:tmuxline_powerline_separators = 1
@@ -314,6 +332,10 @@ if has("autocmd")
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
+
+  " Reload Airline when . Not sure why this is necessary but if fixes the current
+  " git branch info missing when I disabled the dirty/untracked flags.
+  autocmd BufWinEnter * AirlineRefresh!
 
   augroup END
 
