@@ -37,6 +37,8 @@ ifeq ($(DESTDIR),)
 	DESTDIR = $(HOME)
 endif
 
+LINK_CMD = ln -svT $(LINK_FORCE)
+
 DOTFILE_PATHS   = $(addprefix $(DESTDIR)/., $(DOTFILE_NAMES))
 NODOTFILE_PATHS = $(addprefix $(DESTDIR)/, $(NODOTFILE_NAMES))
 
@@ -69,15 +71,15 @@ $(DESTDIR):
 
 $(DOTFILE_PATHS) : $(DESTDIR)/.% : $(PWD)/%
 	@mkdir -p $(@D)
-	@ln -svT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
+	@$(LINK_CMD) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
 
 $(NODOTFILE_PATHS) : $(DESTDIR)/% : $(PWD)/%
 	@mkdir -p $(@D)
-	@ln -svT $(LINK_FORCE) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
+	@$(LINK_CMD) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
 
 $(BINFILE_PATHS) : $(DESTDIR)/bin/% : $(PWD)/bin/%
 	@mkdir -p $(DESTDIR)/bin
-	@ln -svT $(LINK_FORCE) $(SRCDIR)/bin/$(notdir $<) $@ 2>/dev/null || true
+	@$(LINK_CMD) $(SRCDIR)/bin/$(notdir $<) $@ 2>/dev/null || true
 
 .PHONY: bashrc-append
 bashrc-append:
