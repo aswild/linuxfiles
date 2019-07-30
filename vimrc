@@ -360,3 +360,10 @@ endif
 if filereadable(expand("~/.vimrc_local"))
     source ~/.vimrc_local
 endif
+
+" finally, load Pathogen if we're on an older version of vim that doesn't have
+" packages support. Do this at the very end of vimrc to more closely mimic how
+" vim 8 packages work.
+if !has('packages')
+    call pathogen#infect()
+endif
