@@ -2,9 +2,6 @@
 " Allen's vimrc file
 """"""""""""""""""""""
 
-" enable pathogen plugin-loading
-execute pathogen#infect()
-
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
@@ -183,9 +180,6 @@ imap <C-H> <C-W>
 " Evil amounts of backslash escaping = no fun
 set formatlistpat=^\\s*[\\d*-]\\+[\\]:.)}\\t\ ]\\s*
 
-" solarized light/dark toggle
-call togglebg#map("<F7>")
-
 " ctrlp.vim mappings/settings
 nnoremap <C-P> :CtrlP<cr>
 "let g:ctrlp_root_markers = ['.repo']
@@ -216,7 +210,8 @@ let g:airline#extensions#branch#vcs_checks = []
 " don't show file encoding if it's the usual UTF-8/unix format
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " lighter weight right-hand section (line/column numbers)
-let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%3v'])
+" moved to wild_vimrc_post.vim
+"let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%3v'])
 
 " Disable line number symbol, it's just visual fluff. Have to define the map first to avoid
 " errors when starting up vim

@@ -1,23 +1,20 @@
 [submodule "vim/bundle/nerdtree"]
-	path = vim/bundle/nerdtree
+	path = vim/pack/git/start/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
-[submodule "vim/bundle/vim-pathogen"]
-	path = vim/bundle/vim-pathogen
-	url = git://github.com/tpope/vim-pathogen.git
 [submodule "vim/bundle/nerdtree-git-plugin"]
-	path = vim/bundle/nerdtree-git-plugin
+	path = vim/pack/git/start/nerdtree-git-plugin
 	url = git://github.com/Xuyuanp/nerdtree-git-plugin.git
 [submodule "vim/bundle/vim-fugitive"]
-	path = vim/bundle/vim-fugitive
+	path = vim/pack/git/start/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
 [submodule "vim/bundle/ctrlp"]
-	path = vim/bundle/ctrlp
+	path = vim/pack/git/start/ctrlp
 	url = git://github.com/ctrlpvim/ctrlp.vim.git
 [submodule "vim/bundle/vim-airline"]
-	path = vim/bundle/vim-airline
+	path = vim/pack/git/start/vim-airline
 	url = git://github.com/vim-airline/vim-airline
 [submodule "selectf"]
 	path = selectf
@@ -26,5 +23,5 @@
 	path = zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule "vim/bundle/python-syntax"]
-	path = vim/bundle/python-syntax
+	path = vim/pack/git/start/python-syntax
 	url = git://github.com/vim-python/python-syntax
