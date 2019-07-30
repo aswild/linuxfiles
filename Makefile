@@ -37,7 +37,12 @@ ifeq ($(DESTDIR),)
 	DESTDIR = $(HOME)
 endif
 
-LINK_CMD = ln -svT $(LINK_FORCE)
+ifeq ($(MSYSTEM),)
+LINK_CMD = ln -svT $$(LINK_FORCE) $1 $2 2>/dev/null || true
+else
+# symlinks don't work in MSYS/MinGW, so do a recursive copy (hardlink files)
+LINK_CMD = cp -alfT $1 $2
+endif
 
 DOTFILE_PATHS   = $(addprefix $(DESTDIR)/., $(DOTFILE_NAMES))
 NODOTFILE_PATHS = $(addprefix $(DESTDIR)/, $(NODOTFILE_NAMES))
@@ -71,15 +76,15 @@ $(DESTDIR):
 
 $(DOTFILE_PATHS) : $(DESTDIR)/.% : $(PWD)/%
 	@mkdir -p $(@D)
-	@$(LINK_CMD) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
+	$(call LINK_CMD,$(SRCDIR)/$(notdir $<),$@)
 
 $(NODOTFILE_PATHS) : $(DESTDIR)/% : $(PWD)/%
 	@mkdir -p $(@D)
-	@$(LINK_CMD) $(SRCDIR)/$(notdir $<) $@ 2>/dev/null || true
+	$(call LINK_CMD,$(SRCDIR)/$(notdir $<),$@)
 
 $(BINFILE_PATHS) : $(DESTDIR)/bin/% : $(PWD)/bin/%
 	@mkdir -p $(DESTDIR)/bin
-	@$(LINK_CMD) $(SRCDIR)/bin/$(notdir $<) $@ 2>/dev/null || true
+	$(call LINK_CMD,$(SRCDIR)/bin/$(notdir $<),$@)
 
 .PHONY: bashrc-append
 bashrc-append:

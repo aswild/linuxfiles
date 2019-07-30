@@ -38,7 +38,12 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-__linuxfiles_dir=$(dirname $(readlink -e ~/.zshrc))
+if [[ -n "$MSYSTEM" ]]; then
+    # hard-coded path for MSYS/MinGW since symlinks don't work there
+    __linuxfiles_dir="$HOME/linuxfiles"
+else
+    __linuxfiles_dir="$(dirname "$(readlink -e ~/.zshrc)")"
+fi
 ZSH_CUSTOM=$__linuxfiles_dir/zsh_custom
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
