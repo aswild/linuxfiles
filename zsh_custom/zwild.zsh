@@ -80,3 +80,9 @@ function omz_termsupport_preexec {
 
     title '$CMD' '%100>...>$LINE%<<'
 }
+
+# if this looks like a serial console, disable preexec and idle functions
+# that write escape codes which can show up as junk on the console
+if [[ $TTY == /dev/ttyS* || $TTY == /dev/ttyAMA* ]]; then
+    DISABLE_AUTO_TITLE=true
+fi
