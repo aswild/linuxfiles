@@ -333,23 +333,6 @@ function bindiff {
 }
 alias gbindiff="bindiff -g"
 
-if [[ -n "$ZSH_NAME" ]] && which -p zstd &>/dev/null; then
-    function zstd {
-        local _arg _args _has_t _has_n
-        for _arg in "$@"; do
-            case "$_arg" in
-                -T*) _has_t=y ;;
-                -[0-9]*) _has_n=y ;;
-            esac
-        done
-        _args=("$@")
-        [[ $_has_t == y ]] || _args+=(-T0)
-        [[ $_has_n == y ]] || _args+=(-15)
-        echo >&2 "zstd ${_args[*]}"
-        command zstd "${_args[@]}"
-    }
-fi
-
 ####### Bitbake/Repo/Yocto Aliases/Functions #######
 
 # download Google's git-repo tool
