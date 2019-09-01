@@ -333,6 +333,68 @@ function bindiff {
 }
 alias gbindiff="bindiff -g"
 
+# pva: python venv activate
+# semi-intelligent shortcut for '. ./venv/bin/activate'
+# that can also create venvs
+function pva {
+    local _venv=./venv
+    local _force=0
+    local _make=0
+    local _venv_cmd='python3 -m venv'
+    local _opt
+    while getopts 'hfm23' _opt; do
+        case "$_opt" in
+            h)
+                echo "usage: $0 [-h] [-f] [[-m] [-2 | -3]] [venv_dir]"
+                echo "Activate a python virtualenv, and optionally make a new one"
+                echo "venv_dir should be the venv directory, containing a bin/activate script to source"
+                echo "Options:"
+                echo "  -h  show this help"
+                echo "  -f  force: deactivate first if in a virtualenv. With -m, delete the venv and re-create"
+                echo "  -m  make: make a venv if it doesn't exist"
+                echo "  -2  with -m, use 'virtualenv2' to make a venv"
+                echo "  -3  with -m, use 'python3 -m venv' to make a venv (the default)"
+                return 0
+                ;;
+            f) _force=1 ;;
+            m) _make=1 ;;
+            2) _venv_cmd=virtualenv2 ;;
+            3) ;; # default _venv_cmd is for python3
+            \?) return 1 ;;
+        esac
+    done
+    shift $((OPTIND-1))
+    if (( $# )); then
+        _venv="$1"
+        shift
+    fi
+
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        if (( $_force )); then
+            deactivate || return 1
+        else
+            echo "already in venv and -f not given"
+            return 0
+        fi
+    fi
+
+    if (( $_make )); then
+        if [[ -d "$_venv" ]]; then
+            if (( $_force )); then
+                echo "removing '$_venv'"
+                rm -rf "$_venv"
+            else
+                echo "refusing to overwrite existing venv without -f"
+                return 1
+            fi
+        fi
+        echo "$_venv_cmd '$_venv'"
+        $_venv_cmd "$_venv" || return 1
+    fi
+
+    source "$_venv/bin/activate"
+}
+
 ####### Bitbake/Repo/Yocto Aliases/Functions #######
 
 # download Google's git-repo tool
