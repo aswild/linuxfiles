@@ -216,7 +216,7 @@ let g:airline#extensions#branch#vcs_checks = []
 " don't show file encoding if it's the usual UTF-8/unix format
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " lighter weight right-hand section (line/column numbers)
-let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%3v'])
+let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%4v'])
 
 " Disable line number symbol, it's just visual fluff. Have to define the map first to avoid
 " errors when starting up vim
