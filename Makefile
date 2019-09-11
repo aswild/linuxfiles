@@ -38,7 +38,7 @@ ifeq ($(DESTDIR),)
 endif
 
 ifeq ($(MSYSTEM),)
-LINK_CMD = ln -svT $$(LINK_FORCE) $1 $2 2>/dev/null || true
+LINK_CMD = ln -svT $(LINK_FORCE) $1 $2 2>/dev/null || true
 else
 # symlinks don't work in MSYS/MinGW, so do a recursive copy (hardlink files)
 LINK_CMD = cp -alfT $1 $2
@@ -112,16 +112,6 @@ subs-update:
 subsc: subs-commit
 subs-commit: subs-update
 	@[ -x ./commit_submodules.sh ] && ./commit_submodules.sh
-
-
-###### UPGRADE ######
-.PHONY: upgrade upgrade-omzsh
-upgrade:
-	make LINK_FORCE=-f links
-
-upgrade-omzsh:
-	rm -rf $(DESTDIR)/.oh-my-zsh
-	ln -sT $(PWD)/oh-my-zsh $(DESTDIR)/.oh-my-zsh
 
 .PHONY: windows-vim
 windows-vim:
