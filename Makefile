@@ -41,7 +41,7 @@ ifeq ($(MSYSTEM),)
 LINK_CMD = ln -svT $(LINK_FORCE) $1 $2 2>/dev/null || true
 else
 # symlinks don't work in MSYS/MinGW, so do a recursive copy (hardlink files)
-LINK_CMD = cp -alfT $1 $2
+LINK_CMD = cp -alLfT $1 $2
 endif
 
 DOTFILE_PATHS   = $(addprefix $(DESTDIR)/., $(DOTFILE_NAMES))
@@ -69,6 +69,13 @@ help:
 .PHONY: links install
 .PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
 links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
+ifneq ($(MSYSTEM),)
+	@# on msys, where symlinks don't work, copy over pathogen.vim symlink, since \
+	 # the cp command will fail to do that for some reason
+	cp -f $(SRCDIR)/vim/bundle/vim-pathogen/autoload/pathogen.vim $(DESTDIR)/.vim/autoload/pathogen.vim
+	git -C $(SRCDIR) update-index --assume-unchanged vim/autoload/pathogen.vim
+endif
+
 install: links bashrc-append gitconfig-common-add submodules selectf
 
 $(DESTDIR):
