@@ -12,8 +12,12 @@ eval "$(grep -Eh '^(un)?alias' ~/myshrc)"
 # allowing for the branch text to be colored depending on status
 ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH="false"
 
+function zsh_nogit() {
+    ZSH_GIT_PROMPT=0
+}
+
 function git_prompt_info() {
-    ( [[ "$PWD" != "$HOME" ]] && git rev-parse --git-dir &>/dev/null ) || return 0
+    ( [[ "$ZSH_GIT_PROMPT" != "0" && "$PWD" != "$HOME" ]] && git rev-parse --git-dir &>/dev/null ) || return 0
     if [[ "$(command git config --get oh-my-zsh.hide-status 2>/dev/null)" != "1" ]]; then
         ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
             ref=tags/$(command git describe --tags --exact-match HEAD 2>/dev/null) || \
