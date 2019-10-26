@@ -37,8 +37,12 @@ function pathadd {
     echo -E -n "$NEWPATH" | sed -e 's/^://' -e 's/:$//'
 }
 [[ -d $HOME/bin ]] && export PATH="$(pathadd PATH $HOME/bin)"
-[[ -d $HOME/scripts ]] && export PATH="$(pathadd PATH $HOME/scripts)"
-#[[ -d $HOME/lib ]] && export LD_LIBRARY_PATH="$(pathadd LD_LIBRARY_PATH $HOME/lib)"
+if [[ -d $HOME/scripts ]]; then
+    export PATH="$(pathadd PATH $HOME/scripts)"
+    if [[ -n $ZSH_NAME && -d $HOME/scripts/zsh_completions ]]; then
+        fpath=($HOME/scripts/zsh_completions "${fpath[@]}")
+    fi
+fi
 
 # function to filter out paths
 #   $1 : variable to check (e.g. PATH)
