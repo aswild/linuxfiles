@@ -53,6 +53,7 @@ set backspace=indent,eol,start
 set laststatus=2
 "set relativenumber
 "set undofile
+set diffopt+=vertical
 
 set wildignore=*.o,*.d,*.pyc
 
