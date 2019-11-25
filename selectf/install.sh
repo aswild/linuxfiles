@@ -51,7 +51,7 @@ if [[ -z "$1" ]]; then
     usage 1
 fi
 DESTDIR="$1"
-shift
+
 if [[ -n "$2" ]]; then
     TARGET="$2"
 else
