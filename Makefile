@@ -104,7 +104,7 @@ gitconfig-common-add:
 
 .PHONY: selectf
 selectf: submodules
-	python selectf/install.py $(DESTDIR)/bin $(SRCDIR)/selectf/selectf.sh
+	bash selectf/install.sh $(DESTDIR)/bin $(SRCDIR)/selectf/selectf.sh
 
 ###### SUBMODULES #######
 .PHONY: submodules subs subs-commit subsc subs-update subsu
