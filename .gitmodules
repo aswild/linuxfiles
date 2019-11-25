@@ -19,9 +19,6 @@
 [submodule "vim/bundle/vim-airline"]
 	path = vim/bundle/vim-airline
 	url = git://github.com/vim-airline/vim-airline
-[submodule "selectf"]
-	path = selectf
-	url = git://github.com/aswild/selectf
 [submodule "zsh-syntax-highlighting"]
 	path = zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
