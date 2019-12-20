@@ -616,12 +616,8 @@ settop
 
 # gvim function for when running in cygwin
 if [[ "$(uname)" == CYGWIN* ]]; then
-    __vimdirs=( \
-        "/cygdrive/c/Program Files/Vim/vim81"
-        "/cygdrive/c/Program Files (x86)/Vim/vim81"
-        "/cygdrive/c/Program Files/Vim/vim80"
-        "/cygdrive/c/Program Files (x86)/Vim/vim80"
-        "/cygdrive/c/Program Files (x86)/Vim/vim74")
+    __vimdirs=("/cygdrive/c/Program Files/Vim"/*
+               "/cygdrive/c/Program Files (x86)/Vim"/*)
     for __vimdir in "${__vimdirs[@]}"; do
         if [[ -e "$__vimdir/gvim.exe" ]]; then
             __WINDOWS_GVIM="$__vimdir/gvim.exe"
