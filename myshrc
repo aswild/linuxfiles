@@ -337,6 +337,21 @@ function bindiff {
 }
 alias gbindiff="bindiff -g"
 
+function b64 {
+    local _opt=''
+    if [[ "$1" == '-d' ]]; then
+        _opt='-d'
+        shift
+    fi
+    if [[ -n "$1" ]]; then
+        # use command substitution to strip trailing newlines from base64 decode,
+        # then echo it with a trailing newline.
+        echo "$(printf '%s' "$*" | base64 $_opt)"
+    else
+        base64 $_opt
+    fi
+}
+
 # pva: python venv activate
 # semi-intelligent shortcut for '. ./venv/bin/activate'
 # that can also create venvs
