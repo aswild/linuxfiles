@@ -630,16 +630,15 @@ settop
 ####### System/utility things #######
 
 # gvim function for when running in cygwin
-if [[ "$(uname)" == CYGWIN* ]]; then
-    __vimdirs=("/cygdrive/c/Program Files/Vim"/*
-               "/cygdrive/c/Program Files (x86)/Vim"/*)
-    for __vimdir in "${__vimdirs[@]}"; do
+if [[ -d /cygdrive ]]; then
+    while read -r -d '' __vimdir; do
         if [[ -e "$__vimdir/gvim.exe" ]]; then
             __WINDOWS_GVIM="$__vimdir/gvim.exe"
             break
         fi
-    done
-    unset __vimdir __vimdirs
+    done < <(find "/cygdrive/c/Program Files/Vim" "/cygdrive/c/Program Files (x86)/Vim" \
+             -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
+    unset __vimdir
     if [[ -e "$__WINDOWS_GVIM" ]]; then
         export WINDOWS_HOME="C:\\Users\\${USER}"
         function gvim() {
