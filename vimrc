@@ -154,6 +154,7 @@ nmap <F9> :let @+=@*<CR>
 nmap <leader>p dd"0P
 nmap <leader>P D"0p
 nmap <leader>e de"0P
+nmap <leader>mc /^[<=>]\{7\}<CR>
 nmap \ "
 nnoremap n nzz
 nnoremap N Nzz
