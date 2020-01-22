@@ -34,34 +34,35 @@ function pathadd {
     else
         local NEWPATH=$OLDPATH
     fi
-    echo -E -n "$NEWPATH" | sed -e 's/^://' -e 's/:$//'
+    NEWPATH="${NEWPATH#:}"
+    eval $1="'${NEWPATH%:}'"
 }
-[[ -d $HOME/bin ]] && export PATH="$(pathadd PATH $HOME/bin)"
+[[ -d $HOME/bin ]] && pathadd PATH "$HOME/bin"
 if [[ -d $HOME/scripts ]]; then
-    export PATH="$(pathadd PATH $HOME/scripts)"
-    if [[ -n $ZSH_NAME && -d $HOME/scripts/zsh_completions ]]; then
-        fpath=($HOME/scripts/zsh_completions "${fpath[@]}")
+    pathadd PATH "$HOME/scripts"
+    if [[ -n $ZSH_NAME && -d "$HOME/scripts/zsh_completions" ]]; then
+        fpath=("$HOME/scripts/zsh_completions" "${fpath[@]}")
     fi
 fi
 
 # function to filter out paths
 #   $1 : variable to check (e.g. PATH)
-#   $2 : egrep regex applied to each PATH entry
+#   $2 : regex applied to each PATH entry
 function path_filter {
     # filter out paths matching this regex
     local OLDPATH
     eval OLDPATH="\$$1"
     local NEWPATH=''
     while read -r -d: entry; do
-        if ! egrep -q -e "$2" <<<"$entry"; then
+        if ! [[ "$entry" =~ "$2" ]]; then
             NEWPATH="$NEWPATH:$entry"
         fi
     done <<<"${OLDPATH}:"
 
-    echo "${NEWPATH#:}"
+    eval $1="'${NEWPATH#:}'"
 }
-[[ -d /mnt/c/Windows ]] && export PATH="$(path_filter PATH '/mnt/c/(Python|cygwin)')"
-[[ -d /cygdrive ]] && export PATH="$(path_filter PATH '/cygdrive/c/(Python|Dwimperl)')"
+[[ -d /mnt/c/Windows ]] && path_filter PATH '/mnt/c/(Python|cygwin)'
+[[ -d /cygdrive ]] && path_filter PATH '/cygdrive/c/(Python|Dwimperl)'
 
 # colors for ls
 [[ -e ~/.dircolors ]] && eval `dircolors ~/.dircolors`
@@ -210,7 +211,7 @@ function ll {
 function up {
     local dir="$(dirname "$PWD")"
     while [[ "$dir" != / ]]; do
-        if echo "${dir##*/}" | grep -q -e "$1"; then
+        if [[ "${dir##*/}" =~ "$1" ]]; then
             cd "$dir"
             return 0
         fi

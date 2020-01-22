@@ -119,5 +119,5 @@ ZSH_HIGHLIGHT_STYLES[globbing]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=blue,bold'
 ZSH_HIGHLIGHT_STYLES[path]='none'
 
-source $__linuxfiles_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -d /cygdrive || -n "$MSYSTEM" ]] || source $__linuxfiles_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset __linuxfiles_dir
