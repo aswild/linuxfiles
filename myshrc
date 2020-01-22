@@ -470,7 +470,7 @@ function rbase {
 
 function clearbbpath {
     # remove previous bitbake bin paths from PATH
-    export PATH="$(path_filter PATH 'openembedded-core')"
+    path_filter PATH 'openembedded-core'
 }
 
 function setbbpath {
