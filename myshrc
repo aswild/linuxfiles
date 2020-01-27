@@ -289,6 +289,23 @@ function walltime {
 
 [[ -n $ZSH_NAME ]] && alias make="walltime command make"
 
+# rehash after any pip install
+function pipwrap {
+    local _pip_cmd="$1"
+    shift
+    local _need_rehash=0
+    [[ "$1" == 'install' ]] && _need_rehash=1
+    command $_pip_cmd "$@" || return
+    if (( _need_rehash )); then
+        echo >&2 "rehashing"
+        hash -r
+    fi
+}
+for _pipname in pip pip2 pip3; do
+    eval "${_pipname}() { pipwrap $_pipname \"\$@\" ; }"
+done
+unset _pipname
+
 function waitproc {
     if [[ -z $1 ]]; then
         echo >&2 "Need to specify a PID!"
