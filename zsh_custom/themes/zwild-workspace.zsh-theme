@@ -4,14 +4,18 @@ local ret_status="%(?:%{$fg_bold[green]%}» :%{$fg_bold[red]%}» %s)"
 
 function zsh_prompt_print_view
 {
+    [[ -n "$WORKSPACES_ROOT" ]] || return
     local view="${PWD#${WORKSPACES_ROOT}/}"
     view=${view%%/*}
     [[ -n $view ]] && echo "[%{$fg[yellow]%}${view}%{$fg_bold[blue]%}]"
 }
 function zsh_prompt_print_pwd
 {
-    pwd | sed -e "s#^${WORKSPACES_ROOT}/[^/]*/##" \
-              -e "s#^${HOME}#~#"
+    local dir="$PWD"
+    if [[ -n "$WORKSPACES_ROOT" ]]; then
+        dir="${dir#${WORKSPACES_ROOT}/*/}"
+    fi
+    echo "${dir/${HOME}/~}"
 }
 
 PROMPT='
