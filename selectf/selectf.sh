@@ -30,9 +30,8 @@ print_help()
 {
     local B=$(tput bold)
     local N=$(tput sgr0)
-    {
-        cat <<EOF
-  Usage: $(basename $0) [options] [-e command] <pattern> [<find options>...]
+    cat >&2 <<EOF
+Usage: $(basename $0) [options] [-e command] <pattern> [<find options>...]
 
   ${B}find${N} will be invoked with ${B}<pattern>${N}, and a menu will be presented
   to choose from the results. When a match is selected, selectf will exec the
@@ -43,6 +42,7 @@ print_help()
   ${B}-c${N}            cd to directory before exec
   ${B}-q${N}            Quiet mode: redirect cmd's stderr to /dev/null
   ${B}-p${N}            just print the selected file/directory, don't exec
+  ${B}-A${N}            print all matches and exit, no selection (implies -p)
   ${B}-D${N}            debug mode (print the find command run)
   ${B}-h${N}            Show help
 
@@ -62,7 +62,6 @@ print_help()
   ${B}-r${N}            use regex in find (full path match)
   ${B}-i${N}            ignore case
 EOF
-    } >&2
 }
 
 ###################################
@@ -102,11 +101,13 @@ name=$(basename $0)
 # Parse Args
 ###################################
 
-while getopts "e:cpDagtTLfdnPqrih" opt; do
+while getopts "e:cpADagtTLfdnPqrih" opt; do
     case $opt in
         e) COMMAND="$OPTARG"        ;;
         c) CD_FIRST=true            ;;
         p) PRINT_ONLY=true          ;;
+        A) PRINT_ALL_AND_EXIT=true
+           PRINT_ONLY=true          ;;
         D) DEBUG=true               ;;
         a) VIM_OPEN_ALL=true        ;;
         g) COMMAND=gvim             ;;
@@ -202,6 +203,13 @@ fi
 ###################################
 # Get the results from find
 ###################################
+
+if [[ $PRINT_ALL_AND_EXIT == true ]]; then
+    # bypass the select part of selectf, making this basically a fancy
+    # find command with some useful built-in ignore rules
+    find "${FINDARGS[@]}" 2>/dev/null
+    exit $?
+fi
 
 # while-read loop adapted from http://mywiki.wooledge.org/BashFAQ/020
 RESULTS=()
