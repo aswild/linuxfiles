@@ -221,17 +221,8 @@ function up {
     return 1
 }
 
-unset -f ff 2>/dev/null
-function ff {
-    local pattern=$1
-    shift 1
-    find "$@" -name "*$pattern*" 2>/dev/null
-}
-function ffi {
-    local pattern=$1
-    shift 1
-    find "$@" -iname "*$pattern*" 2>/dev/null
-}
+alias ff='selectf -A'
+alias ffi='selectf -Ai'
 
 function findpath {
     local _saveifs=$IFS
