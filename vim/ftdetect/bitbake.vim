@@ -21,7 +21,7 @@ au BufNewFile,BufRead *.inc
 
 " .conf
 au BufNewFile,BufRead *.conf
-    \ if (match(expand("%:p:h"), "/\\(meta\\|build\\)-[^/]\\+/conf") > 0) |
+    \ if (match(expand("%:p:h"), "/\\(meta\\|build\\)\\(-[^/]\\+\\|\\)/conf") > 0) |
     \     set filetype=bitbake |
     \ endif
 
