@@ -15,6 +15,12 @@ export LESS=Ri
 # add i for ignore case search
 export SYSTEMD_LESS=FRMKi
 
+# Section search order for man pages. The default is
+# "1 n l 8 3 0 2 5 4 9 6 7", but move 2 before 3 so that Linux-specific
+# syscall pages are preferred to the section 3p generic posix pages, and
+# move n to the end because tcl manpages have no need to be that high-precedence.
+export MANSECT='1,l,8,2,3,0,5,4,9,6,7,n'
+
 if [[ -t 1 ]]; then
     # if we're in a terminal, disable C-S and C-Q flow control handling
     stty -ixon
