@@ -671,6 +671,24 @@ if [[ -d /cygdrive ]]; then
             gvim "$_file"
         }
     fi
+
+    # wrap fd to try to do automatic path translation, since rust code
+    # doesn't understand cygwin paths.
+    if [[ -n "$ZSH_NAME" && -n "$(type -p fd 2>/dev/null)" ]] || \
+       [[ -n "$BASH" && -n "$(type -P fd 2>/dev/null)" ]]; then
+        fd() {
+            local _args=()
+            local _arg
+            for _arg in "$@"; do
+                if [[ "$_arg" == /* ]]; then
+                    _args+=("$(cygpath -w "$_arg")")
+                else
+                    _args+=("$_arg")
+                fi
+            done
+            command fd "${_args[@]}"
+        }
+    fi
 fi
 
 # bash specific
