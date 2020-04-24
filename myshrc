@@ -677,7 +677,7 @@ if [[ -d /cygdrive ]]; then
     if [[ -n "$ZSH_NAME" && -n "$(type -p fd 2>/dev/null)" ]] || \
        [[ -n "$BASH" && -n "$(type -P fd 2>/dev/null)" ]]; then
         fd() {
-            local _args=()
+            local _args=(--path-separator=/)
             local _arg
             for _arg in "$@"; do
                 if [[ "$_arg" == /* ]]; then
