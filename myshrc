@@ -79,8 +79,12 @@ alias ls='ls --color=auto --group-directories-first'
 alias lsl='ls -alh --color=auto --group-directories-first'
 alias df='df -h'
 alias du='du -h'
-alias lspath='echo $PATH | tr ":" "\n"'
 alias af='ag --nocolor -lG'
+
+function lspath {
+    local _pathvar="${1:-PATH}"
+    eval "echo \$$_pathvar" | tr ':' '\n'
+}
 
 function psag {
     local __grep
