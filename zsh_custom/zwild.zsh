@@ -91,15 +91,14 @@ if [[ $TTY == /dev/ttyS* || $TTY == /dev/ttyAMA* ]]; then
     DISABLE_AUTO_TITLE=true
 fi
 
-# automatically update DISPLAY in tmux sessions connected over ssh
-if [[ -n "$SSH_TTY" && -n "$TMUX" ]]; then
+# automatically update DISPLAY in tmux sessions
+if [[ -n "$TMUX" ]]; then
     function zwild_display_precmd {
-        local _display
-        _display="$(tmux showenv DISPLAY 2>/dev/null)"
-        _display="${_display#DISPLAY=}"
-        if [[ -n "$_display" ]]; then
-            export DISPLAY="$_display"
-        fi
+        local _display="$(tmux showenv DISPLAY 2>/dev/null)"
+        case "$_display" in
+            DISPLAY=*) export DISPLAY="${_display#DISPLAY=}" ;;
+            -DISPLAY) unset DISPLAY ;;
+        esac
     }
     autoload -U add-zsh-hook
     add-zsh-hook precmd zwild_display_precmd
