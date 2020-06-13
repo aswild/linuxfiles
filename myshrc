@@ -116,6 +116,12 @@ function man {
         command man "$@"
 }
 
+# rust (cargo) aliases
+alias cb='cargo build'
+alias cbr='cargo build --release'
+alias cr='cargo run -q --'
+alias crr='cargo run --release -q --'
+
 # networking/sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
     _sudo_aliases=(apt apt-get ifconfig ifdown ifup ip pacman systemctl yum)
