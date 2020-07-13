@@ -21,6 +21,12 @@ export SYSTEMD_LESS=FRMKi
 # move n to the end because tcl manpages have no need to be that high-precedence.
 export MANSECT='1,l,8,2,3,0,5,4,9,6,7,n'
 
+if which bat &>/dev/null; then
+    # env vars for bat(1) rather than ~/.config/bat/config
+    export BAT_STYLE='plain'
+    export BAT_THEME='Solarized (dark)'
+fi
+
 if [[ -t 1 ]]; then
     # if we're in a terminal, disable C-S and C-Q flow control handling
     stty -ixon
