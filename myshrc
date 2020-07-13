@@ -50,6 +50,7 @@ if [[ -d $HOME/scripts ]]; then
         fpath=("$HOME/scripts/zsh_completions" "${fpath[@]}")
     fi
 fi
+[[ -d $HOME/.cargo/bin ]] && pathadd PATH "$HOME/.cargo/bin"
 
 # function to filter out paths
 #   $1 : variable to check (e.g. PATH)
@@ -117,10 +118,12 @@ function man {
 }
 
 # rust (cargo) aliases
-alias cb='cargo build'
-alias cbr='cargo build --release'
-alias cr='cargo run -q --'
-alias crr='cargo run --release -q --'
+if which cargo &>/dev/null; then
+    alias cb='cargo build'
+    alias cbr='cargo build --release'
+    alias cr='cargo run -q --'
+    alias crr='cargo run --release -q --'
+fi
 
 # networking/sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
