@@ -122,6 +122,6 @@ subs-commit: subs-update
 
 .PHONY: windows-vim
 windows-vim:
-	test -d /cygdrive/c/Users/$(USER) && ( \
-		rsync -rLtv --delete vim/ /cygdrive/c/Users/$(USER)/vimfiles ; \
-		cp -vf vimrc /cygdrive/c/Users/$(USER)/_vimrc )
+	userdir="$(shell cygpath -p "$(USERPROFILE)")"; test -d "$$userdir" && ( \
+		rsync -rLtv --delete vim/ "$$userdir/vimfiles" ; \
+		cp -vf vimrc "$$userdir/_vimrc" )
