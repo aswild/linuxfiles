@@ -198,7 +198,21 @@ alias gss='git status --short'
 alias gsh='git show --decorate'
 alias gshn='git show --name-status --decorate'
 
-[[ -n $ZSH_NAME ]] && [[ -x $(which smartless) ]] && export GIT_PAGER="$(which smartless)"
+if which less &>/dev/null; then
+    if (( $(less --version 2>/dev/null | sed -nr 's/^less ([0-9]+).*/\1/p') >= 530 )); then
+        # less version 530 and later handles -F properly
+        export GIT_PAGER='less -FRi'
+    elif which smartless &>/dev/null; then
+        # use smartless wrapper script for older distros (inefficient, but usually works)
+        export GIT_PAGER='smartless'
+    else
+        # fall back to just always paging even if one screen
+        export GIT_PAGER='less -Ri'
+    fi
+else
+    # less isn't installed? oof...
+    unset GIT_PAGER
+fi
 
 # wrap gitk in a function to automatically run it in the background
 function gitk {
