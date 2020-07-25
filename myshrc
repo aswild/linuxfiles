@@ -74,7 +74,7 @@ function path_filter {
 
     eval $1="'${NEWPATH#:}'"
 }
-[[ -d /mnt/c/Windows ]] && path_filter PATH '/mnt/c/(Python|cygwin)'
+[[ -d /mnt/c/Windows ]] && path_filter PATH '/mnt/c/'
 [[ -d /cygdrive ]] && path_filter PATH '/cygdrive/c/(Python|Dwimperl)'
 
 # colors for ls
