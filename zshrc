@@ -111,6 +111,9 @@ alias srcrc="source ~/.zshrc"
 alias mmv="noglob zmv -W"
 alias dh="dirs -v"
 
+[[ -d "$HOME/scripts/zsh_completions" ]] && fpath=("$HOME/scripts/zsh_completions" "${fpath[@]}")
+[[ -d "$HOME/share/zsh/site-functions" ]] && fpath=("$HOME/share/zsh/site-functions" "${fpath[@]}")
+
 # syntax highlighting
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[arg0]='none'
