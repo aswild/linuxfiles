@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+import os
+from subprocess import check_output, DEVNULL, CalledProcessError
+from sys import exit
+
+import subprocess
+subprocess.call(['env'])
+
+def exec(prog, *args):
+    # calling 'ssh -t host scripts/tmux-att-or-new' doesn't set LANG, which messes
+    # up terminal rendering and font. Make sure it's set correctly.
+    # Can also fix this by execing a login shell that execs the tmux command.
+    env = os.environ.copy()
+    env['LANG'] = 'en_US.UTF-8'
+    os.execlpe(prog, prog, *args, env)
+
+for i, name in enumerate(('stdin', 'stdout', 'stderr')):
+    if not os.isatty(i):
+        exit('error: %s is not a TTY'%name)
+
+try:
+    sessions = check_output(['tmux', 'list-sessions'], stderr=DEVNULL, universal_newlines=True).splitlines()
+except CalledProcessError as e:
+    sessions = []
+
+if len(sessions) == 0:
+    exec('tmux', 'new')
+elif len(sessions) == 1:
+    exec('tmux', 'attach')
+else:
+    print('\n'.join(sessions))
+    s = input('select session> ')
+    exec('tmux', 'attach', '-t', s)
