@@ -312,8 +312,6 @@ function walltime {
     return $ret
 }
 
-[[ -n $ZSH_NAME ]] && alias make="walltime command make"
-
 # rehash after any pip install
 function pipwrap {
     local _pip_cmd="$1"
