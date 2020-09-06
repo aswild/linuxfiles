@@ -293,22 +293,22 @@ function walltime {
     local min=$(($diff / 60))
     local sec=$(($diff % 60))
 
+    local hour_s
     if (( $min >= 60 )); then
-        local hour_s="$(($min / 60))h "
+        hour_s="$(($min / 60))h "
         min=$(($min % 60))
     else
-        local hour_s=''
+        hour_s=''
     fi
 
+    local R=$'\033[0m'
     if [[ $ret == 0 ]]; then
-        local C="$(tput setaf 2)" # green
+        local C=$'\033[32m' # green
     else
-        local C="$(tput setaf 1)" # red
+        local C=$'\033[31m' # red
     fi
-    local R="$(tput sgr0)"
 
-    printf >&2 '\n'
-    echo -E >&2 "  $C'${*#command }' returned $ret in ${hour_s}${min}m ${sec}s$R"
+    printf >&2 "\n  $C'${*#command }' returned $ret in ${hour_s}${min}m ${sec}s$R\n"
     return $ret
 }
 
