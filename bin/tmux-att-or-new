@@ -4,9 +4,6 @@ import os
 from subprocess import check_output, DEVNULL, CalledProcessError
 from sys import exit
 
-import subprocess
-subprocess.call(['env'])
-
 def exec(prog, *args):
     # calling 'ssh -t host scripts/tmux-att-or-new' doesn't set LANG, which messes
     # up terminal rendering and font. Make sure it's set correctly.
