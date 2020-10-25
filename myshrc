@@ -630,7 +630,7 @@ function sview {
     local choices
     choices=()
     local __name
-    for __name in $(ls $WORKSPACES_ROOT | grep -Ee "$pattern"); do
+    for __name in $(ls $WORKSPACES_ROOT | grep -Eie "$pattern"); do
         if [[ ( -d $WORKSPACES_ROOT/$__name/.repo || -e $WORKSPACES_ROOT/$__name/.git ) \
               && ! -e $WORKSPACES_ROOT/$__name/.no-sview ]]; then
             choices+=($__name)
