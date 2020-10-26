@@ -127,7 +127,7 @@ if which bat &>/dev/null; then
 fi
 
 if which fzf &>/dev/null; then
-    export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all+accept'
+    export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all+accept --height=30 --reverse'
 fi
 
 # networking/sudo aliases
