@@ -126,6 +126,10 @@ if which bat &>/dev/null; then
     export BAT_THEME='Solarized (dark)'
 fi
 
+if which fzf &>/dev/null; then
+    export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all+accept'
+fi
+
 # networking/sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
     _sudo_aliases=(apt apt-get ifconfig ifdown ifup ip pacman systemctl yum)
@@ -257,6 +261,17 @@ function up {
 
 alias ff='selectf -A'
 alias ffi='selectf -Ai'
+
+# fz aliases. These only work when fd and fzf are installed, but the fz script checks that
+alias vimz='fz vim -p :: -tf'
+alias gvimz='fz gvim -p :: -tf'
+
+# cdz: like cdf but using fz rather than selectf
+function cdz {
+    local __dir
+    __dir="$(fz --no-multi echo :: -td "$@")"
+    [[ -n "$__dir" ]] && [[ -d "$__dir" ]] && cd "$__dir"
+}
 
 function findpath {
     local _saveifs=$IFS
