@@ -1,0 +1,91 @@
+#!/bin/bash
+
+readonly ME="$0"
+
+set -euo pipefail
+
+usage() {
+    cat >&2 <<_EOF
+usage: $ME [OPTIONS] COMMAND [COMMAND_ARGS ::] PATTERN [FD_ARGS]
+OPTIONS:
+    -h, --help  Show this help text
+    --no-multi  Disable fzf multi-select
+_EOF
+    exit 1
+}
+
+die() {
+    echo >&2 "error: $*"
+    exit 1
+}
+
+check_prog() {
+    type -P "$1" &>/dev/null || die "program '$1' is not installed"
+}
+
+check_prog fd
+check_prog fzf
+
+CMD=''
+CMD_ARGS=()
+FD_ARGS=()
+
+FZF_MULTI=1
+MY_ARGS_DONE=0
+
+for arg in "$@"; do
+    if (( ! MY_ARGS_DONE )); then
+        case "$arg" in
+            -h|--help)
+                usage
+                ;;
+            --no-multi)
+                FZF_MULTI=0
+                continue
+                ;;
+            -*)
+                die "unknown option '$arg'"
+                ;;
+            *)
+                MY_ARGS_DONE=1
+                ;;
+        esac
+    fi
+    if [[ "$arg" == "::" ]]; then
+        # we've been collecting args into FD_ARGS, but now that we saw :: those were really
+        # command args, so move them and clear fd args
+        CMD_ARGS=("${FD_ARGS[@]}")
+        FD_ARGS=()
+    else
+        # Collect all args into FD_ARGS, since CMD_ARGS are optional, but if present
+        # must be followed by ::
+        if [[ -z "$CMD" ]]; then
+            # but the first thing is CMD
+            CMD="$arg"
+        else
+            FD_ARGS+=("$arg")
+        fi
+    fi
+done
+
+[[ -n "$CMD" ]] || die "command not specified"
+
+# prepend internal fd args so it plays nicely with fzf
+FD_ARGS=('--color=always' '--print0' "${FD_ARGS[@]}")
+FZF_ARGS=('--ansi' '--read0' '--print0' '--exit-0' '--select-1')
+if (( FZF_MULTI )); then
+    FZF_ARGS+=('--multi')
+fi
+
+# run fd/fzf pipe to get selections
+# note: because of this fancy process substitution, we end up not having a good way
+# to check the return codes of either fzf or fd, but we hope that when things fail
+# that fzf will produce no (stdout) output and MATCHES will be empty
+mapfile -d '' MATCHES < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
+
+if (( ! ${#MATCHES[@]} )); then
+    echo >&2 "no matches"
+    exit 1
+fi
+
+exec "$CMD" "${CMD_ARGS[@]}" "${MATCHES[@]}"
