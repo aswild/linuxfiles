@@ -78,11 +78,19 @@ if (( FZF_MULTI )); then
 fi
 
 # run fd/fzf pipe to get selections
-# note: because of this fancy process substitution, we end up not having a good way
+
+MATCHES=()
+# bash's mapfile didn't get the -d option until version 4.3, so use a while-read
+# loop instead that's clunkier but mroe compatible. Replace with mapfile when
+# I no longer care about bash 4.3 systems (including ubuntu xenial)
+#mapfile -d '' MATCHES < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
+while read -r -d '' match; do
+    MATCHES+=("$match")
+done < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
+
+# because of this fancy process substitution, we end up not having a good way
 # to check the return codes of either fzf or fd, but we hope that when things fail
 # that fzf will produce no (stdout) output and MATCHES will be empty
-mapfile -d '' MATCHES < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
-
 if (( ! ${#MATCHES[@]} )); then
     echo >&2 "no matches"
     exit 1
