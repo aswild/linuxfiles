@@ -10,6 +10,10 @@ usage: $ME [OPTIONS] COMMAND [COMMAND_ARGS ::] PATTERN [FD_ARGS]
 OPTIONS:
     -h, --help  Show this help text
     --no-multi  Disable fzf multi-select
+
+ENVIRONMENT VARIABLES:
+    FD          Path/name of fd executable (default 'fd')
+    FZF         Path/name of fzf executable (default 'sk' if available, or 'fzf')
 _EOF
     exit 1
 }
@@ -19,12 +23,20 @@ die() {
     exit 1
 }
 
-check_prog() {
-    type -P "$1" &>/dev/null || die "program '$1' is not installed"
-}
+# check for fd and fzf tools, bail if they can't be found.
+# `type -P` does a path search, but it also works with full paths
+: "${FD:=fd}"
+type -P "$FD" &>/dev/null || die "FD program '$FD' is not installed"
 
-check_prog fd
-check_prog fzf
+if [[ -n "${FZF:-}" ]]; then
+    type -P "$FZF" &>/dev/null || die "FZF program '$FZF' is not installed"
+elif type -P sk &>/dev/null; then
+    FZF='sk'
+elif type -P fzf &>/dev/null; then
+    FZF='fzf'
+else
+    die "couldn't find sk or fzf"
+fi
 
 CMD=''
 CMD_ARGS=()
@@ -80,13 +92,13 @@ fi
 # run fd/fzf pipe to get selections
 
 MATCHES=()
-# bash's mapfile didn't get the -d option until version 4.3, so use a while-read
-# loop instead that's clunkier but mroe compatible. Replace with mapfile when
+# bash's mapfile didn't get the -d option until version 4.4, so use a while-read
+# loop instead that's clunkier but more compatible. Replace with mapfile when
 # I no longer care about bash 4.3 systems (including ubuntu xenial)
 #mapfile -d '' MATCHES < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
 while read -r -d '' match; do
     MATCHES+=("$match")
-done < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
+done < <("$FD" "${FD_ARGS[@]}" | "$FZF" "${FZF_ARGS[@]}")
 
 # because of this fancy process substitution, we end up not having a good way
 # to check the return codes of either fzf or fd, but we hope that when things fail
