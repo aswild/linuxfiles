@@ -129,6 +129,9 @@ fi
 if which fzf &>/dev/null; then
     export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all+accept --height=30 --reverse'
 fi
+if which sk &>/dev/null; then
+    export SKIM_DEFAULT_OPTIONS='--bind ctrl-a:select-all+accept --height=30 --reverse'
+fi
 
 # networking/sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
