@@ -193,6 +193,7 @@ nnoremap <C-P> :CtrlP<cr>
 "let g:ctrlp_root_markers = ['.repo']
 let g:ctrlp_custom_ignore = {'dir': '\v[/](\.(pc|repo|git)|venv)$'}
 let g:ctrlp_max_files = 500000
+let g:ctrlp_switch_buffer = ''
 
 " Airline customization
 " solarized dark theme with powerline fonts
