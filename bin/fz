@@ -2,7 +2,12 @@
 
 readonly ME="$0"
 
-set -euo pipefail
+set -eo pipefail
+
+# bash 4.3 and older throw an "unbound variable" error on empty arrays, so only set -u on >= 4.4
+if (( BASH_VERSINFO[0] > 4 || (BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] >= 4) )); then
+    set -u
+fi
 
 usage() {
     cat >&2 <<_EOF
