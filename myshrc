@@ -132,6 +132,9 @@ fi
 if which sk &>/dev/null; then
     export SKIM_DEFAULT_OPTIONS='--bind ctrl-a:select-all+accept --height=30 --reverse'
 fi
+if which rg &>/dev/null; then
+    export RIPGREP_CONFIG_PATH="${__linuxfiles_dir:-${HOME}/linuxfiles}/ripgreprc"
+fi
 
 # networking/sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then

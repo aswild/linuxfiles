@@ -1,0 +1,16 @@
+# ripgrep config file, must be used with RIPGREP_CONFIG_PATH=/path/to/ripgreprc in the environment.
+# Every uncommented line is treated as a single argv, no quoting needed, but this also means that
+# there's no arg splitting on spaces in a single line.
+
+# skip gitignore by default, invert with --ignore-vcs
+--no-ignore-vcs
+
+# colors to mimic ag
+--colors=match:fg:magenta
+--colors=line:fg:yellow
+--colors=path:fg:green
+
+# type aliases
+--type-add=bb:include:bitbake
+--type-add=cxx:include:cpp
+--type-add=rs:include:rust
