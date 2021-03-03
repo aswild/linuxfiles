@@ -208,4 +208,5 @@ EXEC 01;32 # This is for files with execute permission:
 .cc 00;31
 .cpp 00;31
 .h 00;33
+.hpp 00;33
 .rs 00;31
