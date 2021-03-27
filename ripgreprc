@@ -17,3 +17,7 @@
 --type-add=bb:include:bitbake
 --type-add=cxx:include:cpp
 --type-add=rs:include:rust
+
+# extend make type to include Makefile.*, as often seen in the linux kernel
+# (note this is a glob not a regex)
+--type-add=make:[Mm]akefile.*
