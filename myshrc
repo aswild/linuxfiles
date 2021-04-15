@@ -333,6 +333,8 @@ function walltime {
     return $ret
 }
 
+alias nicebuild='walltime schedtool -n10 -Be'
+
 # rehash after any pip install
 function pipwrap {
     local _pip_cmd="$1"
