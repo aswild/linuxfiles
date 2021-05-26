@@ -276,7 +276,7 @@ command! -nargs=1 Wrap set cc=<args> | set tw=<args> | set formatoptions+=tc
 command! NT NERDTree
 command! TL TlistToggle
 command! Trailsp %s/\s\+$//e | noh
-command! Rustfmt %!rustfmt
+command! Rustfmt normal! mr:%!rustfmt<CR>g'r
 
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
