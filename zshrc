@@ -113,6 +113,9 @@ alias dh="dirs -v"
 alias make="walltime command make"
 alias ninja="walltime command ninja"
 
+# oh-my-zsh does alias _=sudo, which I don't want
+unalias _ &>/dev/null
+
 [[ -d "$HOME/scripts/zsh_completions" ]] && fpath=("$HOME/scripts/zsh_completions" "${fpath[@]}")
 [[ -d "$HOME/share/zsh/site-functions" ]] && fpath=("$HOME/share/zsh/site-functions" "${fpath[@]}")
 
