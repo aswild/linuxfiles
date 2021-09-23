@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+
+from argparse import ArgumentParser
+from os import getenv
+from pprint import pprint
+import re
+from shlex import split
+import subprocess
+import sys
+
+def parse_sigs(cc_cmd):
+    cmd = cc_cmd + split('-E -dD -x c -')
+    in_code = '#include <signal.h>\n'
+    ret = subprocess.run(cmd, input=in_code, stdout=subprocess.PIPE, text=True, check=True)
+
+    sigs = {}
+    aliases = {}
+    for line in ret.stdout.splitlines():
+        if m := re.match('^\s*#\s*define\s+(SIG[A-Z0-9]+)\s+([A-Z0-9]+)$', line):
+            name = m.group(1)
+            val = m.group(2)
+
+            # skip "signal stack size", it's not actually a signal number
+            if name == 'SIGSTKSZ':
+                continue
+
+            try:
+                num = int(val)
+            except ValueError:
+                aliases[name] = val
+            else:
+                sigs[name] = num
+
+    while aliases:
+        found = False
+        for name, val in aliases.items():
+            if val in sigs:
+                sigs[name] = sigs[val]
+                del aliases[name]
+                found = True
+                break
+        if not found:
+            print(f'warning: unresolved signal aliases: {aliases}')
+            break
+
+    return sigs
+
+def invert_sigs(by_name):
+    """ convert a {str: int} dict of signal to value into a {int: [str]} dict of number->names """
+    ret = {}
+    # sort by signal number so that insertion order is numberic order
+    for name, num in sorted(by_name.items(), key=lambda x: x[1]):
+        if num in ret:
+            ret[num].append(name)
+        else:
+            ret[num] = [name]
+    return ret
+
+def filter_sigs(sigs, pat):
+    try:
+        pat_num = int(pat)
+        if pat_num in sigs:
+            yield pat_num, sigs[pat_num]
+        return
+    except ValueError:
+        pass
+
+    filter_namepat = lambda items: any(re.search(pat, name, flags=re.I) is not None for name in items[1])
+    yield from filter(filter_namepat, sigs.items())
+
+def print_sigs(sigs):
+    # sigs might be a generator or it might be a dict,
+    # collect into a list so the generator is only iterated once
+    if isinstance(sigs, dict):
+        items = list(sigs.items)
+    else:
+        items = list(sigs)
+
+    if not items:
+        print('No matching signals found')
+        return
+
+    width = max(len(str(num)) for num in map(lambda i: i[0], items))
+    for num, names in items:
+        print(f'{num:{width}}  {" ".join(names)}')
+
+def main():
+    default_cc = split(getenv('CC', 'gcc'))
+    default_cflags = split(getenv('CPPFLAGS', ''))
+    default_cflags += split(getenv('CFLAGS', ''))
+
+    p = ArgumentParser()
+    p.add_argument('--cc', type=split, default=default_cc, help='Compiler to use (CC in environment or "gcc")')
+    p.add_argument('--cflags', type=split, default=default_cflags, help='Compiler flags (CFLAGS in environment')
+    p.add_argument('pattern', nargs='?', default='.*', help='Signal number or a search pattern for signal names')
+    args = p.parse_args()
+
+    sigs = invert_sigs(parse_sigs(args.cc + args.cflags))
+    fsigs = filter_sigs(sigs, args.pattern)
+    #pprint(dict(fsigs))
+    print_sigs(fsigs)
+
+if __name__ == '__main__':
+    sys.exit(main())
