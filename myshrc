@@ -591,9 +591,9 @@ function bbenv {
         echo >&2 "Updated PATH"
     fi
     if [[ -t 1 ]]; then
-        bitbake -e "$1" | $vim -R -c 'set ft=bitbake' -
+        bitbake -e "$@" | $vim -R -c 'set ft=bitbake' -
     else
-        bitbake -e "$1"
+        bitbake -e "$@"
     fi
 }
 
