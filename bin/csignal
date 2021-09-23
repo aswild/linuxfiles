@@ -11,12 +11,13 @@ import sys
 def parse_sigs(cc_cmd):
     cmd = cc_cmd + split('-E -dD -x c -')
     in_code = '#include <signal.h>\n'
-    ret = subprocess.run(cmd, input=in_code, stdout=subprocess.PIPE, text=True, check=True)
+    ret = subprocess.run(cmd, input=in_code, stdout=subprocess.PIPE, universal_newlines=True, check=True)
 
     sigs = {}
     aliases = {}
     for line in ret.stdout.splitlines():
-        if m := re.match('^\s*#\s*define\s+(SIG[A-Z0-9]+)\s+([A-Z0-9]+)$', line):
+        m = re.match('^\s*#\s*define\s+(SIG[A-Z0-9]+)\s+([A-Z0-9]+)$', line)
+        if m:
             name = m.group(1)
             val = m.group(2)
 
