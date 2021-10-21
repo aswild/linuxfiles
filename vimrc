@@ -278,6 +278,9 @@ command! TL TlistToggle
 command! Trailsp %s/\s\+$//e | noh
 command! Rustfmt normal! mr:%!rustfmt<CR>g'r
 
+" Disregard deprecation, restore :Gblame
+command! Gblame Git blame
+
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
