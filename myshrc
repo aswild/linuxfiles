@@ -521,8 +521,13 @@ function rbase {
             cd $repodir
             return 0
         elif [[ $repodir == / ]]; then
-            echo 'No .repo found' >&2
-            return 1
+            gbase
+            if (( $? )); then
+                echo >&2 "no .repo or .git dir found"
+                return 1
+            else
+                return 0
+            fi
         else
             repodir=$(dirname $repodir)
         fi
