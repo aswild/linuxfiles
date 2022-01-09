@@ -85,6 +85,44 @@ function omz_termsupport_preexec {
     title '$CMD' '%100>...>$LINE%<<'
 }
 
+# Set terminal window and tab/icon title
+# Copied from oh-my-zsh/lib/termsupport.zsh, changed "nopromptsubst" option to
+# just "promptsubst" so that zwild_get_view in tmux tab titles works again.
+# It was "broken" in omz commit a263cda as a fix for potential command injection,
+# but command injection is precisely what I want for my tmux tab titles showing
+# the view nicely.
+function title {
+  setopt localoptions promptsubst
+
+  # Don't set the title if inside emacs, unless using vterm
+  [[ -n "${INSIDE_EMACS:-}" && "$INSIDE_EMACS" != vterm ]] && return
+
+  # if $2 is unset use $1 as default
+  # if it is set and empty, leave it as is
+  : ${2=$1}
+
+  case "$TERM" in
+    cygwin|xterm*|putty*|rxvt*|konsole*|ansi|mlterm*|alacritty|st*)
+      print -Pn "\e]2;${2:q}\a" # set window name
+      print -Pn "\e]1;${1:q}\a" # set tab name
+      ;;
+    screen*|tmux*)
+      print -Pn "\ek${1:q}\e\\" # set screen hardstatus
+      ;;
+    *)
+      if [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
+        print -Pn "\e]2;${2:q}\a" # set window name
+        print -Pn "\e]1;${1:q}\a" # set tab name
+      else
+        # Try to use terminfo to set the title if the feature is available
+        if (( ${+terminfo[fsl]} && ${+terminfo[tsl]} )); then
+          print -Pn "${terminfo[tsl]}$1${terminfo[fsl]}"
+        fi
+      fi
+      ;;
+  esac
+}
+
 # if this looks like a serial console, disable preexec and idle functions
 # that write escape codes which can show up as junk on the console
 if [[ $TTY == /dev/ttyS* || $TTY == /dev/ttyAMA* ]]; then
