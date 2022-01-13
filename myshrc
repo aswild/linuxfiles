@@ -138,7 +138,7 @@ fi
 
 # networking/sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
-    _sudo_aliases=(apt apt-get ifconfig ifdown ifup ip pacman systemctl yum)
+    _sudo_aliases=(apt apt-get ip pacman)
     for _cmd in "${_sudo_aliases[@]}"; do
         if /usr/bin/which "$_cmd" &>/dev/null; then
             alias "$_cmd"="sudo $_cmd"
