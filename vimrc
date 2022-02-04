@@ -276,7 +276,7 @@ command! -nargs=1 Wrap set cc=<args> | set tw=<args> | set formatoptions+=tc
 command! NT NERDTree
 command! TL TlistToggle
 command! Trailsp %s/\s\+$//e | noh
-command! Rustfmt normal! mr:%!rustfmt<CR>g'r
+command! Rustfmt normal! mr:%!rustfmt --edition 2021<CR>g'r
 
 " Disregard deprecation, restore :Gblame
 command! Gblame Git blame
