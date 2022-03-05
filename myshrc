@@ -644,47 +644,90 @@ function ebase {
     [[ -d "$WORKSPACES_ROOT" ]] && cd "$WORKSPACES_ROOT"
 }
 
-function sview {
-    if [[ ! -d "$WORKSPACES_ROOT" ]]; then
-        echo "WORKSPACES_ROOT '$WORKSPACES_ROOT' doesn't exist!"
-        return 1
-    fi
-    if [[ -n $1 ]]; then
-        local pattern="$1"
-    else
-        local pattern=".*"
-    fi
+if which sk &>/dev/null; then
+    # new and improved sview function that uses skim to select a workspace
+    function sview_workspace_list {
+        local _name
+        local _found=0
+        local _pattern="$1"
+        [[ -n "$_pattern" ]] || _pattern='.'
 
-    local choices
-    choices=()
-    local __name
-    for __name in $(ls $WORKSPACES_ROOT | grep -Eie "$pattern"); do
-        if [[ ( -d $WORKSPACES_ROOT/$__name/.repo || -e $WORKSPACES_ROOT/$__name/.git ) \
-              && ! -e $WORKSPACES_ROOT/$__name/.no-sview ]]; then
-            choices+=($__name)
+        # important optimizations to make this function fast enough to be "instant"
+        #  * only one grep command total rather than one grep per workspace candidate
+        #  * filter workspace names before checking for .git/.repo existence to limit fs syscalls
+        # Doing this the "slow" way by checking for workspace validity first and grepping each
+        # individually makes this take a couple hundred ms.
+        while read _name; do
+            if [[ ( -e "$WORKSPACES_ROOT/$_name/.git" || -e "$WORKSPACES_ROOT/$_name/.repo" ) \
+                  && ! -e "$WORKSPACES_ROOT/$_name/.no-sview" ]]; then
+                echo "$_name"
+                _found=1
+            fi
+        done < <(ls "$WORKSPACES_ROOT" | grep -E -- "$_pattern")
+
+        if [[ "$_found" == 0 ]]; then
+            echo >&2 "No matching workspaces found"
+            return 1
         fi
-    done
+    }
 
-    if [[ ${#choices[@]} == 0 ]]; then
-        echo "no matching view found: $pattern"
-        return 1
-    elif [[ ${#choices[@]} == 1 ]]; then
-        [[ -n $ZSH_NAME ]] && local i=1 || local i=0
-        export TOP=$WORKSPACES_ROOT/${choices[$i]}
-    else
-        select choice in ${choices[@]}; do
-            if [[ -n $choice ]]; then
-                break
-            elif [[ $REPLY == "q" ]]; then
-                return 0
-            else
-                return 1
+    function sview {
+        if [[ ! -d "$WORKSPACES_ROOT" ]]; then
+            echo "WORKSPACES_ROOT '$WORKSPACES_ROOT' doesn't exist!"
+            return 1
+        fi
+
+        local _name
+        _name="$(sview_workspace_list "${1}" | sk --exit-0 --select-1 --prompt='Select Workspace> ')"
+        [[ -n "$_name" ]] || return 1
+
+        export TOP="${WORKSPACES_ROOT}/${_name}"
+        [[ "$PWD" == "${TOP}"* ]] || cd $TOP
+    }
+else
+    # old sview function that uses the shell's `select` builtin
+    function sview {
+        if [[ ! -d "$WORKSPACES_ROOT" ]]; then
+            echo "WORKSPACES_ROOT '$WORKSPACES_ROOT' doesn't exist!"
+            return 1
+        fi
+        if [[ -n $1 ]]; then
+            local pattern="$1"
+        else
+            local pattern=".*"
+        fi
+
+        local choices
+        choices=()
+        local __name
+        for __name in $(ls $WORKSPACES_ROOT | grep -Eie "$pattern"); do
+            if [[ ( -d $WORKSPACES_ROOT/$__name/.repo || -e $WORKSPACES_ROOT/$__name/.git ) \
+                  && ! -e $WORKSPACES_ROOT/$__name/.no-sview ]]; then
+                choices+=($__name)
             fi
         done
-        export TOP=$WORKSPACES_ROOT/$choice
-    fi
-    [[ "$PWD" =~ ${TOP}(/|$) ]] || cd $TOP
-}
+
+        if [[ ${#choices[@]} == 0 ]]; then
+            echo "no matching view found: $pattern"
+            return 1
+        elif [[ ${#choices[@]} == 1 ]]; then
+            [[ -n $ZSH_NAME ]] && local i=1 || local i=0
+            export TOP=$WORKSPACES_ROOT/${choices[$i]}
+        else
+            select choice in ${choices[@]}; do
+                if [[ -n $choice ]]; then
+                    break
+                elif [[ $REPLY == "q" ]]; then
+                    return 0
+                else
+                    return 1
+                fi
+            done
+            export TOP=$WORKSPACES_ROOT/$choice
+        fi
+        [[ "$PWD" =~ ${TOP}(/|$) ]] || cd $TOP
+    }
+fi
 
 function settop {
     if [[ -d $WORKSPACES_ROOT ]] && [[ $PWD == $WORKSPACES_ROOT/* ]]; then
