@@ -131,6 +131,9 @@ if which fzf &>/dev/null; then
 fi
 if which sk &>/dev/null; then
     export SKIM_DEFAULT_OPTIONS='--bind ctrl-a:select-all+accept --height=30 --reverse'
+    if sk --help 2>/dev/null | grep -qF -- --auto-height; then
+        SKIM_DEFAULT_OPTIONS="$SKIM_DEFAULT_OPTIONS --auto-height"
+    fi
 fi
 if which rg &>/dev/null; then
     export RIPGREP_CONFIG_PATH="${__linuxfiles_dir:-${HOME}/linuxfiles}/ripgreprc"
