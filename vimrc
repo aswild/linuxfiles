@@ -194,6 +194,11 @@ nnoremap <C-P> :CtrlP<cr>
 let g:ctrlp_custom_ignore = {'dir': '\v[/](\.(pc|repo|git)|venv)$'}
 let g:ctrlp_max_files = 500000
 let g:ctrlp_switch_buffer = ''
+" if fd exists, use it to populate ctrlp rather than the slow builtin
+" vimscript searcher
+if executable("fd")
+    let g:ctrlp_user_command = 'fd -tf . %s'
+endif
 
 " Airline customization
 " solarized dark theme with powerline fonts
