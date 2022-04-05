@@ -246,11 +246,13 @@ let g:tmuxline_preset = {
       \'y'    : '%l:%M %P',
       \'z'    : '#(whoami)@#H'}
 
-" NERDTree filtering
+" NERDTree Options
 let g:NERDTreeIgnore = ['\.o$', '\.pyc$']
-
 let g:NERDTreeMapOpenSplit = "s"
 let g:NERDTreeMapOpenVSplit = "v"
+" Disable error messages if git isn't installed. (LogLevel is inverted, higher
+" numbers mean to be quieter)
+let g:NERDTreeGitStatusLogLevel = 4
 
 " Python syntax highlighting options
 let g:python_highlight_all = 1
