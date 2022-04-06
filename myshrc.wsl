@@ -45,6 +45,7 @@ xlaunch() {
         export DISPLAY="$_d"
     else
         winstart "$vcxsrv_path"
+        sleep 0.5
         export DISPLAY="$(wsl2-get-display -t50 -r100)"
     fi
     if [[ -n "$TMUX" ]]; then
