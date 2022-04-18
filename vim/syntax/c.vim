@@ -269,7 +269,7 @@ if !exists("c_no_c99") " ISO C99
   " WILD ADD START
   syn keyword	cType		int8 int16 int32 int64
   syn keyword	cType		uint8 uint16 uint32 uint64
-  syn keyword	cType		byte
+  syn keyword	cType		byte uint
   " WILD ADD END
 endif
 if exists("c_gnu")
