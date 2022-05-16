@@ -685,7 +685,9 @@ if which sk &>/dev/null; then
         [[ -n "$_name" ]] || return 1
 
         export TOP="${WORKSPACES_ROOT}/${_name}"
-        [[ "$PWD" == "${TOP}"* ]] || cd $TOP
+        if ! [[ "$PWD" == "$TOP" || "$PWD" == "$TOP"/* ]]; then
+            cd "$TOP"
+        fi
     }
 else
     # old sview function that uses the shell's `select` builtin
