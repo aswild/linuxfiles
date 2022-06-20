@@ -125,6 +125,7 @@ map Q gq
 nmap <F5> :wa \| !python %<CR>
 imap <F5> <ESC>:wa \| !python %<CR>
 nmap <F6> :wa \| :make<CR>
+nmap <F9> :syn sync fromstart<CR>
 nmap <F12> :wa <CR>
 imap <F12> <ESC>:wa<CR>
 imap <C-BS> <C-W>
@@ -149,8 +150,6 @@ vmap / y/<C-R>0
 "imap <C-S-V> <C-V>
 vmap <silent> <C-R> V0<C-V>I#<ESC>
 vmap <silent> <C-T> :s/\v^(\s*)#(.*)$/\1\2<CR>:noh<CR>
-nmap <F10> :let @*=@+<CR>
-nmap <F9> :let @+=@*<CR>
 nmap <leader>p dd"0P
 nmap <leader>P D"0p
 nmap <leader>e de"0P
