@@ -116,6 +116,7 @@ function man {
 if which cargo &>/dev/null; then
     alias cb='cargo build'
     alias cbr='cargo build --release'
+    alias cbc='cargo check'
     alias cr='cargo run -q --'
     alias crr='cargo run --release -q --'
 fi
