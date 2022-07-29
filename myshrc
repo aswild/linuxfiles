@@ -47,6 +47,18 @@ function pathadd {
 [[ -d $HOME/scripts ]] && pathadd PATH "$HOME/scripts"
 [[ -d $HOME/.cargo/bin ]] && pathadd PATH "$HOME/.cargo/bin"
 
+_rustup_dir="${RUSTUP_HOME:-${HOME}/.rustup}/toolchains/stable-$(uname -m)-unknown-linux-gnu"
+if [[ -d "$_rustup_dir/share/man" ]]; then
+    pathadd MANPATH "$_rustup_dir/share/man"
+    # trailing : is necessary so man searches the normal places too (pathadd will always strip it)
+    MANPATH="${MANPATH}:"
+    export MANPATH
+fi
+if [[ -n $ZSH_NAME && -d "$_rustup_dir/share/zsh" ]]; then
+    fpath=("$_rustup_dir/share/zsh" "${fpath[@]}")
+fi
+unset _rustup_dir
+
 # function to filter out paths
 #   $1 : variable to check (e.g. PATH)
 #   $2 : regex applied to each PATH entry
