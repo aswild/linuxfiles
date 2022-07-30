@@ -39,10 +39,10 @@ function zwild_get_view() {
         if [[ $PWD == $TOP ]]; then
             return 0
         elif [[ $PWD == $TOP/* ]]; then
-            echo -n "$(basename $TOP)::"
+            echo -n "$(basename "$TOP")::"
             return 0
         else
-            local __zwild_not_in_top="$(basename $TOP)!!"
+            local __zwild_not_in_top="$(basename "$TOP")!!"
         fi
     fi
     if [[ -n $WORKSPACES_ROOT ]] && [[ $PWD == $WORKSPACES_ROOT/* ]]; then
