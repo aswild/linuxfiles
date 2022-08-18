@@ -356,11 +356,13 @@ function pipwrap {
     local _pip_cmd="$1"
     shift
     local _need_rehash=0
-    [[ "$1" == 'install' ]] && _need_rehash=1
-    command $_pip_cmd "$@" || return
-    if (( _need_rehash )); then
-        echo >&2 "rehashing"
+    if [[ "$1" == install ]]; then
+        shift
+        command $_pip_cmd install --no-warn-script-location "$@" || return
+        echo >&2 "$(basename "$SHELL"): rehashing"
         hash -r
+    else
+        command $_pip_cmd "$@"
     fi
 }
 for _pipname in pip pip2 pip3; do
