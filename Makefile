@@ -76,7 +76,7 @@ ifneq ($(MSYSTEM),)
 	git -C $(SRCDIR) update-index --assume-unchanged vim/autoload/pathogen.vim
 endif
 
-install: links bashrc-append gitconfig-common-add submodules selectf
+install: links bashrc-append gitconfig-common-add submodules
 
 $(DESTDIR):
 	mkdir -p $(DESTDIR)
