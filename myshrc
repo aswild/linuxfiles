@@ -667,6 +667,11 @@ if which sk &>/dev/null; then
     function sview_workspace_list {
         local _name
         local _found=0
+        local _all=0
+        if [[ "$1" == "-a" ]]; then
+            _all=1
+            shift
+        fi
         local _pattern="$1"
         [[ -n "$_pattern" ]] || _pattern='.'
 
@@ -676,7 +681,7 @@ if which sk &>/dev/null; then
         # Doing this the "slow" way by checking for workspace validity first and grepping each
         # individually makes this take a couple hundred ms.
         while read _name; do
-            if [[ ( -e "$WORKSPACES_ROOT/$_name/.git" || -e "$WORKSPACES_ROOT/$_name/.repo" ) \
+            if [[ ( "$_all" == "1" || -e "$WORKSPACES_ROOT/$_name/.git" || -e "$WORKSPACES_ROOT/$_name/.repo" ) \
                   && ! -e "$WORKSPACES_ROOT/$_name/.no-sview" ]]; then
                 echo "$_name"
                 _found=1
@@ -696,7 +701,7 @@ if which sk &>/dev/null; then
         fi
 
         local _name
-        _name="$(sview_workspace_list "${1}" | sk --exit-0 --select-1 --prompt='Select Workspace> ')"
+        _name="$(sview_workspace_list "$@" | sk --exit-0 --select-1 --prompt='Select Workspace> ')"
         [[ -n "$_name" ]] || return 1
 
         export TOP="${WORKSPACES_ROOT}/${_name}"
