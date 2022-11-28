@@ -9,10 +9,11 @@
 
 DEFAULT_TARGET="$(readlink -f "$(dirname "$0")/selectf.sh")"
 
-USAGE="Usage: $0 [-h|--help] [-f|--force] DESTDIR [TARGET]
+USAGE="Usage: $0 [-h|--help] [-f|--force] [-u|--uninstall] DESTDIR [TARGET]
 Options:
-    -h --help   Show this help text
-    -f --force  Overwrite existing links
+    -h --help       Show this help text
+    -f --force      Overwrite existing links
+    -u --uninstall  Uninstall selectf files
 
 Arguments:
     DESTDIR     Directory to install links in
@@ -25,7 +26,7 @@ usage() {
     fi
 }
 
-force=''
+FORCE=''
 
 while (( $# )); do
     case "$1" in
@@ -33,7 +34,10 @@ while (( $# )); do
             usage 0
             ;;
         -f|--force)
-            force='-f'
+            FORCE='-f'
+            ;;
+        -u|--uninstall)
+            UNINSTALL=1
             ;;
         -*)
             echo "Invalid option '$1'"
@@ -59,8 +63,18 @@ else
 fi
 
 mkdir -p "$DESTDIR" || exit 1
-ln -svT $force "$TARGET" "$DESTDIR/selectf"
+if (( UNINSTALL )); then
+    rm -vf "$DESTDIR/selectf"
+else
+    ln -svT $FORCE "$TARGET" "$DESTDIR/selectf"
+fi
 
 for name in {,g}vimf{,r}{,i}{,a}; do
-    ln -svT $force selectf "$DESTDIR/$name"
+    if (( UNINSTALL )); then
+        if [[ -n "$FORCE" ]] || [[ -L "$DESTDIR/$name" ]]; then
+            rm -v "$DESTDIR/$name"
+        fi
+    else
+        ln -svT $FORCE selectf "$DESTDIR/$name"
+    fi
 done

@@ -106,6 +106,10 @@ gitconfig-common-add:
 selectf: submodules
 	bash selectf/install.sh $(DESTDIR)/bin $(SRCDIR)/selectf/selectf.sh
 
+.PHONY: uninstall-selectf
+uninstall-selectf: submodules
+	bash selectf/install.sh --uninstall $(DESTDIR)/bin $(SRCDIR)/selectf/selectf.sh
+
 ###### SUBMODULES #######
 .PHONY: submodules subs subs-commit subsc subs-update subsu
 subs: submodules
