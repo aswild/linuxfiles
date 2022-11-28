@@ -305,6 +305,10 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 if has("gui_running")
+    " Fix shift-insert in gvim, from archlinux.vim
+    map <S-Insert> <MiddleMouse>
+    map! <S-Insert> <MiddleMouse>
+
     set background=dark
     colorscheme solarized
     set cursorline
@@ -368,11 +372,6 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
           \ | wincmd p | diffthis
 endif
-
-"maximize gvim, use for linux
-"if has("gui_running")
-"    "set lines=40 columns=120
-"endif
 
 " allow for local overrides
 if filereadable(expand("~/.vimrc_local"))
