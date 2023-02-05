@@ -88,7 +88,7 @@ done
 [[ -n "$CMD" ]] || die "command not specified"
 
 # prepend internal fd args so it plays nicely with fzf
-FD_ARGS=('--color=always' '--print0' "${FD_ARGS[@]}")
+FD_ARGS=('--color=always' '--print0' '--strip-cwd-prefix' "${FD_ARGS[@]}")
 FZF_ARGS=('--ansi' '--read0' '--print0' '--exit-0' '--select-1')
 if (( FZF_MULTI )); then
     FZF_ARGS+=('--multi')
