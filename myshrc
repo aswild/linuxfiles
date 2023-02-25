@@ -153,7 +153,7 @@ if which rg &>/dev/null; then
 fi
 
 # networking/sudo aliases
-if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -l -S </dev/null &>/dev/null ); then
+if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -knv </dev/null &>/dev/null ); then
     _sudo_aliases=(apt apt-get ip pacman)
     for _cmd in "${_sudo_aliases[@]}"; do
         if /usr/bin/which "$_cmd" &>/dev/null; then
