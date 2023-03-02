@@ -15,7 +15,7 @@ function zsh_prompt_print_pwd
     if [[ -n "$WORKSPACES_ROOT" ]]; then
         dir="${dir#${WORKSPACES_ROOT}/*/}"
     fi
-    echo "${dir/${HOME}/~}"
+    echo "${dir/#${HOME}/~}"
 }
 
 PROMPT='
