@@ -551,8 +551,14 @@ function rbase {
         fi
     done
 }
-# leading space so zwild.zsh doesn't re-apply this (i.e. let myshrc_local clobber this alias)
- alias base='rbase'
+
+function base {
+    if [[ -d "$TOP" && "$PWD/" == "$TOP"/* ]]; then
+        cd "$TOP"
+        return
+    fi
+    rbase
+}
 
 function clearbbpath {
     # remove previous bitbake bin paths from PATH
