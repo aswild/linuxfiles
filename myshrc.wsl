@@ -4,15 +4,13 @@
 # installed and configured on both the WSL Host and Guest sides.
 #
 # Host (Windows):
-#   * Install winstart (https://github.com/aswild/winstart) somewhere. The default location is
-#     C:\Users\$USER\bin\winstart.exe
 #   * Install VcXsrv and save a vcxsrv.xlaunch file somewhere (default C:\Users\$USER\vcxsrv.xlaunch)
 #
 # Guest (Linux):
 #   * Install wsl2-get-display somewhere in PATH
+#   * Install wslview somewhere in PATH (wslu package)
 #   * Set environment variables in ~/myshrc_local if needed
 #     - WSL_WINDOWS_USER    Windows username                ($USER)
-#     - WSL_WINSTART_PATH   Linux path to winstart.exe      (/mnt/c/Users/$WSL_WINDOWS_USER/bin/winstart.exe)
 #     - WSL_VCXSRV_PASTH    Windows path to vcxsrv.xlaunch  (C:\Users\$WSL_WINDOWS_USER\vcxsrv.xlaunch)
 #   * Source ~/linuxfiles/myshrc.wsl in ~/myshrc_local
 
@@ -20,17 +18,6 @@
 if [[ -z "$TMUX" ]] && which wsl2-get-display &>/dev/null; then
     export DISPLAY="$(wsl2-get-display)"
 fi
-
-winstart() {
-    local windows_user="${WSL_WINDOWS_USER:-${USER}}"
-    local winstart_path="${WSL_WINSTART_PATH:-/mnt/c/Users/${windows_user}/bin/winstart.exe}"
-
-    if [[ ! -e "$winstart_path" ]]; then
-        echo "Error: $winstart_path doesn't exist. Set WSL_WINDOWS_USER or WSL_WINSTART_PATH"
-        return 1
-    fi
-    /init "$winstart_path" "$@"
-}
 
 xlaunch() {
     local windows_user="${WSL_WINDOWS_USER:-${USER}}"
@@ -44,7 +31,7 @@ xlaunch() {
     if [[ -n "$_d" ]]; then
         export DISPLAY="$_d"
     else
-        winstart "$vcxsrv_path"
+        wslview "$vcxsrv_path"
         sleep 0.5
         export DISPLAY="$(wsl2-get-display -t50 -r100)"
     fi
