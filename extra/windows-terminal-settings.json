@@ -366,6 +366,7 @@
         }
     ],
     "showTabsInTitlebar": false,
+    "showTerminalTitleInTitlebar": true,
     "themes": [],
     "useAcrylicInTabRow": false,
     "wordDelimiters": " |\u2502[]()\"':;"

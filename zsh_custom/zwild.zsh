@@ -103,8 +103,9 @@ function title {
 
   case "$TERM" in
     cygwin|xterm*|putty*|rxvt*|konsole*|ansi|mlterm*|alacritty|st*)
-      print -Pn "\e]2;${2:q}\a" # set window name
+      # WILD: set window name after tab name for Windows Terminal compatibility
       print -Pn "\e]1;${1:q}\a" # set tab name
+      print -Pn "\e]2;${2:q}\a" # set window name
       ;;
     screen*|tmux*)
       print -Pn "\ek${1:q}\e\\" # set screen hardstatus
