@@ -64,18 +64,10 @@ function omz_termsupport_preexec {
 
     # only set tab title in tmux for certain cases
     if [[ -n $TMUX ]]; then
-        case $1 in
-            htop|minicom) title $1 ;;
+        case "$1" in
+            htop|minicom) title "$1" ;;
         esac
         return
-    else
-        # set a sensible title when launching tmux (to avoid a bunch of windows all labeled "tmx")
-        case "$1" in
-            tmx|tmux)
-                title "tmux $HOST"
-                return
-                ;;
-        esac
     fi
 
     # cmd name only, or if this is sudo or ssh, the next cmd
