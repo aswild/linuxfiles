@@ -318,7 +318,8 @@ if has("gui_running")
         set guifont=Noto_Mono_for_Powerline:h10:cANSI
     else
         " default GUI font on Linux
-        set guifont=Noto\ Mono\ for\ Powerline\ 10
+        "set guifont=Noto\ Mono\ for\ Powerline\ 10
+        set guifont=Cascadia\ Mono\ PL\ Semi-Light\ 10
     endif
 else
     colorscheme bluegreen
