@@ -258,8 +258,9 @@ let g:python_highlight_all = 1
 let g:python_highlight_space_errors = 0
 let g:python_highlight_indent_errors = 0
 
-" Go syntax highlighting options
+" misc syntax highlighting options
 let g:go_highlight_trailing_whitespace_error = 0
+let g:dosbatch_colons_comment = 0
 
 cnoreabbrev Ag Ack!
 nnoremap <leader>a :Ack!<space>
