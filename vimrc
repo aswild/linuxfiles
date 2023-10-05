@@ -285,6 +285,7 @@ command! NT NERDTree
 command! TL TlistToggle
 command! Trailsp %s/\s\+$//e | noh
 command! Rustfmt normal! mr:%!rustfmt --edition 2021<CR>g'r
+command! Ktab set noet ts=8 sts=8 sw=8
 
 " Disregard deprecation, restore :Gblame
 command! Gblame Git blame

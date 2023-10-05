@@ -26,5 +26,5 @@ endfunction
 
 augroup WildCHook
     autocmd!
-    autocmd FileType c,cpp,make :call s:wild_c_hook()
+    autocmd FileType c,cpp,dts,make :call s:wild_c_hook()
 augroup END
