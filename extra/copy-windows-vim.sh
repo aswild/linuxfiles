@@ -7,7 +7,9 @@ if [[ -d /cygdrive ]] && which cygpath &>/dev/null; then
     userdir="$(cygpath -p "$USERPROFILE")"
 elif which wslvar &>/dev/null && which wslpath &>/dev/null; then
     userdir="$(wslpath "$(wslvar USERPROFILE)")"
-else
+fi
+
+if [[ ! -d "$userdir" ]]; then
     cat >&2 <<EOF
 Error: unable to detect cygwin or WSL environment
 If using WSL2, make sure wslpath and wslvar are available,
