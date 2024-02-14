@@ -288,6 +288,7 @@ alias ffi='selectf -Ai'
 # fz aliases. These only work when fd and fzf are installed, but the fz script checks that
 alias vimz='fz vim -p -- :: -tf'
 alias gvimz='fz gvim -p -- :: -tf'
+alias bz='fz bat --style=header-filename,grid -- :: -tf'
 
 # cdz: like cdf but using fz rather than selectf
 function cdz {
