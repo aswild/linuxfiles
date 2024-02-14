@@ -13,12 +13,14 @@
 --colors=line:fg:yellow
 --colors=path:fg:green
 
-# type aliases
---type-add=bb:include:bitbake
---type-add=cxx:include:cpp
---type-add=patch:include:diff
---type-add=rs:include:rust
-
 # extend make type to include Makefile.*, as often seen in the linux kernel
 # (note this is a glob not a regex)
 --type-add=make:[Mm]akefile.*
+
+# type aliases
+--type-add=bb:include:bitbake
+--type-add=cxx:include:cpp
+--type-clear=mk
+--type-add=mk:include:make
+--type-add=patch:include:diff
+--type-add=rs:include:rust
