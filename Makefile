@@ -1,40 +1,29 @@
 # Allen Wild
 # Makefile for linuxfiles
 
-DOTFILE_NAMES   = \
-				  ackrc \
-				  agignore \
-				  agrc \
-				  dircolors \
-				  fonts \
-				  gitconfig_common \
-				  oh-my-zsh \
-				  quiltrc \
-				  tmux.conf \
-				  tmux_version_conf.sh \
-				  vim \
-				  vimrc \
-				  zshrc \
-
+DOTFILE_NAMES = \
+ ackrc \
+ agignore \
+ agrc \
+ dircolors \
+ fonts \
+ gitconfig_common \
+ oh-my-zsh \
+ quiltrc \
+ tmux.conf \
+ tmux_version_conf.sh \
+ vim \
+ vimrc \
+ zshrc
 
 NODOTFILE_NAMES = \
-				  myshrc \
-
-
-DEBIAN_PACKAGES = \
-				  zsh \
-                  git \
-                  vim \
-                  tmux \
-                  htop \
-                  ack-grep \
-
+ myshrc
 
 ifeq ($(SRCDIR),)
-	SRCDIR = $(PWD)
+SRCDIR = $(PWD)
 endif
 ifeq ($(DESTDIR),)
-	DESTDIR = $(HOME)
+DESTDIR = $(HOME)
 endif
 
 ifeq ($(MSYSTEM),)
@@ -47,8 +36,8 @@ endif
 DOTFILE_PATHS   = $(addprefix $(DESTDIR)/., $(DOTFILE_NAMES))
 NODOTFILE_PATHS = $(addprefix $(DESTDIR)/, $(NODOTFILE_NAMES))
 
-BINFILE_NAMES	= $(wildcard bin/*)
-BINFILE_PATHS	= $(addprefix $(DESTDIR)/, $(BINFILE_NAMES))
+BINFILE_NAMES = $(wildcard bin/*)
+BINFILE_PATHS = $(addprefix $(DESTDIR)/, $(BINFILE_NAMES))
 
 # help target is first because it's safe
 .PHONY: help
@@ -61,8 +50,6 @@ help:
 	@echo "    submodules (subs)"
 	@echo "    subs-update (subsu)"
 	@echo "    subs-commit (subsc)"
-	@echo "  upgrade"
-	@echo "  upgrade-omzsh"
 	@echo "  windows-vim (copy vim files to cygwin Windows home)"
 
 ###### CORE #######
