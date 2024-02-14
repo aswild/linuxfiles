@@ -6,32 +6,15 @@
         {
             "command": 
             {
-                "action": "commandPalette"
-            },
-            "keys": "alt+`"
-        },
-        {
-            "command": 
-            {
-                "action": "copy",
-                "singleLine": false
+                "action": "quakeMode"
             }
         },
         {
-            "command": "paste"
-        },
-        {
-            "command": "find",
-            "keys": "ctrl+shift+f"
-        },
-        {
             "command": 
             {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
+                "action": "commandPalette"
             },
-            "keys": "alt+shift+d"
+            "keys": "alt+`"
         },
         {
             "command": "unbound",
@@ -72,8 +55,25 @@
         {
             "command": 
             {
-                "action": "quakeMode"
+                "action": "copy",
+                "singleLine": false
             }
+        },
+        {
+            "command": "paste"
+        },
+        {
+            "command": "find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "keys": "alt+shift+d"
         },
         {
             "command": "toggleFullscreen",
@@ -379,51 +379,8 @@
         }
     ],
     "showTabsInTitlebar": false,
-    "themes": 
-    [
-        {
-            "name": "legacyDark",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "dark",
-                "useMica": false
-            }
-        },
-        {
-            "name": "legacyLight",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "light",
-                "useMica": false
-            }
-        },
-        {
-            "name": "legacySystem",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "system",
-                "useMica": false
-            }
-        }
-    ],
+    "theme": "dark",
+    "themes": [],
     "useAcrylicInTabRow": false,
     "wordDelimiters": " |\u2502[]()\"':;"
 }
