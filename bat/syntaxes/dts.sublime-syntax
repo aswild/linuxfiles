@@ -1,0 +1,50 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+
+name: Device Tree (dts)
+
+file_extensions:
+  - dts
+  - dtsi
+
+scope: text.dts
+
+contexts:
+  main:
+
+    # Line comments begin with a '//' and finish at the end of the line
+    - match: '//'
+      push:
+        - meta_scope: comment.line.dts
+        - match: $
+          pop: true
+
+    # Block comments begin with '/*' and and with '*/'
+    - match: '/\*'
+      push:
+        - meta_scope: comment.block.dts
+        - match: '\*/'
+          pop: true
+
+    # Strings start and end with double-quotes
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double.dts
+        - match: $
+          pop: true
+
+    # Nodes start on a newline, contain in their name letters, numbers and some
+    # other characters ('-', '_'); they are followed by 0 or more whitespaces
+    # followed by a '{'
+    - match: '([0-9a-zA-Z_-]+)?(:)?(\s)*([/0-9a-zA-Z_-]+)((@)([0-9a-fA-F,]+))?[\s]*\{'
+      captures:
+        1: entity.name.class.dts
+        4: keyword.other.node.dts
+        7: constant.numeric.integer.dts
+
+    - match: '0x[0-9a-f]+'
+      scope: constant.numeric.integer.dts
+
+    - match: '[0-9]+'
+      scope: constant.numeric.integer.dts

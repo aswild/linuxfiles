@@ -19,6 +19,9 @@ DOTFILE_NAMES = \
 NODOTFILE_NAMES = \
  myshrc
 
+XDG_CONFIG_DIRS = \
+ bat
+
 ifeq ($(SRCDIR),)
 SRCDIR = $(PWD)
 endif
@@ -39,6 +42,9 @@ NODOTFILE_PATHS = $(addprefix $(DESTDIR)/, $(NODOTFILE_NAMES))
 BINFILE_NAMES = $(wildcard bin/*)
 BINFILE_PATHS = $(addprefix $(DESTDIR)/, $(BINFILE_NAMES))
 
+XDG_CONFIG_HOME ?= $(DESTDIR)/.config
+XDG_CONFIG_PATHS = $(addprefix $(XDG_CONFIG_HOME)/, $(XDG_CONFIG_DIRS))
+
 # help target is first because it's safe
 .PHONY: help
 help:
@@ -54,8 +60,8 @@ help:
 
 ###### CORE #######
 .PHONY: links install
-.PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
-links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS)
+.PHONY: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS) $(XDG_CONFIG_PATHS)
+links: $(DOTFILE_PATHS) $(NODOTFILE_PATHS) $(BINFILE_PATHS) $(XDG_CONFIG_PATHS)
 ifneq ($(MSYSTEM),)
 	@# on msys, where symlinks don't work, copy over pathogen.vim symlink, since \
 	 # the cp command will fail to do that for some reason
@@ -79,6 +85,10 @@ $(NODOTFILE_PATHS) : $(DESTDIR)/% : $(PWD)/%
 $(BINFILE_PATHS) : $(DESTDIR)/bin/% : $(PWD)/bin/%
 	@mkdir -p $(DESTDIR)/bin
 	$(call LINK_CMD,$(SRCDIR)/bin/$(notdir $<),$@)
+
+$(XDG_CONFIG_PATHS) : $(XDG_CONFIG_HOME)/% : $(PWD)/%
+	@mkdir -p $(@D)
+	$(call LINK_CMD,$(SRCDIR)/$(notdir $<),$@)
 
 .PHONY: bashrc-append
 bashrc-append:
