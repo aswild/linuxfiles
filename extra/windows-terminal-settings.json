@@ -142,6 +142,16 @@
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
+            },
+            {
+                "closeOnExit": "always",
+                "colorScheme": "Solarized Dark",
+                "commandline": "C:\\cygwin64\\bin\\zsh.exe --login -i",
+                "guid": "{ea6b78f9-0434-45bc-a273-2880bb25fdca}",
+                "hidden": false,
+                "icon": "C:\\cygwin64\\Cygwin-Terminal.ico",
+                "name": "Cygwin",
+                "startingDirectory": "C:\\cygwin64\\bin"
             }
         ]
     },
