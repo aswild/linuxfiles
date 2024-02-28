@@ -424,15 +424,17 @@ function waitproc {
 
 # tmx function usually duplicated in ~/bin/tmx
 function tmx {
-    echo "TMUX"
-    tmux ls &>/dev/null
-    if [[ $? -eq 1 ]]
-    then
-        echo "starting new"
-        tmux
+    local args=()
+    if [[ -n "$1" ]]; then
+        args+=(-t "$1")
+    fi
+
+    if tmux list-sessions &>/dev/null; then
+        echo "attaching to session"
+        tmux attach "${args[@]}"
     else
-        echo "trying to attach"
-        tmux attach
+        echo "starting new session"
+        tmux new
     fi
 }
 
