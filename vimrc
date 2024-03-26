@@ -334,6 +334,11 @@ endif
 " Also load indent files, to automatically do language-dependent indenting.
 filetype plugin indent on
 
+" Disable the PKGBUILD file detection, I want normal sh syntax
+augroup ftdetect_pkgbuild
+    au!
+augroup END
+
 " Put these in an autocmd group, so that we can delete them easily.
 augroup vimrcEx
     au!
