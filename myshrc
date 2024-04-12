@@ -193,15 +193,18 @@ if which rg &>/dev/null; then
     export RIPGREP_CONFIG_PATH="${__linuxfiles_dir:-${HOME}/linuxfiles}/ripgreprc"
 fi
 
-# networking/sudo aliases
+# sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -knv </dev/null &>/dev/null ); then
-    _sudo_aliases=(apt apt-get ip pacman)
+    _sudo_aliases=(apt apt-get pacman)
     for _cmd in "${_sudo_aliases[@]}"; do
         if /usr/bin/which "$_cmd" &>/dev/null; then
             alias "$_cmd"="sudo $_cmd"
         fi
     done
     unset _sudo_aliases _cmd
+    alias ip='sudo ip -color=auto'
+elif [[ ! -d /cygdrive ]]; then
+    alias ip='ip -color=auto'
 fi
 
 # Conditional aliases
