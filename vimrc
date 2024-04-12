@@ -287,6 +287,10 @@ command! Trailsp %s/\s\+$//e | noh
 command! Rustfmt normal! mr:%!rustfmt --edition 2021<CR>g'r
 command! Ktab set noet ts=8 sts=8 sw=8
 
+if !has("gui_running")
+    command! Htop execute 'silent !htop' | redraw!
+endif
+
 " Disregard deprecation, restore :Gblame
 command! Gblame Git blame
 
