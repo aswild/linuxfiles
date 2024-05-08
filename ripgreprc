@@ -24,3 +24,7 @@
 --type-add=mk:include:make
 --type-add=patch:include:diff
 --type-add=rs:include:rust
+
+--type-add=kconfig:Kconfig
+--type-add=kconfig:Kconfig.*
+--type-add=kconf:include:kconfig
