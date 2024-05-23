@@ -809,6 +809,19 @@ function settop {
 # set TOP if starting in a workspace
 settop
 
+if [[ -e /usr/bin/pacman ]]; then
+    function pkgclone {
+        if [[ -z "$1" ]]; then
+            echo >&2 "usage: pkgclone REPO [...]"
+            return 1
+        fi
+        local url="https://gitlab.archlinux.org/archlinux/packaging/packages/${1}.git"
+        shift
+        echo >&2 "-- Cloning $url"
+        git clone "$url" "$@"
+    }
+fi
+
 
 ####### System/utility things #######
 
