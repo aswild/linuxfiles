@@ -86,24 +86,21 @@ function pathadd {
     typeset -g "${varname}=${newval}"
 }
 
-[[ -d $HOME/bin ]] && pathadd PATH "$HOME/bin"
-[[ -d $HOME/scripts ]] && pathadd PATH "$HOME/scripts"
-[[ -d $HOME/.cargo/bin ]] && pathadd PATH "$HOME/.cargo/bin"
+pathadd PATH "$HOME/bin" if_exists
+pathadd PATH "$HOME/scripts" if_exists
+pathadd PATH "$HOME/.cargo/bin" if_exists
 
 _rustup_dir="${RUSTUP_HOME:-${HOME}/.rustup}/toolchains/stable-$(uname -m)-unknown-linux-gnu"
-if [[ -d "$_rustup_dir/share/man" ]]; then
-    pathadd MANPATH "$_rustup_dir/share/man"
-    export MANPATH
-fi
+echo rustup_dir="$_rustup_dir"
+pathadd MANPATH "$_rustup_dir/share/man" if_exists
 if [[ -n $ZSH_NAME && -d "$_rustup_dir/share/zsh" ]]; then
     fpath=("$_rustup_dir/share/zsh" "${fpath[@]}")
 fi
 unset _rustup_dir
 
-if [[ -d "$HOME/share/man" ]]; then
-    pathadd MANPATH "$HOME/share/man"
-    export MANPATH
-fi
+pathadd MANPATH "$HOME/share/man" if_exists
+pathadd MANPATH "$HOME/.local/share/man" if_exists
+[[ -n "$MANPATH" ]] && export MANPATH
 
 # function to filter out paths
 #   $1 : variable to check (e.g. PATH)
