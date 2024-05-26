@@ -34,14 +34,20 @@ function pathadd {
 
     local append=0
     local trailing_colon=0
+    local if_exists=0
     while (( $# )); do
         case "$1" in
             append) append=1 ;;
             trailing_colon) trailing_colon=1 ;;
-            *) echo >&2 "pathadd: unknown option '$1'" ;;
+            if_exists) if_exists=1 ;;
+            *) echo >&2 "pathadd: unknown option '$1'"; return 1 ;;
         esac
         shift
     done
+
+    if (( if_exists )) && [[ ! -e "$newpath" ]]; then
+        return 0
+    fi
 
     # automatically enable for MANPATH
     if [[ "$varname" == "MANPATH" ]]; then
