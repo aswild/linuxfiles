@@ -1,0 +1,11 @@
+# Custom settings for apt, intended mainly for WSL installations
+# Install this file as /etc/apt/apt.conf.d/99wild
+
+# Disable Ubuntu's phased updates
+Apt::Get::Always-Include-Phased-Updates true;
+
+# Ignore recommended and suggested packages, they usually bloat WSL installs
+APT::Install-Recommends "false";
+APT::Install-Suggests "false";
+APT::AutoRemove::RecommendsImportant "false";
+APT::AutoRemove::SuggestsImportant "false";
