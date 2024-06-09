@@ -12,16 +12,19 @@ eval "$(grep -Eh '^(un)?alias' ~/myshrc)"
 # allowing for the branch text to be colored depending on status
 ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH="false"
 
+# Ignore untracked files in git prompt status (equivalent to 'git status --untracked=no')
+DISABLE_UNTRACKED_FILES_DIRY="true"
+
 function zsh_nogit() {
     ZSH_GIT_PROMPT=0
 }
 
-function git_prompt_info() {
+function _omz_git_prompt_info() {
     # check whether we should even do git prompt info
     (
         set -e
         [[ "$ZSH_GIT_PROMPT" != "0" && "$PWD" != "$HOME" ]]
-        git rev-parse --git-dir
+        __git_prompt_git rev-parse --git-dir
         [[ "$(__git_prompt_git config --get oh-my-zsh.hide-status)" != 1 ]]
     ) &>/dev/null || return 0
 
