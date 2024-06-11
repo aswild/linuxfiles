@@ -13,7 +13,7 @@ eval "$(grep -Eh '^(un)?alias' ~/myshrc)"
 ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH="false"
 
 # Ignore untracked files in git prompt status (equivalent to 'git status --untracked=no')
-DISABLE_UNTRACKED_FILES_DIRY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 function zsh_nogit() {
     ZSH_GIT_PROMPT=0
