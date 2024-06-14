@@ -26,6 +26,17 @@ if [[ -t 1 ]]; then
     stty -ixon
 fi
 
+# pathadd: add an entry to a colon-separated list, only if such an entry isn't
+# already present. It's also checked that 'newpath' exists and is a directory,
+# unless the 'always' option is given.
+# usage: pathadd varname newpath [options]
+#   varname: shell variable name, such as PATH or MANPATH
+#   newpath: new path entry to add
+#   options: any of
+#     append: add newpath to the end of varname rather than the beginning
+#     trailing_colon: leave a ':' at the end of the new value of the variable,
+#       this is the default if varname is MANPATH
+#     always: add the entry even if 'newpath' doesn't exist or isn't a directory.
 function pathadd {
     local varname="$1"
     local newpath="$2"
@@ -34,18 +45,18 @@ function pathadd {
 
     local append=0
     local trailing_colon=0
-    local if_exists=0
+    local always=0
     while (( $# )); do
         case "$1" in
             append) append=1 ;;
             trailing_colon) trailing_colon=1 ;;
-            if_exists) if_exists=1 ;;
+            always) always=1 ;;
             *) echo >&2 "pathadd: unknown option '$1'"; return 1 ;;
         esac
         shift
     done
 
-    if (( if_exists )) && [[ ! -e "$newpath" ]]; then
+    if (( ! always )) && [[ ! -d "$newpath" ]]; then
         return 0
     fi
 
@@ -86,19 +97,19 @@ function pathadd {
     typeset -g "${varname}=${newval}"
 }
 
-pathadd PATH "$HOME/bin" if_exists
-pathadd PATH "$HOME/scripts" if_exists
-pathadd PATH "$HOME/.cargo/bin" if_exists
+pathadd PATH "$HOME/bin"
+pathadd PATH "$HOME/scripts"
+pathadd PATH "$HOME/.cargo/bin"
 
 _rustup_dir="${RUSTUP_HOME:-${HOME}/.rustup}/toolchains/stable-$(uname -m)-unknown-linux-gnu"
-pathadd MANPATH "$_rustup_dir/share/man" if_exists
+pathadd MANPATH "$_rustup_dir/share/man"
 if [[ -n $ZSH_NAME && -d "$_rustup_dir/share/zsh" ]]; then
     fpath=("$_rustup_dir/share/zsh" "${fpath[@]}")
 fi
 unset _rustup_dir
 
-pathadd MANPATH "$HOME/share/man" if_exists
-pathadd MANPATH "$HOME/.local/share/man" if_exists
+pathadd MANPATH "$HOME/share/man"
+pathadd MANPATH "$HOME/.local/share/man"
 [[ -n "$MANPATH" ]] && export MANPATH
 
 # function to filter out paths
