@@ -1,0 +1,39 @@
+# vim: ft=deb822sources
+# apt sources file for the WSL Utilities PPA for the wslu , which was removed
+# from the Ubuntu repos in 22.04 for unknown reasons.
+#
+# Note: as of June 2024, lunar is the latest suite, but it works on noble.
+
+Types: deb
+URIs: https://ppa.launchpadcontent.net/wslutilities/wslu/ubuntu/
+Suites: lunar
+Components: main
+Signed-By:
+ -----BEGIN PGP PUBLIC KEY BLOCK-----
+ .
+ mQINBF75ehEBEACs00QB0CTRaDL4CWAPdgpVcZu+LiabOMVqqnewtg/gyQzW8abc
+ 8STlo5XlHKKNRYDqqLptqP9dLPkozHrlpwqGl+SRhn7L/3k3JKzxaYsaAXYpIh5V
+ mdFd40WVKl3/8U1I2vkAsmgnn1LnkvOHCkrGT7slJqIq7ONzofDuEbpiU2ONIbwA
+ ejLhP95Ekltq7vRHNYw9T8aUt4dNKgSjf/FJwXe5hXn1VKRvn4enWP5PmDK7e2XJ
+ NYCqGXQfmvnQvJUZ8/B6AVYy1fEf61kB5c0XPt0RYewzwDuqH/OXEg9sQKoZTs0f
+ TvUK0XS/TcRwDsLKtlyFfjzFNGPLnrp+lGubEFHpq8R7AVRGH3gy9UTFNowsK4KY
+ UZZi4VyMLOvKIIz287O5IXB2K/5JK8h6TQjBvnrbt7zfiC+3+A0JaAQPTBGUqk2G
+ 4m2L2MjDf+vqZinr3cNxqSV4XzuTsjnZID/usHHqfDlGWxBRvaJKlfJqpMk3ks35
+ WxLaUJRsU7ZtptPnMcyzkbfLK4PzgV+vlRtOZqN4DLZFcZbXSmxrbkhA4lOmgEO3
+ uHoOvTrPXRFrdOouyj9bRiO5siUMYjLoKT5q+8IiuCx+6gosRmnpiQZtvcRYIxgE
+ KEUc9h+UZl9bqdPlZVME5V1XBFuYL5E8SGImv5p/XhrF3n3E4YjYUy574wARAQAB
+ tB9MYXVuY2hwYWQgUFBBIGZvciBXU0wgVXRpbGl0aWVziQI4BBMBAgAiBQJe+XoR
+ AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDB0Ofmq0CV1vuyD/9M5SgC
+ twAZWjbUwRfBIsF8jm0MmbNAmiN3a6Jm4n+KsRwNMK0Z9SwY4N2Tbmu+LMFUshlN
+ VKFpCWB/HKagC5HQ4N4tFV7cMyk2cG6F0PBc7HI0T5PV6Gx1iouB3CXUpt/n65rV
+ TV1Cg/yuyktxqPLPcIrVvz5kHsUrW0f6Tfx0Un0ufK6LPjRvRTAS7gEQ2WTITL1h
+ Fv+7UaXNSJFSnYV5cpuYOrPsBecooa7DhNJbVnZVqJf60vty5vLNgwMB21owAkyK
+ K9yBeu5V0riZyBaraOa+ZJn/t/7SHciTVeeO65q49XqmxOhUlGCR70/JuqkK3NQv
+ vNWLeX2YMRgVCahSfd8am6Ga1HJXcfM5Xp5rIjhcfXudOvJD+Ly81bGBvw3glquK
+ DiSZ89wMcm+fyBvh0BNejMOkAfollhP6hLvSUUNZS0Et1L8uoXpNsWk404P4mLv9
+ fHesCh1EpeyTvS55S/iW5VjdeR8HlbUhMIXBLeAm2iIxa5kHNDuvxGz/140Mdjui
+ 9XitklNAMAPK6idW0u4JvnACaZDCjI6FL2s4pZNbcwkyJp4adB8585EyD5fn32Pd
+ qm0XnZbmAMBKje/segk78TVHw23UGIUGNtwfdpxD2uupqXvm9MXHyOFAKx7SKFnb
+ h5+cUhw1IC+hi/s3mlEZi69pTEE4Qz9AaR/S7Q==
+ =1JTW
+ -----END PGP PUBLIC KEY BLOCK-----
