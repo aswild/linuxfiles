@@ -105,6 +105,9 @@ setopt bsd_echo
 # fix weird filename completion
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
 
+# my tool 'pine' conflicts with a built-in completion function, force it to use the default
+compdef -d pine
+
 alias srcrc="source ~/.zshrc"
 alias mmv="noglob zmv -W"
 alias dh="dirs -v"
