@@ -322,7 +322,7 @@ if has("gui_running")
     set tabpagemax=100
     if has("win32")
         "au GUIEnter * simalt ~x " maximize on startup
-        set guifont=Noto_Mono_for_Powerline:h10:cANSI
+        set guifont=Cascadia_Mono_PL_SemiLight:h10:W350
     else
         " default GUI font on Linux
         "set guifont=Noto\ Mono\ for\ Powerline\ 10
