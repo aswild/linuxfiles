@@ -168,17 +168,26 @@ nnoremap <silent><leader>/ m`^i//<ESC>``l
 nnoremap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
 vmap <silent><leader>/ V^<C-V>I//<ESC>
 vmap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
-imap <M-C-F12> _
-nmap <M-C> f#llC
-imap <C-H> <Esc>i
-imap <C-J> <ESC>ja
-imap <C-K> <ESC>ka
-imap <C-L> <ESC>la
-imap <C-S> <ESC>S
 
 " Make ctrl-backspace send a ctrl-w
 " needed for terminals on a Linux host
 imap <C-H> <C-W>
+
+" Set cache and backup directories, adapted from archlinux.vim
+let &g:directory=$HOME . '/.cache/vim'
+let &g:backupdir=&g:directory . '/backup//'
+let &g:undodir=&g:directory . '/cache//'
+let &g:directory=&g:directory . '/swap//'
+
+if ! isdirectory(expand(&g:directory))
+    silent! call mkdir(expand(&g:directory), 'p', 0700)
+endif
+if ! isdirectory(expand(&g:backupdir))
+    silent! call mkdir(expand(&g:backupdir), 'p', 0700)
+endif
+if ! isdirectory(expand(&g:undodir))
+    silent! call mkdir(expand(&g:undodir), 'p', 0700)
+endif
 
 " Try to get list formatting working for bullets as well
 " Evil amounts of backslash escaping = no fun
