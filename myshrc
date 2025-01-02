@@ -97,9 +97,10 @@ function pathadd {
     typeset -g "${varname}=${newval}"
 }
 
-pathadd PATH "$HOME/bin"
-pathadd PATH "$HOME/scripts"
+pathadd PATH "$HOME/.local/bin"
 pathadd PATH "$HOME/.cargo/bin"
+pathadd PATH "$HOME/scripts"
+pathadd PATH "$HOME/bin"
 
 _rustup_dir="${RUSTUP_HOME:-${HOME}/.rustup}/toolchains/stable-$(uname -m)-unknown-linux-gnu"
 pathadd MANPATH "$_rustup_dir/share/man"
