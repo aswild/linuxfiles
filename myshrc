@@ -544,8 +544,14 @@ function pva {
                 return 1
             fi
         fi
-        echo >&2 "+ $_python -m venv '$_venv'"
-        "$_python" -m venv "$_venv"
+
+        local cmd
+        if which uv &>/dev/null; then
+            cmd=(uv venv -p "$_python" "$_venv")
+        else
+            cmd=("$_python" -m venv "$_venv")
+        fi
+        "${cmd[@]}" || return $?
     fi
 
     source "$_venv/bin/activate"
