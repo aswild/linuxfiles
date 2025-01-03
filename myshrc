@@ -221,12 +221,6 @@ elif [[ ! -d /cygdrive ]]; then
     alias ip='ip -color=auto'
 fi
 
-# Conditional aliases
-# ubuntu-specific
-[[ -d /etc/update-motd.d ]] && alias update-motd='sudo run-parts /etc/update-motd.d | sudo tee /run/motd.dynamic'
-[[ -x /usr/lib/update-notifier/update-motd-reboot-required ]] && alias rboot='/usr/lib/update-notifier/update-motd-reboot-required || echo "No Update Needed"'
-alias findmod='find /lib/modules/$(uname -r) -name "*.ko" | grep -i'
-
 # git aliases/functions (alphabetical)
 alias gam='git commit -v --amend'
 alias gb='git branch'
