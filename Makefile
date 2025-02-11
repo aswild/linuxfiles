@@ -30,7 +30,7 @@ DESTDIR = $(HOME)
 endif
 
 ifeq ($(MSYSTEM),)
-LINK_CMD = ln -svT $(LINK_FORCE) $1 $2 2>/dev/null || true
+LINK_CMD = ln -srvT $(LINK_FORCE) $1 $2 2>/dev/null || true
 else
 # symlinks don't work in MSYS/MinGW, so do a recursive copy (hardlink files)
 LINK_CMD = cp -alLfT $1 $2
