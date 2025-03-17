@@ -391,25 +391,6 @@ function walltime {
 
 alias nicebuild='walltime schedtool -n10 -Be'
 
-# rehash after any pip install
-function pipwrap {
-    local _pip_cmd="$1"
-    shift
-    local _need_rehash=0
-    if [[ "$1" == install ]]; then
-        shift
-        command $_pip_cmd install --no-warn-script-location "$@" || return
-        echo >&2 "$(basename "$SHELL"): rehashing"
-        hash -r
-    else
-        command $_pip_cmd "$@"
-    fi
-}
-for _pipname in pip pip2 pip3; do
-    eval "${_pipname}() { pipwrap $_pipname \"\$@\" ; }"
-done
-unset _pipname
-
 function waitproc {
     if [[ -z $1 ]]; then
         echo >&2 "Need to specify a PID!"
