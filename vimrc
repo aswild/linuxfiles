@@ -206,7 +206,9 @@ let g:ctrlp_switch_buffer = ''
 " vimscript searcher
 if executable("fd")
     let g:ctrlp_user_command = 'fd -tf -- . %s'
-    let g:ctrlp_user_command_async = 1
+    if !has("windows")
+        let g:ctrlp_user_command_async = 1
+    endif
 endif
 
 " Airline customization
