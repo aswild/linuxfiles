@@ -91,6 +91,7 @@ $(XDG_CONFIG_PATHS) : $(XDG_CONFIG_HOME)/% : $(PWD)/%
 
 .PHONY: bashrc-append
 bashrc-append:
+	sh -c 'echo "[[ -e ~/myshrc_pre ]] && . ~/myshrc_pre" >> $(DESTDIR)/.bashrc'
 	sh -c 'echo "[[ -e ~/myshrc ]] && . ~/myshrc" >> $(DESTDIR)/.bashrc'
 	sh -c 'echo "[[ -e ~/myshrc_local ]] && . ~/myshrc_local" >> $(DESTDIR)/.bashrc'
 

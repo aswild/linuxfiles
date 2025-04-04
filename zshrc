@@ -79,6 +79,7 @@ plugins=()
 # and use the default if it doesn't
 unset ZSH_THEME
 
+[[ -e ~/myshrc_pre ]] && . ~/myshrc_pre
 [[ -e ~/myshrc ]] && . ~/myshrc
 [[ -e ~/myshrc_local ]] && . ~/myshrc_local
 

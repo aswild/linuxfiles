@@ -97,6 +97,11 @@ function pathadd {
     typeset -g "${varname}=${newval}"
 }
 
+for _preload_path in "${MYSHRC_PRELOAD_PATHS[@]}"; do
+    pathadd PATH "$_preload_path"
+done
+unset _preload_path MYSHRC_PRELOAD_PATHS
+
 pathadd PATH "$HOME/.local/bin"
 pathadd PATH "$HOME/.cargo/bin"
 pathadd PATH "$HOME/scripts"
