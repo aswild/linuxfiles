@@ -11,7 +11,6 @@ DOTFILE_NAMES = \
  oh-my-zsh \
  quiltrc \
  tmux.conf \
- tmux_version_conf.sh \
  vim \
  vimrc \
  zshrc
