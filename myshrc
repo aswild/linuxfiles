@@ -201,14 +201,18 @@ if which bat &>/dev/null; then
     export BAT_THEME='Solarized (dark)'
 fi
 
+MYSHRC_FZF=''
 if which fzf &>/dev/null; then
-    export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all+accept --height=30 --reverse'
+    # the ~ height prefix is equivalent to --auto-height
+    export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all+accept --height=~30 --reverse'
+    MYSHRC_FZF='fzf'
 fi
 if which sk &>/dev/null; then
     export SKIM_DEFAULT_OPTIONS='--bind ctrl-a:select-all+accept --height=30 --reverse'
     if sk --help 2>/dev/null | grep -qF -- --auto-height; then
         SKIM_DEFAULT_OPTIONS="$SKIM_DEFAULT_OPTIONS --auto-height"
     fi
+    MYSHRC_FZF='sk'
 fi
 if which rg &>/dev/null; then
     export RIPGREP_CONFIG_PATH="${__linuxfiles_dir:-${HOME}/linuxfiles}/ripgreprc"
@@ -734,7 +738,7 @@ function sview_workspace_list {
     fi
 }
 
-if which sk &>/dev/null; then
+if [[ -n "$MYSHRC_FZF" ]]; then
     # new and improved sview function that uses skim to select a workspace
     function sview {
         if [[ ! -d "$WORKSPACES_ROOT" ]]; then
@@ -743,7 +747,7 @@ if which sk &>/dev/null; then
         fi
 
         local _name
-        _name="$(sview_workspace_list "$@" | sk --exit-0 --select-1 --prompt='Select Workspace> ')"
+        _name="$(sview_workspace_list "$@" | "$MYSHRC_FZF" --exit-0 --select-1 --prompt='Select Workspace> ')"
         [[ -n "$_name" ]] || return 1
 
         export TOP="${WORKSPACES_ROOT}/${_name}"
