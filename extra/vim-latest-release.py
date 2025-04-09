@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.7"
+# dependencies = [
+#     "pygithub",
+# ]
+# ///
 
 """
 Use GitHub's API to find and download the latest signed 64-bit windows gvim
@@ -10,6 +16,7 @@ wslpath, and wslview programs from the "wslu" package.
 
 import subprocess
 import os
+import platform
 import sys
 
 from github import Github
@@ -18,8 +25,11 @@ def cmd_output(*cmd):
     res = subprocess.run(cmd, stdout=subprocess.PIPE, check=True, text=True)
     return res.stdout.strip()
 
+def is_wsl():
+    return os.path.exists('/mnt/wsl')
+
 def get_tmpdir():
-    if os.path.exists('/mnt/wsl'):
+    if is_wsl():
         try:
             temp_win = cmd_output('wslvar', 'TEMP')
             temp_linux = cmd_output('wslpath', temp_win)
@@ -28,6 +38,21 @@ def get_tmpdir():
         except:
             print('Warning: failed to get WSL host TEMP directory')
             tmpdir = '/tmp'
+    elif platform.system() == 'Windows':
+        # Native windows Python (MINGW, UCRT, or uv-managed; not a cygwin/MSYS2 build),
+        # but we might be running inside MSYS2 and need to do some path translation.
+        tmpdir = os.environ.get('TEMP') or ''
+        if tmpdir.startswith('/'):
+            # msys tmp directory passed in to native windows executable (this happens
+            # when running uv from msys2)
+            try:
+                out = cmd_output('cygpath', '-w', tmpdir)
+            except Exception as e:
+                print(f'Warning: failed to get tmpdir with cygpath: {e}')
+                tmpdir = ''
+        if not tmpdir:
+            # well that didn't work, go with the normal default windows temp dir
+            tmpdir = os.path.join(os.environ['USERPROFILE'], 'AppData', 'Local', 'Temp')
     else:
         tmpdir = '/tmp'
     assert os.path.isdir(tmpdir), f"tmpdir '{tmpdir}' doesn't exist"
@@ -53,7 +78,12 @@ def main():
 
     ans = input(f'\nDownloaded {installer.name} - launch now? [y/n] ')
     if ans.lower() == 'y':
-        subprocess.run(['wslview', exe_path])
+        if is_wsl():
+            subprocess.run(['wslview', exe_path])
+        elif platform.system() == 'Windows':
+            subprocess.run(['cmd.exe', '/c', 'start', exe_path])
+        else:
+            subprocess.run(['start', exe_path])
 
 
 if __name__ == '__main__':
