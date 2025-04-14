@@ -3,8 +3,12 @@
 # user directory for Windows gvim. Split into a separate script because the
 # cygwin/wsl detection logic got messy to include inline in the Makefile
 
-if [[ -d /cygdrive ]] && which cygpath &>/dev/null; then
-    userdir="$(cygpath -p "$USERPROFILE")"
+if [[ -d "/cygdrive" || -n "$MSYSTEM" ]]; then
+    if [[ -z "$USERPROFILE" ]]; then
+        echo "Error: \$USERPROFILE is not set, can't detect cygwin/msys environment"
+        exit 1
+    fi
+    userdir="$(cygpath -u "$USERPROFILE")"
 elif which wslvar &>/dev/null && which wslpath &>/dev/null; then
     userdir="$(wslpath "$(wslvar USERPROFILE)")"
 fi
