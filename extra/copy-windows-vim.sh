@@ -30,3 +30,5 @@ fi
 set -xe
 rsync -rLtv --delete vim/ "$userdir/vimfiles"
 cp -vf vimrc "$userdir/_vimrc"
+# symlinks don't work in MSYS
+cp -vf "vim/bundle/vim-pathogen/autoload/pathogen.vim" "$userdir/vimfiles/autoload/pathogen.vim"
