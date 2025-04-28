@@ -125,16 +125,23 @@ pathadd MANPATH "$HOME/.local/share/man"
 #   $2 : regex applied to each PATH entry
 function path_filter {
     # filter out paths matching this regex
-    local OLDPATH
-    eval OLDPATH="\$$1"
-    local NEWPATH=''
+    local varname="$1"
+    local newpath=''
+    local oldpath
+    # indirect expansion is different for bash & zsh
+    if [[ -n "$ZSH_NAME" ]]; then
+        oldpath="${(P)varname}"
+    else
+        oldpath="${!varname}"
+    fi
+    local entry
     while read -r -d: entry; do
         if ! [[ "$entry" =~ "$2" ]]; then
-            NEWPATH="$NEWPATH:$entry"
+            newpath="$newpath:$entry"
         fi
-    done <<<"${OLDPATH}:"
+    done <<<"${oldpath}:"
 
-    eval $1="'${NEWPATH#:}'"
+    typeset -g "${varname}=${newpath#:}"
 }
 [[ -d /mnt/c/Windows ]] && path_filter PATH '/mnt/c/'
 [[ -d /cygdrive ]] && path_filter PATH '/cygdrive/c/(Python|Dwimperl)'
