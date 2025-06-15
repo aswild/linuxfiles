@@ -346,9 +346,10 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 if has("gui_running")
-    " Fix shift-insert in gvim, from archlinux.vim
-    map <S-Insert> <MiddleMouse>
-    map! <S-Insert> <MiddleMouse>
+    " Fix shift-insert in gvim, similar to archlinux.vim, but using clipboard (+) instead
+    " of the primary selection (*).
+    nnoremap <S-Insert> "+p
+    noremap! <S-Insert> <C-R>+
 
     set background=dark
     colorscheme solarized
