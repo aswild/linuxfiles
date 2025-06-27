@@ -46,6 +46,7 @@ set scrolloff=3
 set wildmenu
 set wildmode=list:longest
 set visualbell
+set belloff+=showmatch
 "set cursorline
 set ttyfast
 set ruler
