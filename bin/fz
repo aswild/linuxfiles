@@ -2,12 +2,7 @@
 
 readonly ME="$0"
 
-set -eo pipefail
-
-# bash 4.3 and older throw an "unbound variable" error on empty arrays, so only set -u on >= 4.4
-if (( BASH_VERSINFO[0] > 4 || (BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] >= 4) )); then
-    set -u
-fi
+set -euo pipefail
 
 usage() {
     cat >&2 <<_EOF
@@ -94,16 +89,8 @@ if (( FZF_MULTI )); then
     FZF_ARGS+=('--multi')
 fi
 
-# run fd/fzf pipe to get selections
-
-MATCHES=()
-# bash's mapfile didn't get the -d option until version 4.4, so use a while-read
-# loop instead that's clunkier but more compatible. Replace with mapfile when
-# I no longer care about bash 4.3 systems (including ubuntu xenial)
-#mapfile -d '' MATCHES < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
-while read -r -d '' match; do
-    MATCHES+=("$match")
-done < <("$FD" "${FD_ARGS[@]}" | "$FZF" "${FZF_ARGS[@]}")
+# run fd/fzf pipe to get selections, read nul-delimited values into a bash array
+mapfile -d '' MATCHES < <(fd "${FD_ARGS[@]}" | fzf "${FZF_ARGS[@]}")
 
 # because of this fancy process substitution, we end up not having a good way
 # to check the return codes of either fzf or fd, but we hope that when things fail
