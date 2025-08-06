@@ -13,7 +13,7 @@ OPTIONS:
 
 ENVIRONMENT VARIABLES:
     FD          Path/name of fd executable (default 'fd')
-    FZF         Path/name of fzf executable (default 'sk' if available, or 'fzf')
+    FZF         Path/name of fzf executable (default 'fzf' if available, or 'sk')
 _EOF
     exit 1
 }
@@ -30,10 +30,10 @@ type -P "$FD" &>/dev/null || die "FD program '$FD' is not installed"
 
 if [[ -n "${FZF:-}" ]]; then
     type -P "$FZF" &>/dev/null || die "FZF program '$FZF' is not installed"
-elif type -P sk &>/dev/null; then
-    FZF='sk'
 elif type -P fzf &>/dev/null; then
     FZF='fzf'
+elif type -P sk &>/dev/null; then
+    FZF='sk'
 else
     die "couldn't find sk or fzf"
 fi
