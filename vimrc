@@ -170,7 +170,8 @@ nmap <C-A> ggVG
 "Alt-/ searches for whatever's on the clipboard
 nmap J <C-E>
 nmap K <C-Y>
-vmap / y/<C-R>0
+vnoremap / "ny/<C-R>n<CR>
+nnoremap <leader>n "nyiw/<C-R>n<CR>
 "imap <C-S-V> <C-V>
 vmap <silent> <C-R> V0<C-V>I#<ESC>
 vmap <silent> <C-T> :s/\v^(\s*)#(.*)$/\1\2<CR>:noh<CR>
