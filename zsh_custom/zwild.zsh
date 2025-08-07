@@ -29,8 +29,14 @@ function _omz_git_prompt_info() {
     ) &>/dev/null || return 0
 
     local ref tmp
+
+    # try to use my rust git-head-name
+    ref="$(git-head-name 2>/dev/null)"
+
     # exact branch name
-    ref="$(__git_prompt_git symbolic-ref HEAD 2>/dev/null)"
+    if [[ -z "$ref" ]]; then
+        ref="$(__git_prompt_git symbolic-ref HEAD 2>/dev/null)"
+    fi
     # exact tag name
     if [[ -z "$ref" ]]; then
         ref="$(__git_prompt_git describe --tags --exact-match HEAD 2>/dev/null)"
