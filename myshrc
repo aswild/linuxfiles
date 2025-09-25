@@ -6,14 +6,11 @@ export FIGNORE=".o:.pyc:~"
 export EDITOR="vim"
 set -o ignoreeof
 
-# color and smart-case search for less
+# color and smart-case search
 export LESS=Ri
-
-# by default systemctl/journalctl sets LESS to FRSXMK,
-# remove X (disable termcap alternate screen) to enable mouse scrolling
-# remove S to allow line wrapping
-# add i for ignore case search
-export SYSTEMD_LESS=FRMKi
+# color, smart-case, and quit-if-one-screen
+[[ -x /usr/bin/systemctl ]] && export SYSTEMD_LESS=FRi
+[[ -x /usr/bin/apt ]] && export APT_PAGER='less -FRi'
 
 # Section search order for man pages. The default is
 # "1 n l 8 3 0 2 5 4 9 6 7", but move 2 before 3 so that Linux-specific
