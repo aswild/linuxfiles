@@ -158,6 +158,8 @@ nmap <HOME> ^
 imap <HOME> <ESC>^i
 inoremap <C-V> <C-R>+
 inoremap <S-Insert> <C-R>+
+nnoremap <C-S> :w<CR>
+inoremap <C-S> <ESC>:w<CR>
 nmap <C-V> "+gp
 vmap <C-C> "+y`>
 vmap <C-X> "+x
