@@ -477,7 +477,7 @@ function b64 {
 # semi-intelligent shortcut for '. ./venv/bin/activate'
 # that can also create venvs
 function pva {
-    local _venv=./venv
+    local _venv=
     local _force=0
     local _make=0
     local _python='python3'
@@ -514,6 +514,17 @@ function pva {
     if (( $# )); then
         _venv="$1"
         shift
+    fi
+
+    # Find the default venv - check for both ".venv" and "venv", preferring the former
+    if [[ -z "$_venv" ]]; then
+        if [[ -d ./.venv ]]; then
+            _venv=./.venv
+        elif [[ -d ./venv ]]; then
+            _venv=./venv
+        else
+            _venv=./.venv
+        fi
     fi
 
     if [[ -n "$VIRTUAL_ENV" ]]; then
