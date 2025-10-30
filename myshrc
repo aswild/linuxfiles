@@ -224,13 +224,11 @@ fi
 
 # sudo aliases
 if [[ ! -d /cygdrive ]] && [[ $USER != root ]] && ( sudo -knv </dev/null &>/dev/null ); then
-    _sudo_aliases=(apt apt-get pacman)
-    for _cmd in "${_sudo_aliases[@]}"; do
-        if /usr/bin/which "$_cmd" &>/dev/null; then
-            alias "$_cmd"="sudo $_cmd"
-        fi
-    done
-    unset _sudo_aliases _cmd
+    [[ -x /usr/bin/apt ]] && \
+        alias apt='sudo --preserve-env=APT_PAGER --preserve-env=LESS apt'
+    [[ -x /usr/bin/apt-get ]] && \
+        alias apt-get='sudo --preserve-env=APT_PAGER --preserve-env=LESS apt-get'
+    [[ -x /usr/bin/pacman ]] && alias pacman='sudo pacman'
     alias ip='sudo ip -color=auto'
 elif [[ ! -d /cygdrive ]]; then
     alias ip='ip -color=auto'
