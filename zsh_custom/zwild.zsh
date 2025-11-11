@@ -19,19 +19,16 @@ function zsh_nogit() {
     ZSH_GIT_PROMPT=0
 }
 
-function _omz_git_prompt_info() {
-    # check whether we should even do git prompt info
-    (
-        set -e
-        [[ "$ZSH_GIT_PROMPT" != "0" && "$PWD" != "$HOME" ]]
-        __git_prompt_git rev-parse --git-dir
-        [[ "$(__git_prompt_git config --get oh-my-zsh.hide-status)" != 1 ]]
-    ) &>/dev/null || return 0
-
+function zwild_git_head_name() {
     local ref tmp
 
-    # try to use my rust git-head-name
+    # fast path: try to use my rust-based git-head-name
     ref="$(git-head-name 2>/dev/null)"
+    if [[ -n "$ref" ]]; then
+        # git head-name does its own prefix stripping
+        echo "$ref"
+        return
+    fi
 
     # exact branch name
     if [[ -z "$ref" ]]; then
@@ -55,11 +52,26 @@ function _omz_git_prompt_info() {
         ref="$(__git_prompt_git rev-parse --short HEAD 2>/dev/null)"
     fi
 
+    if [[ -n "$ref" ]]; then
+        echo "${ref#refs/heads/}"
+    fi
+}
+
+function _omz_git_prompt_info() {
+    # check whether we should even do git prompt info
+    (
+        set -e
+        [[ "$ZSH_GIT_PROMPT" != "0" && "$PWD" != "$HOME" ]]
+        __git_prompt_git rev-parse --git-dir
+        [[ "$(__git_prompt_git config --get oh-my-zsh.hide-status)" != 1 ]]
+    ) &>/dev/null || return 0
+
+    local ref="$(zwild_git_head_name)"
     [[ -n "$ref" ]] || return 0
     if [[ $ZSH_THEME_GIT_PROMPT_DIRTY_BEFORE_BRANCH == "true" ]]; then
-        echo "$ZSH_THEME_GIT_PROMPT_PREFIX$(parse_git_dirty)${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
+        echo "$ZSH_THEME_GIT_PROMPT_PREFIX$(parse_git_dirty)${ref}$ZSH_THEME_GIT_PROMPT_SUFFIX"
     else
-        echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
+        echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref}$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
     fi
 }
 
