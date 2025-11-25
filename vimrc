@@ -165,8 +165,6 @@ vmap <C-C> "+y`>
 vmap <C-X> "+x
 vmap y y`>
 noremap <silent> <F3> :set nohlsearch!<CR>
-"noremap / :set hlsearch<CR>/
-inoremap {<CR>  {<CR>}<Esc>O
 "nmap s c$
 nmap <C-A> ggVG
 "Alt-/ searches for whatever's on the clipboard
@@ -195,6 +193,9 @@ nnoremap <silent><leader>/ m`^i//<ESC>``l
 nnoremap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
 vmap <silent><leader>/ V^<C-V>I//<ESC>
 vmap <silent><leader>. :s#\v(\s*)//(.*)$#\1\2#<CR>:noh<CR>
+
+" Auto brace expansion. Indent this line to prevent VSCodeVim from using it.
+ inoremap {<CR>  {<CR>}<Esc>O
 
 " Make ctrl-backspace send a ctrl-w
 " needed for terminals on a Linux host
