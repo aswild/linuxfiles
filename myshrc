@@ -739,8 +739,14 @@ function sview_workspace_list {
     while read _name; do
         local _ws="$WORKSPACES_ROOT/$_name"
         if [[ ( "$_all" == "1" && -d "$_ws" ) || \
-              ( ( -e "$_ws/.git" || -e "$_ws/.repo" || -e "$_ws/.sview" ) && \
-                ! -e "$_ws/.no-sview" ) ]]; then
+              ( ( -e "$_ws/.git" ||
+                  -e "$_ws/.repo" ||
+                  -e "$_ws/.west" ||
+                  -e "$_ws/.sview"
+                ) && \
+                ! -e "$_ws/.no-sview"
+              ) ]]
+        then
             echo "$_name"
             _found=1
         fi
