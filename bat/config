@@ -1,0 +1,2 @@
+# *.overlay files in zephyr are device tree overlays
+--map-syntax=*.overlay:dts
