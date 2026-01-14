@@ -13,7 +13,8 @@ function s:wild_c_hook()
                 \ '\n\+$', '', '')
     if !empty(b:top_gitdir)
         let b:linuxkernel_checkfile = b:top_gitdir . '/include/linux/kernel.h'
-        if filereadable(b:linuxkernel_checkfile)
+        let b:zephyr_checkfile = b:top_gitdir . '/include/zephyr/kernel.h'
+        if filereadable(b:linuxkernel_checkfile) || filereadable(b:zephyr_checkfile)
             let &l:expandtab = 0
             let &l:tabstop = 8
             let &l:softtabstop = 8
@@ -26,5 +27,5 @@ endfunction
 
 augroup WildCHook
     autocmd!
-    autocmd FileType c,cpp,dts,make :call s:wild_c_hook()
+    autocmd FileType c,cpp,dts,kconfig,make :call s:wild_c_hook()
 augroup END
