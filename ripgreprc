@@ -13,6 +13,10 @@
 --colors=line:fg:yellow
 --colors=path:fg:green
 
+# add overlay to devicetree and dts
+--type-add=devicetree:*.overlay
+--type-add=dts:*.overlay
+
 # type aliases
 --type-add=bb:include:bitbake
 --type-add=cxx:include:cpp
