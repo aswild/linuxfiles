@@ -1,2 +1,7 @@
 # *.overlay files in zephyr are device tree overlays
 --map-syntax=*.overlay:dts
+
+# kernel config files
+--map-syntax=.config:conf
+--map-syntax=*_defconfig:conf
+--map-syntax=Kconfig.*:Kconfig
