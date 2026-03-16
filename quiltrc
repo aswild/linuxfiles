@@ -1,2 +1,3 @@
 QUILT_DIFF_OPTS="--show-c-function"
+QUILT_DIFF_ARGS="--color=auto"
 QUILT_NO_DIFF_TIMESTAMPS="y"
