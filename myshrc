@@ -104,6 +104,10 @@ pathadd PATH "$HOME/.cargo/bin"
 pathadd PATH "$HOME/scripts"
 pathadd PATH "$HOME/bin"
 
+if [[ -n "$ZSH_NAME" && -d "$HOME/.local/share/zsh/site-functions" ]]; then
+    fpath=("$HOME/.local/share/zsh/site-functions" "${fpath[@]}")
+fi
+
 _rustup_dir="$(RUSTUP_AUTO_INSTALL=0 rustup toolchain list -v 2>/dev/null | awk -F '\t' '/default)/{print $2}')"
 if [[ -n "$_rustup_dir" ]]; then
     pathadd MANPATH "$_rustup_dir/share/man"
