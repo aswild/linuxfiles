@@ -61,10 +61,14 @@ function _omz_git_prompt_info() {
     # check whether we should even do git prompt info
     (
         set -e
-        [[ "$ZSH_GIT_PROMPT" != "0" && "$PWD" != "$HOME" ]]
+        [[ "$ZSH_GIT_PROMPT" != "0" ]]
+        [[ "$PWD" != "$HOME" ]]
         __git_prompt_git rev-parse --git-dir
         [[ "$(__git_prompt_git config --get oh-my-zsh.hide-status)" != 1 ]]
-    ) &>/dev/null || return 0
+    ) &>/dev/null
+    # check $? in a separate step. Putting the ( set -e ... ) subshell on the left side of
+    # a || list disables -e from doing anything.
+    [[ $? == 0 ]] || return 0
 
     local ref="$(zwild_git_head_name)"
     [[ -n "$ref" ]] || return 0
