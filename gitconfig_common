@@ -2,6 +2,6 @@
 [core]
 	pager = less -FRX
 [alias]
-	fixup = commit --amend -C HEAD
+	fixup = commit --amend --no-edit
 [diff]
 	algorithm = patience
