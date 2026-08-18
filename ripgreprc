@@ -24,4 +24,5 @@
 --type-clear=mk
 --type-add=mk:include:make
 --type-add=patch:include:diff
+--type-add=proto:include:protobuf
 --type-add=rs:include:rust
