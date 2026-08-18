@@ -482,7 +482,6 @@ function pva {
     local _venv=
     local _force=0
     local _make=0
-    local _python='python3'
     local _opt
     while getopts 'hdfmp:' _opt; do
         case "$_opt" in
@@ -495,7 +494,6 @@ function pva {
                 echo "  -d  deactivate: just run 'deactivate' and exit"
                 echo "  -f  force: deactivate first if in a virtualenv. With -m, delete the venv and re-create"
                 echo "  -m  make: make a venv if it doesn't exist"
-                echo "  -p PYTHON - use PYTHON command instead of 'python3'"
                 return 0
                 ;;
             d)
@@ -508,7 +506,6 @@ function pva {
                 ;;
             f) _force=1 ;;
             m) _make=1 ;;
-            p) _python="$OPTARG" ;;
             \?) return 1 ;;
         esac
     done
@@ -548,14 +545,7 @@ function pva {
                 return 1
             fi
         fi
-
-        local cmd
-        if which uv &>/dev/null; then
-            cmd=(uv venv -p "$_python" "$_venv")
-        else
-            cmd=("$_python" -m venv "$_venv")
-        fi
-        "${cmd[@]}" || return $?
+        uv venv "$_venv" || return $?
     fi
 
     source "$_venv/bin/activate"
