@@ -1,7 +1,9 @@
-# vim: ft=gitconfig
+# vim: ft=gitconfig noet
 [core]
 	pager = less -FRX
 [alias]
 	fixup = commit --amend --no-edit
 [diff]
 	algorithm = patience
+[commit]
+	verbose = true
