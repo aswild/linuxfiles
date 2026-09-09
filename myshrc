@@ -201,6 +201,7 @@ if which cargo &>/dev/null; then
     alias cbt='cargo test'
     alias cr='cargo run -q --'
     alias crr='cargo run --release -q --'
+    alias cx='cargo xtask'
 fi
 
 if which bat &>/dev/null; then
