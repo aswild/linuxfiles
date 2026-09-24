@@ -295,9 +295,7 @@ let g:NERDTreeMapOpenVSplit = "v"
 let g:NERDTreeGitStatusLogLevel = 4
 
 " Python syntax highlighting options
-let g:python_highlight_all = 1
-let g:python_highlight_space_errors = 0
-let g:python_highlight_indent_errors = 0
+let g:python_constant_highlight = 1
 
 " misc syntax highlighting options
 let g:go_highlight_trailing_whitespace_error = 0
