@@ -22,6 +22,3 @@
 [submodule "zsh-syntax-highlighting"]
 	path = zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "vim/bundle/vim-toml"]
-	path = vim/bundle/vim-toml
-	url = https://github.com/cespare/vim-toml
